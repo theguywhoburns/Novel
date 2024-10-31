@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.label {
+  font-family: 'Lato';
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.switchContainer {
+  align-self: flex-end;
+  /* add styles for the switch */
+}

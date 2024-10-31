@@ -1,0 +1,6 @@
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* add styles for the container */
