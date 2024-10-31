@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const IconCrystal = (props : any) => (
+const IconCrystal = (props : React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="18"
@@ -23,7 +23,7 @@ const IconCrystal = (props : any) => (
         gradientUnits="userSpaceOnUse"
       >
         <stop stopColor="#FF627E"></stop>
-
+        <stop offset="1" stopColor="#F4CD76"></stop>
         <stop offset="1" stopColor="#FFF8F8" stopOpacity="0"></stop>
       </radialGradient>
     </defs>
