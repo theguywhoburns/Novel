@@ -22,8 +22,8 @@ const IconDiscard = (props : React.SVGProps<SVGSVGElement>) => (
         gradientTransform="matrix(-34.67518 32.09046 -305.84215 -330.47611 17.65 .281)"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stopColor="#FF627E"></stop>
-        <stop offset="1" stopColor="#F4CD76"></stop>
+        <stop className="svg-grad-start-color"></stop>
+        <stop offset="1" className="svg-grad-end-color"></stop>
       </radialGradient>
     </defs>
   </svg>

@@ -24,13 +24,14 @@ function App() {
 
       <BottomNavigation
         style={{
-          position: 'absolute',
+          position: 'fixed',
           bottom: 0,
           backgroundColor: 'var(--theme-bg-color)',
           border: '1px solid var(--theme-text-color)',
           justifyContent: 'space-between',
           left: 0,
           right: 0,
+          height: 60
         }}
         showLabels
       >

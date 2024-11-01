@@ -2,8 +2,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  align-items: center;
-  justify-content: center;
 }
 
 :root {
@@ -12,7 +10,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: var(--theme-normal-text-color);
+  color: var(--theme-text-color);
   background-color: var(--theme-bg-color);
 
   font-synthesis: none;
@@ -41,6 +39,23 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+stop.svg-grad-start-color {
+  stop-color: var(--theme-icon-linear-gradient-stop-1);
+}
+
+stop.svg-grad-end-color {
+  stop-color: var(--theme-icon-linear-gradient-stop-2);
+}
+
+img {
+  pointer-events: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 button {
