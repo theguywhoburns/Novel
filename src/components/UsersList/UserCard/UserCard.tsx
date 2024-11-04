@@ -1,4 +1,6 @@
+import { IconPopular } from '@/icons/Popular';
 import { motion } from 'framer-motion';
+import { Tag } from '../../TagsList/Tag/Tag';
 import styles from './UserCard.module.css';
 
 export interface IUserCard {
@@ -10,6 +12,7 @@ export interface IUserCard {
 	job: string;
 	distance: string;
 	style?: React.CSSProperties;
+	onClick?: () => void;
 }
 
 export const UserCard = ({
@@ -21,6 +24,7 @@ export const UserCard = ({
 	job,
 	distance,
 	style,
+	onClick,
 }: IUserCard) => {
 	return (
 		<motion.li
@@ -32,17 +36,22 @@ export const UserCard = ({
 			drag
 			dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
 			dragElastic={0.8}
+			onClick={onClick}
 		>
 			<img src={imgSrc} />
-			{isPopular && <span className={styles.popular}>Popular</span>}
+			{isPopular && (
+				<Tag id='popularTag' className={styles.popularTag} Icon={IconPopular}>
+					Popular
+				</Tag>
+			)}
 			<div className={styles.infoContainer}>
 				<div className={styles.nameAndAge}>
 					<span className={styles.name}>{name}</span>
 					<span className={styles.age}>{age}</span>
 				</div>
-				<p>{search}</p>
-				<p>{job}</p>
-				<p>{distance}</p>
+				<p className={styles.search}>{search}</p>
+				<p className={styles.job}>{job}</p>
+				<p className={styles.distance}>{distance}</p>
 			</div>
 		</motion.li>
 	);

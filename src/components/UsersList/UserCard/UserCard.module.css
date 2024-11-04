@@ -7,15 +7,16 @@
 }
 
 img {
+	border-radius: 12px;
 	width: 320px;
 	height: 440px;
-	border-radius: 16px;
+	object-fit: cover;
 }
 
-.popular {
+.popularTag {
 	position: absolute;
-	top: 10px;
-	right: 16px;
+	top: 17px;
+	right: 15px;
 }
 
 .infoContainer {
@@ -28,9 +29,28 @@ img {
 
 .name {
 	font-size: 24px;
+	font-weight: 600;
+	color: var(--theme-white);
 }
 
 .age {
 	font-size: 24px;
+	font-weight: 600;
+	color: var(--theme-white);
 	margin-left: 10px;
+}
+
+.search {
+	font-size: 12px;
+	color: var(--theme-accent-color);
+}
+
+.job {
+	font-size: 12px;
+	color: var(--theme-grey);
+}
+
+.distance {
+	font-size: 12px;
+	color: var(--theme-grey);
 }

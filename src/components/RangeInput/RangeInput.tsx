@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './RangeInput.module.css';
-import {Slider} from '@mui/material';
+import { Slider } from '@mui/material';
 export interface IRangeInput {
 	label: string;
 	min: number;
@@ -20,7 +20,11 @@ export const RangeInput = ({
 }: IRangeInput) => {
 	const [sliderValues, setSliderValues] = useState([min, max]);
 
-	const handleValuesChange = (event: Event, values: number | number[], activeThumb: number) => {
+	const handleValuesChange = (
+		event: Event,
+		values: number | number[],
+		activeThumb: number
+	) => {
 		console.log(event, values, activeThumb);
 		setSliderValues(typeof values === 'number' ? [values, values] : values);
 	};
@@ -42,7 +46,6 @@ export const RangeInput = ({
 				max={max}
 				step={step}
 				style={{ width: width }}
-				color={'secondary'}
 			/>
 		</div>
 	);

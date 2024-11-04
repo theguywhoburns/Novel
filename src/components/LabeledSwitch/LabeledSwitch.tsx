@@ -1,4 +1,4 @@
-import { Switch } from '@mui/material';
+import { IOSSwitch } from '../IOSSwitch/IOSSwitch';
 import styles from './LabeledSwitch.module.css';
 
 export interface ITextSwitch {
@@ -9,9 +9,9 @@ export interface ITextSwitch {
 
 export const LabeledSwitch = ({ label, value, onChange }: ITextSwitch) => (
 	<div className={styles.container}>
-		<label className={styles.label}>{label}</label>
+		<span className={styles.label}>{label}</span>
 		<div className={styles.switchContainer}>
-			<Switch checked={value} onChange={e => onChange(e.target.checked)} />
+			<IOSSwitch checked={value} onChange={e => onChange(e.target.checked)} />
 		</div>
 	</div>
 );

@@ -2,8 +2,6 @@ import { useState } from "react";
 import { RangeInput, LabeledSwitch, LabeledRadioButton, SettingsList } from "../../components"; 
 import styles from "./Home.module.css";
 import { Modal } from "@mui/material";
-import IconShield from "@/icons/shield";
-import IconSettingsGear from "@/icons/settingsGear";
 
 const Home = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -74,10 +72,10 @@ const Home = () => {
       </Modal>
       <div className={styles.header}>
         <button className={styles.headerBtn}>
-          <IconShield style={{}}/>
+          Shield
         </button>
         <button onClick={() => setIsSettingsOpen(true)} className={styles.headerBtn}>
-          <IconSettingsGear/>
+          SettingsGear
         </button>
       </div>
       <div className={styles.lilMenu}>

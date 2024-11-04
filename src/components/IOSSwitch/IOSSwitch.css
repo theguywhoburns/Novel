@@ -1,0 +1,56 @@
+.MuiSwitch-root {
+	width: 42px;
+	height: 26px;
+	padding: 0;
+}
+
+.MuiSwitch-switchBase {
+	padding: 0;
+	margin: 2px;
+	transition-duration: 300ms;
+}
+
+.MuiSwitch-switchBase.Mui-checked {
+	transform: translateX(16px);
+	color: #fff;
+}
+
+.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
+	background-color: #65c466;
+	opacity: 1;
+	border: none;
+}
+
+.MuiSwitch-switchBase.Mui-checked.Mui-disabled + .MuiSwitch-track {
+	opacity: 0.5;
+}
+
+.MuiSwitch-switchBase.Mui-focusVisible .MuiSwitch-thumb {
+	color: #33cf4d;
+	border: 6px solid #fff;
+}
+
+.MuiSwitch-switchBase.Mui-disabled .MuiSwitch-thumb {
+	color: #e0e0e0;
+}
+
+.MuiSwitch-switchBase.Mui-disabled + .MuiSwitch-track {
+	opacity: 0.7;
+}
+
+.MuiSwitch-thumb {
+	box-sizing: border-box;
+	width: 22px;
+	height: 22px;
+}
+
+.MuiSwitch-track {
+	border-radius: 26px;
+	background-color: #e9e9ea;
+	opacity: 1;
+	transition: background-color 500ms;
+}
+
+.MuiSwitch-track.Mui-disabled {
+	opacity: 0.7;
+}

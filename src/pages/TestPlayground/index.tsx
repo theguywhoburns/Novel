@@ -1,11 +1,14 @@
+import { LabeledRadioButton, LabeledSwitch, RangeInput } from '@/components';
 import { UserCard } from '@/components/UsersList/UserCard/UserCard';
 import { UsersList } from '@/components/UsersList/UsersList';
+import { UserTag } from '@/components/UserTag/UserTag';
 import IconCrystal from '@/icons/crystal.tsx';
 import IconDiscard from '@/icons/discard.tsx';
 import IconSettingsGear from '@/icons/settingsGear.tsx';
 import IconShield from '@/icons/shield.tsx';
 import { SetTheme } from '@/theme';
 import { themes } from '@/theme/themes';
+import { useState } from 'react';
 
 const TestPlayground = () => {
 	const switchTheme = () => {
@@ -14,15 +17,63 @@ const TestPlayground = () => {
 		localStorage.setItem('theme', newTheme);
 		SetTheme(themes[newTheme]);
 	};
+
+	const [range, _] = useState([0, 50]);
+	const [checked, setChecked] = useState(false);
+
+	const [selectedValue, setSelectedValue] = useState('ariew');
+
 	return (
-		<>
+		<div style={{ padding: '20px 20px 80px' }}>
 			<button onClick={switchTheme}>Switch theme</button>
 			<IconCrystal />
 			<IconDiscard />
 			<IconSettingsGear />
 			<IconShield />
 
-			<div style={{ display: 'flex', flexDirection: 'column', gap: 50 }}>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center',
+					gap: 50,
+					marginBottom: 30,
+				}}
+			>
+				<RangeInput
+					label={''}
+					min={range[0]}
+					max={range[1]}
+					step={1}
+					unit={'units'}
+				/>
+				<LabeledSwitch
+					label='checked'
+					value={checked}
+					onChange={() => setChecked(prev => !prev)}
+				/>
+				<div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+					<LabeledRadioButton
+						label='aries'
+						selectedValue={selectedValue}
+						setSelectedValue={() => setSelectedValue('aries')}
+					/>
+					<LabeledRadioButton
+						label='other'
+						selectedValue={selectedValue}
+						setSelectedValue={() => setSelectedValue('other')}
+					/>
+				</div>
+			</div>
+
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					gap: 50,
+					marginBottom: 30,
+				}}
+			>
 				<UserCard
 					imgSrc='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8SEhUPDw8VFRUVFRUVFRUVFQ8VFRUVFRUWFhUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NDg0NDisZHxkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKys3KysrKysrKysrKysrKysrKysrK//AABEIAOAA4AMBIgACEQEDEQH/xAAZAAEBAQEBAQAAAAAAAAAAAAABAAIEBQP/xAAWEAEBAQAAAAAAAAAAAAAAAAAAARH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/APVRWJEkQRCBYigZJxAFiQDFjSwGUcQCFIFixIFEoQCSBJIEKQBRxYARxYCShAIyLACNQBYiARowEMawAE0MAIgEigBSoBJAqCAbwmIGU0MBI4AWJEGUcWAEUARAIFUAYkCwYUASQJJALCECWIg+mBpUAK1FAZxNLAAw4gCKwBQSDKIBIgEkgCIBJIAigCVQJJA+yKwAqQCwHCABQDERgBYbEDJOAAGgAqIBRJAEbACSVAIgFEkDoxFAA0ABWAEjVgMrCqARAJmtDAQIsAVQgECAVFMQBKoEDUARAOlHEAxFABWhgBEAgbEARADCgAVIoKs1oALFaayCqSBAqgFUgCKB1IoBgaABFAzUUARABGoGUQCsGEAFiqgAU2AAjQAKQApAEkDrSIAFAEQAqOIBYDQCSQBJAEQABoBAoGaCASSAJIEkgdiMAJWJAEQARABGgECgZVIBM1oAA0KA0GABUqgCSAJEAkgdoaQDAVgBFAyjQASQAEAgagASBUKgECAQSwFQgCVSBJIHckgBSoAFAKKQCBABJABSKCBAAEAhDgAVIAYyiASFAggHekgQIBAgECACSAAgECACQoCpACKqAVGoAQqgQVVBaggegkASQoJIAgloIIAkqAS0UaBrNNrNBIIEKgBCAKpUAlaKgISB/9k='
 					isPopular={true}
@@ -36,7 +87,9 @@ const TestPlayground = () => {
 
 				<UsersList />
 			</div>
-		</>
+
+			<UserTag Icon={IconShield}>tag</UserTag>
+		</div>
 	);
 };
 

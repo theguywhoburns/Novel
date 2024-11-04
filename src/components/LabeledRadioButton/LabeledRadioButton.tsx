@@ -1,28 +1,33 @@
+import { Radio } from '@mui/material';
 import styles from './LabeledRadioButton.module.css';
 
 export interface IRadioInput {
 	label: string;
-	isSelected: boolean;
-	setIsSelected: (isChecked: boolean) => void;
+	selectedValue: string;
+	setSelectedValue: () => void;
 }
 
 export const LabeledRadioButton = ({
 	label,
-	isSelected,
-	setIsSelected,
+	selectedValue,
+	setSelectedValue,
 }: IRadioInput) => {
+	const handleChange = () => {
+		setSelectedValue();
+	};
+
 	return (
-		<div className={styles.radioButtonWrapper}>
+		<div className={styles.radioButtonWrapper} onClick={handleChange}>
 			<label
-				className={`${styles.label} ${isSelected ? styles.activeLabel : ''}`}
+				className={`${styles.label} ${
+					selectedValue === label.toLowerCase() ? styles.activeLabel : ''
+				}`}
 			>
 				{label}
 			</label>
-			<input
-				type='radio'
-				id='radioInput'
-				checked={isSelected}
-				onChange={() => setIsSelected(!isSelected)}
+			<Radio
+				checked={selectedValue === label.toLowerCase()}
+				onChange={handleChange}
 			/>
 		</div>
 	);
