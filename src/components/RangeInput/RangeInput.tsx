@@ -42,6 +42,7 @@ export const RangeInput = ({
 				max={max}
 				step={step}
 				style={{ width: width }}
+				color={'secondary'}
 			/>
 		</div>
 	);

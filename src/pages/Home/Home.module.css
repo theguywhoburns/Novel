@@ -1,85 +1,90 @@
 .screen {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: var(--background-color);
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--background-color);
+}
   
-  .settingsModal {
-    flex: 1;
-    background-color: var(--theme-settings-modal-background-color);
-  }
+.settingsModal {
+  flex: 1;
+  background-color: var(--theme-settings-modal-background-color);
+}
   
-  .settingsModalHeader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-  }
+.settingsModalHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}
   
-  .settingsModalHeaderText {
-    flex: 1;
-    font-size: 24px;
-    text-align: center;
-    font-weight: bold;
-  }
+.settingsModalHeaderText {
+  flex: 1;
+  font-size: 24px;
+  text-align: center;
+  font-weight: bold;
+}
   
-  .settingsModalBtn {
-    width: 38px;
-    height: 38px;
-    background-color: var(--button-background);
-    border: none;
-    border-radius: 19px;
-  }
+.settingsModalBtn {
+  width: 38px;
+  height: 38px;
+  background-color: var(--button-background);
+  border: none;
+  border-radius: 19px;
+}
   
-  .settingsModalScrollView {
-    overflow-y: auto;
-    width: 50%;
-    margin: auto;
-  }
+.settingsModalScrollView {
+  overflow-y: auto;
+  width: 50%;
+  margin: auto;
+}
   
-  .baseSubscriptionBanner, .advancedSubscriptionBanner {
-    background-color: var(--banner-background);
-    padding: 20px;
-    text-align: center;
-    margin: 20px 0;
-    border-radius: 6px;
-  }
+.baseSubscriptionBanner, .advancedSubscriptionBanner {
+  background-color: var(--banner-background);
+  padding: 20px;
+  text-align: center;
+  margin: 20px 0;
+  border-radius: 6px;
+}
   
-  .baseSubscriptionTitleText, .advancedSubscriptionTitleText {
-    font-size: 24px;
-    color: var(--title-color);
-  }
+.baseSubscriptionTitleText, .advancedSubscriptionTitleText {
+  font-size: 24px;
+  color: var(--title-color);
+}
   
-  .separator {
-    border-bottom: 1px solid #C8CDDF;
-    margin: 20px 0;
-  }
+.separator {
+  border-bottom: 1px solid #C8CDDF;
+  margin: 20px 0;
+}
   
-  .header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 20px;
-  }
+.header {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 20px;
+}
   
-  .headerBtn {
-    margin-left: 10px;
-    background: transparent;
-    border: none;
-  }
+.headerBtn {
+  margin-left: 10px;
+  border-radius: 50vw;
+  aspect-ratio: 1/1;
+  padding: 0.9em;
+  width: fit-content;
+  height: fit-content;
+}
+
+.lilMenu {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
   
-  .lilMenu {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-  }
-  
-  .lilMenuBtn {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    background: transparent;
-    border: none;
-  }
+.lilMenuBtn {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  background: transparent;
+  border: none;
+}
