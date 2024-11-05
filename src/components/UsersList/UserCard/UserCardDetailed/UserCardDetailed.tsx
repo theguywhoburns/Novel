@@ -1,10 +1,9 @@
-import { TagsList } from '@/components/TagsList/TagsList';
+import { TagsWithTitle } from '@/components/TagsWithTitle/TagsWithTitle';
 import { IUser } from '../../UsersList';
 import styles from './UserCardDetailed.module.css';
 
 export const UserCardDetailed = ({
 	imgSrc,
-	isPopular,
 	name,
 	age,
 	search,
@@ -19,38 +18,30 @@ export const UserCardDetailed = ({
 	city,
 }: IUser) => {
 	return (
-		<div className={styles.container}>
-			<p>
-				{imgSrc} {isPopular} {name} {age} {search} {job} {distance} {about}
-				{main[0].children} {languages[0].children} {interests[0].children}{' '}
-				{about} {main[0].children}
-			</p>
-
+		<div className={[styles.container, 'secondary-text'].join(' ')}>
 			<img src={imgSrc} />
 
-			<div>
-				<p>
-					<span>{name}</span>
-					<span>{age}</span>
-				</p>
+			<div className={styles.nameAndAgeContainer}>
+				<span className={styles.name}>{name}</span>
+				<span className={styles.age}>{age}</span>
+
 				{isVerified && <p>Verified</p>}
 			</div>
 
-			<div>
-				<p>
-					<span>{search}</span>
-					<span>{job}</span>
-					<span>{gender}</span>
-					<span>{city}</span>
-					<span>{distance}</span>
-				</p>
+			<div className={styles.mainInfoContainer}>
+				<p>{search}</p>
+				<p>{job}</p>
+				<p>{gender}</p>
+				<p>{city}</p>
+				<p>{distance}</p>
 			</div>
 
-			<div>about...</div>
+			<h3>Обо мне</h3>
+			<p className={styles.about}>{about}</p>
 
-			<p>{main.map(el => el.children)}</p>
-
-			<TagsList tags={main} />
+			<TagsWithTitle title='Основное' tags={main} />
+			<TagsWithTitle title='Языки, которые я владею' tags={languages} />
+			<TagsWithTitle title='Мои интересы' tags={interests} />
 		</div>
 	);
 };

@@ -1,0 +1,27 @@
+.nameAndAgeContainer {
+	display: flex;
+	flex-direction: row;
+	gap: 5px;
+}
+
+.name,
+.age {
+	font-size: 24px;
+	font-weight: 600;
+	line-height: 29px;
+}
+
+.mainInfoContainer {
+	display: flex;
+	flex-direction: column;
+}
+
+.mainInfoContainer p {
+	font-size: 16px;
+	line-height: 19px;
+}
+
+h3 {
+	font-size: 16px;
+	font-weight: 500;
+}

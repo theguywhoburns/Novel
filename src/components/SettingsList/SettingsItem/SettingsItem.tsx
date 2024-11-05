@@ -62,8 +62,10 @@ export const SettingsItem = ({
 								<LabeledRadioButton
 									key={option.label}
 									label={option.label}
-									isSelected={selectedOptions.includes(option.label)}
-									setIsSelected={() => handleOptionSelection(option.label)}
+									selectedValue={
+										selectedOptions.includes(option.label) ? option.label : ''
+									}
+									setSelectedValue={() => handleOptionSelection(option.label)}
 								/>
 							))}
 						</div>

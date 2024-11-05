@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './RangeInput.module.css';
 import { Slider } from '@mui/material';
+import { useTheme } from '@/theme';
 export interface IRangeInput {
 	label: string;
 	min: number;
@@ -28,7 +29,7 @@ export const RangeInput = ({
 		console.log(event, values, activeThumb);
 		setSliderValues(typeof values === 'number' ? [values, values] : values);
 	};
-
+	const theme = useTheme();
 	return (
 		<div className={styles.container}>
 			<div className={styles.labelAndValue}>
@@ -42,6 +43,18 @@ export const RangeInput = ({
 			<Slider
 				value={sliderValues}
 				onChange={handleValuesChange}
+				sx={{
+					'& .MuiSlider-thumb':{
+						color: theme.white,
+						'&:focus, &:hover, &.Mui-active': {
+							boxShadow: '0px 0px 3px 1px rgba(0, 0, 0, 0.1)',
+							// Reset on touch devices, it doesn't add specificity
+							'@media (hover: none)': {
+								boxShadow: theme.white,
+							},
+						}
+					}
+				}}
 				min={min}
 				max={max}
 				step={step}

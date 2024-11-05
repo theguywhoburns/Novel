@@ -1,4 +1,3 @@
-// UserCardDetailedPage.tsx
 import { UserCardDetailed } from '@/components/UsersList/UserCard/UserCardDetailed/UserCardDetailed';
 import { IUser, users } from '@/components/UsersList/UsersList';
 import { useParams } from 'react-router-dom';

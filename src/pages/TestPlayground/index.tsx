@@ -6,25 +6,26 @@ import IconCrystal from '@/icons/crystal.tsx';
 import IconDiscard from '@/icons/discard.tsx';
 import IconSettingsGear from '@/icons/settingsGear.tsx';
 import IconShield from '@/icons/shield.tsx';
-import { SetTheme } from '@/theme';
-import { themes } from '@/theme/themes';
+import { setTheme } from '@/theme';
+import useThemeStore from '@/useThemeStore';
 import { useState } from 'react';
-
+import styles from './TestPlayground.module.css';
 const TestPlayground = () => {
+	const currentTheme = useThemeStore(state => state.theme);
+	
 	const switchTheme = () => {
-		const currentTheme = localStorage.getItem('theme');
 		const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-		localStorage.setItem('theme', newTheme);
-		SetTheme(themes[newTheme]);
+		setTheme(newTheme);
 	};
 
 	const [range, _] = useState([0, 50]);
+	console.log(_);
 	const [checked, setChecked] = useState(false);
 
 	const [selectedValue, setSelectedValue] = useState('ariew');
 
 	return (
-		<div style={{ padding: '20px 20px 80px' }}>
+		<div style={{ padding: '20px 20px 80px' }} className={styles.container}>
 			<button onClick={switchTheme}>Switch theme</button>
 			<IconCrystal />
 			<IconDiscard />

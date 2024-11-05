@@ -1,10 +1,13 @@
+export type ThemeType = 'light' | 'dark';
+
 export interface Theme {
-    bg_color: string;
+    background_color: string;
     accent_color: string;
     text_color: string;
-    button_bg_color: string;
+    secondary_text_color: string;
+    button_background_color: string;
     button_text_color: string;
-    button_selected_bg_color: string;
+    button_selected_background_color: string;
     button_selected_text_color: string;
     settings_modal_background_color: string;
     
@@ -18,12 +21,13 @@ export interface Theme {
 
 export const themes = {
     light: {
-        bg_color: '#fdfefe',
+        background_color: '#fdfefe',
         accent_color: '#fb847a',
         text_color: '#0a0f33',
-        button_bg_color: '#f5f6fa',
+        secondary_text_color: '#575757',
+        button_background_color: '#f5f6fa',
         button_text_color: '#c7ccdf',
-        button_selected_bg_color: '#fb847a',
+        button_selected_background_color: '#fb847a',
         button_selected_text_color: '#fdfefe',
         settings_modal_background_color: '#fdfefe',
 
@@ -35,12 +39,13 @@ export const themes = {
         grey: '#C8CDDF',
     },
     dark: {
-        bg_color: '#0a0f33',
+        background_color: '#0a0f33',
         accent_color: '#c946de',
         text_color: '#fdfefe',
-        button_bg_color: '#2f3452',
+        secondary_text_color: '#575757',//TODO: Fix for dark theme
+        button_background_color: '#2f3452',
         button_text_color: '#c7ccdf',
-        button_selected_bg_color: '#c846de',
+        button_selected_background_color: '#c846de',
         button_selected_text_color: '#0a0f33',
         settings_modal_background_color: '#454545',
 

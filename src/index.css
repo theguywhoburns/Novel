@@ -11,7 +11,7 @@
 
   color-scheme: light dark;
   color: var(--theme-text-color);
-  background-color: var(--theme-bg-color);
+  background-color: var(--theme-background-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -34,6 +34,10 @@ body {
   place-items: center;
   min-width: 100vw;
   min-height: 100vh;
+}
+
+.secondary-text {
+  color: var(--theme-secondary-text-color);
 }
 
 h1 {
@@ -65,13 +69,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--theme-button-bg-color);
+  background-color: var(--theme-button-background-color);
   cursor: pointer;
   transition: 0.25s;
   color: var(--theme-button-text-color);
 }
 button:hover {
-  background-color: var(--theme-button-selected-bg-color);
+  background-color: var(--theme-button-selected-background-color);
   color: var(--theme-button-selected-text-color);
 }
 button:focus,
