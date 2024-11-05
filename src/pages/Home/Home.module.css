@@ -9,7 +9,7 @@
     flex: 1;
     height: 100vh;
     width: 100vw;
-    overflow: hidden;
+    overflow: auto;
     background-color: var(--theme-background-color);
   }
   
@@ -37,7 +37,8 @@
   
   .settingsModalScrollView {
     overflow-y: auto;
-    width: 50%;
+    width: 100%;
+    max-width: 400px;
     margin: auto;
   }
   
