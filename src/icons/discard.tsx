@@ -10,12 +10,12 @@ const IconDiscard = (props : React.SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <path
-      fill="url(#paint0_radial_2311_1973)"
+      fill="url(#svg_base_gradient)"
       d="M8.241.795V2.3c6.925 1.602 11.177 8.859 9.325 15.377-.147.516-.914.377-.87-.171.39-4.818-2.477-8.937-8.455-9.414v1.499c0 .629-.684 1.008-1.203.666L.356 5.86A.79.79 0 0 1 0 5.193a.8.8 0 0 1 .356-.666L7.038.13C7.557-.213 8.24.166 8.24.795"
     ></path>
     <defs>
       <radialGradient
-        id="paint0_radial_2311_1973"
+        id="svg_base_gradient"
         cx="0"
         cy="0"
         r="1"

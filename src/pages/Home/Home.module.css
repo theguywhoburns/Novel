@@ -92,6 +92,7 @@
 .lilMenu {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	position: fixed;
 	bottom: 10%;
 	width: 100%;
@@ -104,4 +105,8 @@
 	background: transparent;
 	width: fit-content;
 	border: none;
+}
+
+.lilMenuBtn:hover {
+	background: transparent;
 }

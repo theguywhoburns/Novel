@@ -1,0 +1,16 @@
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 20px;
+}
+
+.buttonsWrapper {
+	display: flex;
+	gap: 20px;
+}
+
+.button {
+	border-radius: 50%;
+	aspect-ratio: 1 / 1;
+}

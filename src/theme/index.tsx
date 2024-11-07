@@ -1,4 +1,4 @@
-import useThemeStore from '@/useThemeStore';
+import { useThemeStore } from '@/store/theme/useThemeStore';
 import { Theme, themes, ThemeType } from './themes';
 
 export const updateCssVariables = (theme: Theme) => {
