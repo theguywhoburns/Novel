@@ -12,6 +12,7 @@ export interface Theme {
 	button_secondary_background_color: string;
 	settings_modal_background_color: string;
 	separator_color: string;
+	list_item_background_color: string;
 
 	icon_linear_gradient_stop_1: string;
 	icon_linear_gradient_stop_2: string;
@@ -37,6 +38,7 @@ export const themes = {
 		button_secondary_background_color: '#C8CDDF',
 		settings_modal_background_color: '#fdfefe',
 		separator_color: '#C8CDDF',
+		list_item_background_color: '#F9FAFD',
 
 		icon_linear_gradient_stop_1: '#ff627e',
 		icon_linear_gradient_stop_2: '#f4cd76',
@@ -60,6 +62,7 @@ export const themes = {
 		button_secondary_background_color: '#A3A8BA4C',
 		settings_modal_background_color: '#454545',
 		separator_color: '#A3A8BA4D',
+		list_item_background_color: '#2F3452',
 
 		icon_linear_gradient_stop_1: '#6A45D0',
 		icon_linear_gradient_stop_2: '#C50AFC',
