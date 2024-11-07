@@ -1,5 +1,4 @@
 import { LabeledRadioButton, LabeledSwitch, RangeInput } from '@/components';
-import { RoundedButton } from '@/components/RoundedButton/RoundedButton';
 import { UsersList } from '@/components/UsersList/UsersList';
 import IconCrystal from '@/icons/crystal.tsx';
 import IconDiscard from '@/icons/discard.tsx';
@@ -9,6 +8,7 @@ import { setTheme } from '@/theme';
 import useThemeStore from '@/useThemeStore';
 import { useState } from 'react';
 import styles from './TestPlayground.module.css';
+import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
 
 const TestPlayground = () => {
 	const currentTheme = useThemeStore(state => state.theme);

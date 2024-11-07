@@ -1,7 +1,7 @@
 .userCard {
 	display: flex;
 	position: relative;
-	border-radius: 12px;
+	border-radius: 22px;
 	width: 310px;
 	height: 410px;
 }
@@ -11,7 +11,7 @@
 }
 
 img {
-	border-radius: 12px;
+	border-radius: 22px;
 	width: 310px;
 	height: 410px;
 	object-fit: cover;

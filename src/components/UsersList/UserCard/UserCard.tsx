@@ -1,7 +1,7 @@
 import { IconPopular } from '@/icons/Popular';
 import { motion } from 'framer-motion';
-import { Tag } from '../../TagsList/Tag/Tag';
 import styles from './UserCard.module.css';
+import { UserCardTag } from './UserCardTag/UserCardTag';
 
 export interface IUserCard {
 	imgSrc: string;
@@ -40,9 +40,9 @@ export const UserCard = ({
 		>
 			<img src={imgSrc} />
 			{isPopular && (
-				<Tag className={styles.popularTag} Icon={IconPopular}>
+				<UserCardTag className={styles.popularTag} Icon={IconPopular}>
 					Popular
-				</Tag>
+				</UserCardTag>
 			)}
 			<div className={styles.infoContainer}>
 				<div className={styles.nameAndAge}>

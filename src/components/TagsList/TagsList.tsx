@@ -1,6 +1,6 @@
-import { UserTag } from '../UserTag/UserTag';
-import { ITag } from './Tag/Tag';
+import { ITag } from '../UsersList/UserCard/UserCardTag/UserCardTag';
 import styles from './TagsList.module.css';
+import { UserTag } from './UserTag/UserTag';
 
 interface ITagsList {
 	tags: ITag[];

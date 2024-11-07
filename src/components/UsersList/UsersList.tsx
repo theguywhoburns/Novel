@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
-import { ITag } from '../TagsList/Tag/Tag';
 import { UserCard } from './UserCard/UserCard';
+import { ITag } from './UserCard/UserCardTag/UserCardTag';
 import styles from './UsersList.module.css';
 
 export interface IUser {

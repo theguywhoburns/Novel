@@ -1,4 +1,4 @@
-import styles from './Tag.module.css';
+import styles from './UserCardTag.module.css';
 
 export interface ITag extends React.HTMLAttributes<HTMLLIElement> {
 	id?: string;
@@ -6,7 +6,7 @@ export interface ITag extends React.HTMLAttributes<HTMLLIElement> {
 	children: React.ReactNode;
 }
 
-export const Tag = ({ id, Icon, children, ...props }: ITag) => {
+export const UserCardTag = ({ id, Icon, children, ...props }: ITag) => {
 	const { className, ...otherProps } = props;
 
 	return (

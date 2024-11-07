@@ -28,54 +28,54 @@ const Home = () => {
 						>
 							<IconArrow color={theme.accent_color} />
 						</button>
-						<h2 className={styles.settingsModalHeaderText}>Search Settings</h2>
+						<h2 className={styles.settingsModalHeaderText}>Настройки поиска</h2>
 					</div>
 					<div className={styles.settingsModalScrollView}>
 						<div className={styles.baseSubscriptionBanner}>
 							<h3 className={styles.baseSubscriptionTitleText}>
-								Basic Subscription
+								Базовая подписка
 							</h3>
 							<p className={styles.baseSubscriptionSubTitleText}>
-								Expand your capabilities
+								Расширь свои возможности
 							</p>
 						</div>
 
-						<RangeInput label='Distance' min={0} max={100} unit='km' />
+						<RangeInput label='Расстояние' min={0} max={100} unit='км' />
 						<LabeledSwitch
-							label='Show people within range'
+							label='Показывать людей в радиусе'
 							value={showPeopleInDistance}
 							onChange={setShowPeopleInDistance}
 						/>
 						<div className={styles.separator} />
 
-						<RangeInput label='Age' min={18} max={99} unit='years' />
+						<RangeInput label='Возраст' min={18} max={99} unit='лет' />
 						<LabeledSwitch
-							label='Show people within range'
+							label='Показывать людей в радиусе'
 							value={showPeopleInAge}
 							onChange={setShowPeopleInAge}
 						/>
 						<LabeledSwitch
-							label='Show me to men'
+							label='Показывать меня мужчинам'
 							value={showMeToMen}
 							onChange={setShowMeToMen}
 						/>
 						<LabeledSwitch
-							label='Show me to women'
+							label='Показывать меня женщинам'
 							value={showMeToWomen}
 							onChange={setShowMeToWomen}
 						/>
 
 						<div className={styles.advancedSubscriptionBanner}>
 							<h3 className={styles.advancedSubscriptionTitleText}>
-								Advanced Subscription
+								Продвинутая подписка
 							</h3>
 							<p className={styles.advancedSubscriptionSubTitleText}>
-								Match partners by interests
+								Подбирай партнера по интересам
 							</p>
 						</div>
 
 						<LabeledSwitch
-							label='User Verified'
+							label='Пользователь верифицирован'
 							value={isUserVerified}
 							onChange={setIsUserVerified}
 						/>

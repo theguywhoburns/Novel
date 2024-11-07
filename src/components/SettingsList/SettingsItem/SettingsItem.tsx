@@ -1,7 +1,7 @@
 import { IconArrow } from '@/icons/arrow';
 import { useTheme } from '@/theme';
 import React, { useCallback, useState } from 'react';
-import { LabeledRadioButton } from '../../LabeledRadioButton/LabeledRadioButton';
+import { LabeledRadioButton } from '../../ui/LabeledRadioButton/LabeledRadioButton';
 import styles from './SettingsItem.module.css';
 
 export interface ISettingsOption {
@@ -52,7 +52,7 @@ export const SettingsItem = ({
 				onClick={() => setIsModalVisible(!isModalVisible)}
 			>
 				<div className={styles.iconAndTitleContainer}>
-					<div>{Icon ? <Icon /> : <p>No Icon</p>}</div>
+					<div className={styles.iconWrapper}>{Icon && <Icon />}</div>
 					<h3 className={styles.title}>{title}</h3>
 				</div>
 				<IconArrow color={theme.grey} direction='right' />

@@ -1,0 +1,17 @@
+.userAction {
+	list-style-type: none;
+	cursor: pointer;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	padding: 4px 4px 4px 0;
+}
+
+.actionAndArrow {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}

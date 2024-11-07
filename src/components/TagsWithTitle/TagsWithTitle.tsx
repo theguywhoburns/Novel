@@ -1,6 +1,6 @@
-import { Separator } from '../Separator/Separator';
-import { ITag } from '../TagsList/Tag/Tag';
 import { TagsList } from '../TagsList/TagsList';
+import { ITag } from '../UsersList/UserCard/UserCardTag/UserCardTag';
+import { Separator } from './Separator/Separator';
 import styles from './TagsWithTitle.module.css';
 
 export interface ITagsWithTitle {

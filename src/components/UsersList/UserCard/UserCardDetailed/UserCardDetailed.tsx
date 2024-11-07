@@ -1,5 +1,6 @@
-import { Separator } from '@/components/Separator/Separator';
+import { Separator } from '@/components/TagsWithTitle/Separator/Separator';
 import { TagsWithTitle } from '@/components/TagsWithTitle/TagsWithTitle';
+import { UserActionsList } from '@/components/UserActionsList/UserActionsList';
 import { IUser } from '../../UsersList';
 import styles from './UserCardDetailed.module.css';
 
@@ -45,10 +46,10 @@ export const UserCardDetailed = ({
 			<Separator />
 
 			<TagsWithTitle title='Основное' tags={main} />
-
 			<TagsWithTitle title='Языки, которые я владею' tags={languages} />
-
 			<TagsWithTitle title='Мои интересы' tags={interests} />
+
+			<UserActionsList />
 		</div>
 	);
 };

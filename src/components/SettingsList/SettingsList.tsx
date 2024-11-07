@@ -1,3 +1,4 @@
+import IconCrystal from '@/icons/crystal';
 import { useCallback, useState } from 'react';
 import { ISettingsItem, SettingsItem } from './SettingsItem/SettingsItem';
 import styles from './SettingsList.module.css';
@@ -10,8 +11,8 @@ interface ISettingsList {
 export const SettingsList = () => {
 	const [settings, setSettings] = useState<ISettingsItem[]>([
 		{
-			Icon: null,
-			title: 'Profile',
+			Icon: IconCrystal,
+			title: 'Профиль',
 			isModalVisible: false,
 			setIsModalVisible: () => {},
 			options: [
@@ -21,7 +22,7 @@ export const SettingsList = () => {
 		},
 		{
 			Icon: null,
-			title: 'Settings',
+			title: 'Настройки',
 			isModalVisible: false,
 			setIsModalVisible: () => {},
 			options: [],
