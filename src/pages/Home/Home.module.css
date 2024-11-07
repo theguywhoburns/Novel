@@ -1,90 +1,107 @@
 .screen {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: var(--theme-background-color);
-  }
-  
-  .settingsModal {
-    flex: 1;
-    height: 100vh;
-    width: 100vw;
-    overflow: auto;
-    background-color: var(--theme-background-color);
-  }
-  
-  .settingsModalHeader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-  }
-  
-  .settingsModalHeaderText {
-    flex: 1;
-    font-size: 24px;
-    text-align: center;
-    font-weight: bold;
-  }
-  
-  .settingsModalBtn {
-    width: 38px;
-    height: 38px;
-    background-color: var(--theme-button-background-color);
-    border: none;
-    border-radius: 19px;
-  }
-  
-  .settingsModalScrollView {
-    overflow-y: auto;
-    width: 100%;
-    max-width: 400px;
-    margin: auto;
-  }
-  
-  .baseSubscriptionBanner, .advancedSubscriptionBanner {
-    background-color: var(--theme-banner-background);
-    padding: 20px;
-    text-align: center;
-    margin: 20px 0;
-    border-radius: 6px;
-  }
-  
-  .baseSubscriptionTitleText, .advancedSubscriptionTitleText {
-    font-size: 24px;
-    color: var(--theme-accent-color);
-  }
-  
-  .separator {
-    border-bottom: 1px solid #C8CDDF;
-    margin: 20px 0;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 20px;
-  }
-  
-  .headerBtn {
-    margin-left: 10px;
-    background: transparent;
-    border: none;
-  }
-  
-  .lilMenu {
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    bottom: 10%;
-    width: 100%;
-  }
-  
-  .lilMenuBtn {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    background: transparent;
-    width: fit-content;
-    border: none;
-  }
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	background-color: var(--theme-background-color);
+}
+
+.settingsModal {
+	flex: 1;
+	height: 100vh;
+	width: 100vw;
+	overflow-y: auto;
+	background-color: var(--theme-background-color);
+}
+
+.settingsModalHeader {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 60px;
+}
+
+.settingsModalHeaderText {
+	flex: 1;
+	font-size: 24px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.settingsModalBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	width: 38px;
+	height: 38px;
+	background-color: var(--theme-button-background-color);
+	border: none;
+	border-radius: 19px;
+}
+
+.settingsModalBtn:hover {
+	background-color: var(--theme-button-background-color);
+}
+
+.settingsModalScrollView {
+	overflow-y: auto;
+	width: 100%;
+	max-width: 600px;
+
+	margin: auto;
+}
+
+.baseSubscriptionBanner,
+.advancedSubscriptionBanner {
+	background-color: var(--theme-banner-background);
+	padding: 20px;
+	text-align: center;
+	margin: 20px 0;
+	border-radius: 6px;
+}
+
+.baseSubscriptionTitleText,
+.advancedSubscriptionTitleText {
+	font-size: 24px;
+	color: var(--theme-accent-color);
+}
+
+.separator {
+	border-bottom: 1px solid #c8cddf;
+	margin: 20px 0;
+}
+
+.header {
+	display: flex;
+	width: 100vw;
+	justify-content: flex-end;
+	gap: 10px;
+	padding: 20px;
+}
+
+.headerBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	aspect-ratio: 1/1;
+	border: none;
+}
+
+.lilMenu {
+	display: flex;
+	justify-content: center;
+	position: fixed;
+	bottom: 10%;
+	width: 100%;
+}
+
+.lilMenuBtn {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	background: transparent;
+	width: fit-content;
+	border: none;
+}

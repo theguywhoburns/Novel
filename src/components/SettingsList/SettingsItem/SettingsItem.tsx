@@ -1,6 +1,8 @@
+import { IconArrow } from '@/icons/arrow';
+import { useTheme } from '@/theme';
 import React, { useCallback, useState } from 'react';
-import styles from './SettingsItem.module.css';
 import { LabeledRadioButton } from '../../LabeledRadioButton/LabeledRadioButton';
+import styles from './SettingsItem.module.css';
 
 export interface ISettingsOption {
 	label: string;
@@ -23,6 +25,8 @@ export const SettingsItem = ({
 	options,
 }: ISettingsItem) => {
 	const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
+	const theme = useTheme();
 
 	const handleModalClose = useCallback(() => {
 		setIsModalVisible(false);
@@ -51,7 +55,7 @@ export const SettingsItem = ({
 					<div>{Icon ? <Icon /> : <p>No Icon</p>}</div>
 					<h3 className={styles.title}>{title}</h3>
 				</div>
-				<p>{'>'}</p>
+				<IconArrow color={theme.grey} direction='right' />
 			</div>
 			{isModalVisible && (
 				<div className={styles.modal}>

@@ -1,14 +1,14 @@
+import { useTheme } from '@/theme';
+import { Slider } from '@mui/material';
 import { useState } from 'react';
 import styles from './RangeInput.module.css';
-import { Slider } from '@mui/material';
-import { useTheme } from '@/theme';
 export interface IRangeInput {
 	label: string;
 	min: number;
 	max: number;
 	step?: number;
 	unit: string;
-	width?: number;
+	width?: number | string;
 }
 
 export const RangeInput = ({
@@ -17,7 +17,7 @@ export const RangeInput = ({
 	max,
 	step = 1,
 	unit,
-	width = 300,
+	width = '100%',
 }: IRangeInput) => {
 	const [sliderValues, setSliderValues] = useState([min, max]);
 
@@ -31,7 +31,7 @@ export const RangeInput = ({
 	};
 	const theme = useTheme();
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} style={{ width }}>
 			<div className={styles.labelAndValue}>
 				<span className={styles.label}>{label}</span>
 				<span className={styles.value}>
@@ -40,26 +40,41 @@ export const RangeInput = ({
 						: `${sliderValues[0]} ${unit}`}
 				</span>
 			</div>
-			<Slider
-				value={sliderValues}
-				onChange={handleValuesChange}
-				sx={{
-					'& .MuiSlider-thumb':{
-						color: theme.white,
-						'&:focus, &:hover, &.Mui-active': {
-							boxShadow: '0px 0px 3px 1px rgba(0, 0, 0, 0.1)',
-							// Reset on touch devices, it doesn't add specificity
-							'@media (hover: none)': {
-								boxShadow: theme.white,
+
+			<div className={styles.sliderWrapper}>
+				<Slider
+					value={sliderValues}
+					onChange={handleValuesChange}
+					sx={{
+						'& .MuiSlider-rail': {
+							color: theme.accent_color,
+						},
+						'& .MuiSlider-track': {
+							color: theme.accent_color,
+						},
+						'& .MuiSlider-thumb': {
+							width: 25,
+							height: 25,
+							color: theme.white,
+							'&::after': {
+								width: 25,
+								height: 25,
 							},
-						}
-					}
-				}}
-				min={min}
-				max={max}
-				step={step}
-				style={{ width: width }}
-			/>
+							'&:focus, &:hover, &.Mui-active': {
+								boxShadow: 'none',
+								// Reset on touch devices, it doesn't add specificity
+								'@media (hover: none)': {
+									boxShadow: 'none',
+								},
+							},
+						},
+					}}
+					min={min}
+					max={max}
+					step={step}
+					style={{ width }}
+				/>
+			</div>
 		</div>
 	);
 };

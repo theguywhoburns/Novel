@@ -1,13 +1,16 @@
+import { IconArrow } from '@/icons/arrow';
+import IconCrystal from '@/icons/crystal';
+import IconDiscard from '@/icons/discard';
+import IconSettingsGear from '@/icons/settingsGear';
+import IconShield from '@/icons/shield';
+import { useTheme } from '@/theme';
 import { Modal } from '@mui/material';
 import { useState } from 'react';
 import { LabeledSwitch, RangeInput, SettingsList } from '../../components';
 import styles from './Home.module.css';
-import IconDiscard from '@/icons/discard';
-import IconCrystal from '@/icons/crystal';
-import IconSettingsGear from '@/icons/settingsGear';
-import IconShield from '@/icons/shield';
 
 const Home = () => {
+	const theme = useTheme();
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [showPeopleInDistance, setShowPeopleInDistance] = useState(false);
 	const [showPeopleInAge, setShowPeopleInAge] = useState(false);
@@ -23,7 +26,7 @@ const Home = () => {
 							onClick={() => setIsSettingsOpen(false)}
 							className={styles.settingsModalBtn}
 						>
-							Back
+							<IconArrow color={theme.accent_color} />
 						</button>
 						<h2 className={styles.settingsModalHeaderText}>Search Settings</h2>
 					</div>
@@ -82,19 +85,25 @@ const Home = () => {
 				</div>
 			</Modal>
 			<div className={styles.header}>
-				<button className={styles.headerBtn}><IconShield/></button>
+				<button className={styles.headerBtn}>
+					<IconShield />
+				</button>
 				<button
 					onClick={() => setIsSettingsOpen(true)}
 					className={styles.headerBtn}
 				>
-					<IconSettingsGear/>
+					<IconSettingsGear />
 				</button>
 			</div>
 			<div className={styles.lilMenu}>
-				<button className={styles.lilMenuBtn}><IconDiscard/></button>
+				<button className={styles.lilMenuBtn}>
+					<IconDiscard />
+				</button>
 				<button className={styles.lilMenuBtn}>Cross</button>
 				<button className={styles.lilMenuBtn}>Heart</button>
-				<button className={styles.lilMenuBtn}><IconCrystal/></button>
+				<button className={styles.lilMenuBtn}>
+					<IconCrystal />
+				</button>
 			</div>
 		</div>
 	);

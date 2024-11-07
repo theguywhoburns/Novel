@@ -1,6 +1,7 @@
+import { Separator } from '../Separator/Separator';
 import { ITag } from '../TagsList/Tag/Tag';
-import styles from './TagsWithTitle.module.css';
 import { TagsList } from '../TagsList/TagsList';
+import styles from './TagsWithTitle.module.css';
 
 export interface ITagsWithTitle {
 	title: string;
@@ -12,6 +13,7 @@ export const TagsWithTitle = ({ title, tags }: ITagsWithTitle) => {
 		<div className={styles.container}>
 			<h3>{title}</h3>
 			<TagsList tags={tags} />
+			<Separator />
 		</div>
 	);
 };

@@ -1,0 +1,11 @@
+.button {
+	background: linear-gradient(
+		to right,
+		var(--theme-rounded-button-linear-gradiend-1) -150%,
+		var(--theme-rounded-button-linear-gradiend-2) 100%
+	);
+}
+.button:hover {
+	color: var(--theme-white) !important;
+}
+

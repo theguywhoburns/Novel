@@ -1,3 +1,4 @@
+import { Separator } from '@/components/Separator/Separator';
 import { TagsWithTitle } from '@/components/TagsWithTitle/TagsWithTitle';
 import { IUser } from '../../UsersList';
 import styles from './UserCardDetailed.module.css';
@@ -18,7 +19,7 @@ export const UserCardDetailed = ({
 	city,
 }: IUser) => {
 	return (
-		<div className={[styles.container, 'secondary-text'].join(' ')}>
+		<div className={styles.container}>
 			<img src={imgSrc} />
 
 			<div className={styles.nameAndAgeContainer}>
@@ -29,18 +30,24 @@ export const UserCardDetailed = ({
 			</div>
 
 			<div className={styles.mainInfoContainer}>
-				<p>{search}</p>
+				<p className={styles.search}>{search}</p>
 				<p>{job}</p>
 				<p>{gender}</p>
 				<p>{city}</p>
 				<p>{distance}</p>
 			</div>
 
+			<Separator />
+
 			<h3>Обо мне</h3>
 			<p className={styles.about}>{about}</p>
 
+			<Separator />
+
 			<TagsWithTitle title='Основное' tags={main} />
+
 			<TagsWithTitle title='Языки, которые я владею' tags={languages} />
+
 			<TagsWithTitle title='Мои интересы' tags={interests} />
 		</div>
 	);

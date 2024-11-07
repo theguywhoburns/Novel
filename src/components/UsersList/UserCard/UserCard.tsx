@@ -35,12 +35,12 @@ export const UserCard = ({
 			transition={{ duration: 0.5 }}
 			drag
 			dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
-			dragElastic={0.8}
+			dragElastic={1}
 			onClick={onClick}
 		>
 			<img src={imgSrc} />
 			{isPopular && (
-				<Tag id='popularTag' className={styles.popularTag} Icon={IconPopular}>
+				<Tag className={styles.popularTag} Icon={IconPopular}>
 					Popular
 				</Tag>
 			)}

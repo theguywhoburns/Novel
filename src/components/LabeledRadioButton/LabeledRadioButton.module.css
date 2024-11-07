@@ -1,3 +1,13 @@
+.container {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.container:hover {
+	cursor: pointer;
+}
+
 .label {
 	font-size: 16px;
 }

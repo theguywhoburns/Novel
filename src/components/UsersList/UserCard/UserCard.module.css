@@ -2,14 +2,18 @@
 	display: flex;
 	position: relative;
 	border-radius: 12px;
-	width: 320px;
-	height: 440px;
+	width: 310px;
+	height: 410px;
+}
+
+.userCard:hover {
+	cursor: pointer;
 }
 
 img {
 	border-radius: 12px;
-	width: 320px;
-	height: 440px;
+	width: 310px;
+	height: 410px;
 	object-fit: cover;
 }
 
@@ -23,8 +27,8 @@ img {
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	padding-left: 10px;
-	padding-bottom: 10px;
+	padding-left: 16px;
+	padding-bottom: 16px;
 }
 
 .name {

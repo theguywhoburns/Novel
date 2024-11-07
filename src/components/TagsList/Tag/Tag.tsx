@@ -1,7 +1,7 @@
 import styles from './Tag.module.css';
 
 export interface ITag extends React.HTMLAttributes<HTMLLIElement> {
-	id: string;
+	id?: string;
 	Icon: React.FC | null;
 	children: React.ReactNode;
 }

@@ -1,114 +1,110 @@
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	transition: background-color 0.5s, color 0.01s;
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
 
-  color-scheme: light dark;
-  color: var(--theme-text-color);
-  background-color: var(--theme-background-color);
+	color-scheme: light dark;
+	color: var(--theme-text-color);
+	background-color: var(--theme-background-color);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+	font-weight: 500;
+	color: #646cff;
+	text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+	color: #535bf2;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 100vw;
-  min-height: 100vh;
+	margin: 0;
+	display: flex;
+	place-items: center;
+	min-width: 100vw;
+	min-height: 100vh;
 }
 
 .secondary-text {
-  color: var(--theme-secondary-text-color);
+	color: var(--theme-secondary-text-color);
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+	font-size: 3.2em;
+	line-height: 1.1;
 }
 
 stop.svg-grad-start-color {
-  stop-color: var(--theme-icon-linear-gradient-stop-1);
+	stop-color: var(--theme-icon-linear-gradient-stop-1);
 }
 
 stop.svg-grad-end-color {
-  stop-color: var(--theme-icon-linear-gradient-stop-2);
+	stop-color: var(--theme-icon-linear-gradient-stop-2);
 }
 
 img {
-  pointer-events: none;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+	pointer-events: none;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: var(--theme-button-background-color);
-  cursor: pointer;
-  transition: 0.25s;
-  color: var(--theme-button-text-color);
+	border-radius: 8px;
+	border: 1px solid transparent;
+	padding: 0.6em 1.2em;
+	font-size: 1em;
+	font-weight: 500;
+	font-family: inherit;
+	background-color: var(--theme-button-background-color);
+	cursor: pointer;
+	transition: 0.25s;
+	color: var(--theme-button-text-color);
 }
 button:hover {
-  background-color: var(--theme-button-selected-background-color);
-  color: var(--theme-button-selected-text-color);
-}
-button:focus,
-button:focus-visible {
- 
-  outline: 4px auto -webkit-focus-ring-color;
+	background-color: var(--theme-button-selected-background-color);
+	color: var(--theme-button-selected-text-color);
 }
 
 .ReactModal__Html--open,
 .ReactModal__Body--open {
-  overflow: hidden;
+	overflow: hidden;
 }
 
 .ReactModal__Overlay {
-  position: fixed;
-  z-index: 999999;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	position: fixed;
+	z-index: 999999;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .ReactModal__Content {
-  background: white;
-  outline: none;
-  width: 50rem;
-  max-width: calc(100vw - 2rem);
-  max-height: calc(100vh - 2rem);
-  box-shadow: 0 0 34px 0 rgba(0, 0, 0, 0.24);
-  overflow-y: auto;
-  position: relative;
+	background: white;
+	outline: none;
+	width: 50rem;
+	max-width: calc(100vw - 2rem);
+	max-height: calc(100vh - 2rem);
+	box-shadow: 0 0 34px 0 rgba(0, 0, 0, 0.24);
+	overflow-y: auto;
+	position: relative;
 }
