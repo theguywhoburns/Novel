@@ -4,7 +4,7 @@ interface IIconReels extends React.SVGProps<SVGSVGElement> {
 	focused: boolean;
 }
 
-const IconReels = ({ focused = false, ...props }: IIconReels) => {
+export const IconReels = ({ focused = false, ...props }: IIconReels) => {
 	const theme = useTheme();
 	return (
 		<svg
@@ -35,5 +35,3 @@ const IconReels = ({ focused = false, ...props }: IIconReels) => {
 		</svg>
 	);
 };
-
-export default IconReels;

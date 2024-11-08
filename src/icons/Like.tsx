@@ -1,6 +1,6 @@
 import { useTheme } from '@/theme';
 
-const IconLike = (props: React.SVGProps<SVGSVGElement>) => {
+export const IconLike = (props: React.SVGProps<SVGSVGElement>) => {
 	const theme = useTheme();
 	return (
 		<svg
@@ -39,5 +39,3 @@ const IconLike = (props: React.SVGProps<SVGSVGElement>) => {
 		</svg>
 	);
 };
-
-export default IconLike;

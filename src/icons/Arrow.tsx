@@ -4,7 +4,7 @@ interface IIconArrowProps extends React.SVGProps<SVGSVGElement> {
 }
 
 export const IconArrow = ({
-	color,
+	color = '#fff',
 	direction = 'left',
 	...props
 }: IIconArrowProps) => {

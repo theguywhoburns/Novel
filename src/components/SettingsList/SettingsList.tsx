@@ -1,7 +1,7 @@
-import IconCrystal from '@/icons/Crystal';
 import { useCallback, useState } from 'react';
 import { ISettingsItem, SettingsItem } from './SettingsItem/SettingsItem';
 import styles from './SettingsList.module.css';
+import { IconCrystal } from '@/icons/Crystal';
 /*
 interface ISettingsList {
 	settingsArray: ISettingsItem[];

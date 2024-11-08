@@ -1,4 +1,4 @@
-const IconShield = (props : React.SVGProps<SVGSVGElement>) => (
+export const IconShield = (props : React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="23"
@@ -13,5 +13,3 @@ const IconShield = (props : React.SVGProps<SVGSVGElement>) => (
     ></path>
   </svg>
 );
-
-export default IconShield;

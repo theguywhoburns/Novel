@@ -4,7 +4,7 @@ interface IIconChatProps extends React.SVGProps<SVGSVGElement> {
 	focused: boolean;
 }
 
-const IconChat = ({ focused = false, ...props }: IIconChatProps) => {
+export const IconChat = ({ focused = false, ...props }: IIconChatProps) => {
 	const theme = useTheme();
 	return (
 		<svg
@@ -43,5 +43,3 @@ const IconChat = ({ focused = false, ...props }: IIconChatProps) => {
 		</svg>
 	);
 };
-
-export default IconChat;

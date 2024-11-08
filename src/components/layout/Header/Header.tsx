@@ -1,15 +1,17 @@
-import IconSettingsGear from '@/icons/SettingsGear';
-import IconShield from '@/icons/Shield';
 import { useSettingsStore } from '@/store/settings/useSettingsStore';
 import styles from './Header.module.css';
+import { IconLogo, IconSettingsGear, IconShield } from '@/icons';
+import { Link } from 'react-router-dom';
 
 export const Header = () => {
 	const setIsSettingsOpen = useSettingsStore(state => state.setIsSettingsOpen);
 
 	return (
 		<header className={styles.header}>
-			<h1 className={styles.headerTitle}>novel</h1>
-
+			<Link to="/">
+				<IconLogo style={{ width: '18vw', height: '6vh' }} />
+			</Link>
+			
 			<div className={styles.buttonsWrapper}>
 				<button className={styles.button}>
 					<IconShield />

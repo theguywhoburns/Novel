@@ -4,7 +4,7 @@ interface IIconMagnifyingGlassProps extends React.SVGProps<SVGSVGElement> {
 	focused: boolean;
 }
 
-const IconMagnifyingGlass = ({
+export const IconMagnifyingGlass = ({
 	focused = false,
 	...props
 }: IIconMagnifyingGlassProps) => {
@@ -46,5 +46,3 @@ const IconMagnifyingGlass = ({
 		</svg>
 	);
 };
-
-export default IconMagnifyingGlass;

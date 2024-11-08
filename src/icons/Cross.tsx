@@ -1,6 +1,6 @@
 import { useTheme } from "@/theme";
 
-const IconCross = (props : React.SVGProps<SVGSVGElement>) => {
+export const IconCross = (props : React.SVGProps<SVGSVGElement>) => {
     const theme = useTheme();
     return (
         <svg 
@@ -38,5 +38,3 @@ const IconCross = (props : React.SVGProps<SVGSVGElement>) => {
         </svg>
     );
 }
-
-export default IconCross;

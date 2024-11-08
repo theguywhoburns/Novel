@@ -4,7 +4,7 @@ interface IIconPlaces extends React.SVGProps<SVGSVGElement> {
 	focused: boolean;
 }
 
-const IconPlaces = ({ focused = false, ...props }: IIconPlaces) => {
+export const IconPlaces = ({ focused = false, ...props }: IIconPlaces) => {
     const theme = useTheme();
     return (
         <svg 
@@ -41,5 +41,3 @@ const IconPlaces = ({ focused = false, ...props }: IIconPlaces) => {
 
     );
 }
-
-export default IconPlaces;

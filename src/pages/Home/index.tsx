@@ -1,15 +1,13 @@
 import { Banner } from '@/components/Banner/Banner';
 import { IconArrow } from '@/icons/Arrow';
-import IconCross from '@/icons/Cross';
-import IconCrystal from '@/icons/Crystal';
-import IconDiscard from '@/icons/Discard';
-import IconLike from '@/icons/Like';
 import { useSettingsStore } from '@/store/settings/useSettingsStore';
 import { useTheme } from '@/theme';
 import { Modal } from '@mui/material';
 import { useState } from 'react';
 import { LabeledSwitch, RangeInput, SettingsList } from '../../components';
 import styles from './Home.module.css';
+import { IconCross, IconDiscard, IconLike } from '@/icons';
+import { IconCrystal } from '@/icons/Crystal';
 
 const Home = () => {
 	const theme = useTheme();

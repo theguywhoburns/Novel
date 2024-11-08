@@ -1,8 +1,4 @@
-import IconChat from '@/icons/Chat';
-import IconLike from '@/icons/Like';
-import IconMagnifyingGlass from '@/icons/MagnifyingClass';
-import IconPlaces from '@/icons/Places';
-import IconReels from '@/icons/Reels';
+import { IconChat, IconLike, IconMagnifyingGlass, IconPlaces, IconReels } from '@/icons';
 import { RouteNames } from '@/routes';
 import { useTheme } from '@/theme';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
