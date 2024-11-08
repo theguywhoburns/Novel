@@ -1,12 +1,13 @@
-import IconChat from '@/icons/chat';
-import IconLike from '@/icons/like';
-import IconMagnifyingGlass from '@/icons/magnifying_class';
-import IconPlaces from '@/icons/places';
-import IconReels from '@/icons/reels';
+import IconChat from '@/icons/Chat';
+import IconLike from '@/icons/Like';
+import IconMagnifyingGlass from '@/icons/MagnifyingClass';
+import IconPlaces from '@/icons/Places';
+import IconReels from '@/icons/Reels';
 import { RouteNames } from '@/routes';
 import { useTheme } from '@/theme';
-import { BottomNavigation, BottomNavigationAction, Link } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const BottomNav = () => {
 	const theme = useTheme();
@@ -31,35 +32,35 @@ export const BottomNav = () => {
 			<BottomNavigationAction
 				label='Home'
 				component={Link}
-				href={RouteNames.HOME}
+				to={RouteNames.HOME}
 				icon={<IconMagnifyingGlass focused={currentNavIdx === 0} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
 				label='Reels'
 				component={Link}
-				href={RouteNames.REELS}
+				to={RouteNames.REELS}
 				icon={<IconReels focused={currentNavIdx === 1} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
 				label='Places'
 				component={Link}
-				href={RouteNames.PLACES}
+				to={RouteNames.PLACES}
 				icon={<IconPlaces focused={currentNavIdx === 2} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
 				label='Chat'
 				component={Link}
-				href={RouteNames.CHAT}
+				to={RouteNames.CHAT}
 				icon={<IconChat focused={currentNavIdx === 3} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
 				label='Testing playground'
 				component={Link}
-				href={RouteNames.TESTING_PLAYGROUND}
+				to={RouteNames.TESTING_PLAYGROUND}
 				icon={<IconLike />}
 				sx={{ color: theme.text_color }}
 			/>

@@ -1,5 +1,5 @@
 import { Separator } from '@/components/TagsWithTitle/Separator/Separator';
-import { IconArrow } from '@/icons/arrow';
+import { IconArrow } from '@/icons/Arrow';
 import { useTheme } from '@/theme';
 import styles from './UserAction.module.css';
 

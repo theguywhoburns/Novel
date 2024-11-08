@@ -1,3 +1,5 @@
 .usersList {
 	position: relative;
+	list-style-type: none;
+	border-radius: 22px;
 }

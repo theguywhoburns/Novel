@@ -1,7 +1,7 @@
-import IconSettingsGear from '@/icons/settingsGear';
-import IconShield from '@/icons/shield';
+import IconSettingsGear from '@/icons/SettingsGear';
+import IconShield from '@/icons/Shield';
 import { useSettingsStore } from '@/store/settings/useSettingsStore';
-import styles from './header.module.css';
+import styles from './Header.module.css';
 
 export const Header = () => {
 	const setIsSettingsOpen = useSettingsStore(state => state.setIsSettingsOpen);

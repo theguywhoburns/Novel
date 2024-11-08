@@ -1,14 +1,13 @@
 import { LabeledRadioButton, LabeledSwitch, RangeInput } from '@/components';
 import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
 import { UsersList } from '@/components/UsersList/UsersList';
-import IconCrystal from '@/icons/crystal.tsx';
-import IconDiscard from '@/icons/discard.tsx';
-import IconSettingsGear from '@/icons/settingsGear.tsx';
-import IconShield from '@/icons/shield.tsx';
+import IconCrystal from '@/icons/Crystal';
+import IconDiscard from '@/icons/Discard';
+import IconSettingsGear from '@/icons/SettingsGear';
+import IconShield from '@/icons/Shield';
 import { useThemeStore } from '@/store/theme/useThemeStore';
 import { setTheme } from '@/theme';
 import { useState } from 'react';
-import styles from './TestPlayground.module.css';
 
 const TestPlayground = () => {
 	const currentTheme = useThemeStore(state => state.theme);
@@ -18,14 +17,14 @@ const TestPlayground = () => {
 		setTheme(newTheme);
 	};
 
-	const [range, _] = useState([0, 50]);
-	console.log(_); // SO IT DOESN'T FUCKING COMPLAIN
+	const [range] = useState([0, 50]);
+
 	const [checked, setChecked] = useState(false);
 
 	const [selectedValue, setSelectedValue] = useState('aries');
 
 	return (
-		<div style={{ padding: '20px 20px 80px' }} className={styles.container}>
+		<div>
 			<RoundedButton onClick={switchTheme}>Switch theme</RoundedButton>
 			<IconCrystal />
 			<IconDiscard />
@@ -67,7 +66,9 @@ const TestPlayground = () => {
 				</div>
 			</div>
 
-			<UsersList />
+			<div style={{ display: 'grid', placeItems: 'center' }}>
+				<UsersList />
+			</div>
 		</div>
 	);
 };

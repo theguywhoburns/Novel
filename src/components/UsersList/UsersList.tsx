@@ -178,7 +178,7 @@ export const users: IUser[] = [
 ];
 
 export const UsersList = () => {
-	const [direction, setDirection] = useState('left');
+	const [direction, setDirection] = useState<'left' | 'right' | ''>('');
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
@@ -208,7 +208,7 @@ export const UsersList = () => {
 		} else {
 			setSelectedUserId(id);
 
-			navigate(`/user/${id}`);
+			navigate(`/profile/${id}`);
 		}
 	};
 
@@ -218,12 +218,15 @@ export const UsersList = () => {
 		trackMouse: true,
 	});
 
+	const isTop = users.length === currentIndex + 1;
+
 	return (
 		<div className={styles.usersList} {...handlers}>
 			<motion.div
+				style={{ borderRadius: 22 }}
 				key={users[currentIndex].id}
 				initial={{
-					opacity: 0,
+					opacity: 1,
 					x: direction === 'right' ? '-100%' : '100%',
 				}}
 				animate={{
@@ -231,7 +234,7 @@ export const UsersList = () => {
 					x: 0,
 				}}
 				exit={{
-					opacity: 0,
+					opacity: 1,
 					x: direction === 'right' ? '100%' : '-100%',
 				}}
 				transition={{ duration: 0.5 }}
@@ -244,6 +247,8 @@ export const UsersList = () => {
 					search={search}
 					job={job}
 					distance={distance}
+					drag={isTop}
+					onVote={() => console.log('Vote clicked')}
 					onClick={handleClick}
 				/>
 			</motion.div>

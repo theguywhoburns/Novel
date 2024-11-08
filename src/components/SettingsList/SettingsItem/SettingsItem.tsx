@@ -1,4 +1,4 @@
-import { IconArrow } from '@/icons/arrow';
+import { IconArrow } from '@/icons/Arrow';
 import { useTheme } from '@/theme';
 import React, { useCallback, useState } from 'react';
 import { LabeledRadioButton } from '../../ui/LabeledRadioButton/LabeledRadioButton';

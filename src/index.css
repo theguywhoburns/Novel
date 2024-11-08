@@ -41,11 +41,6 @@ body {
 	color: var(--theme-secondary-text-color);
 }
 
-h1 {
-	font-size: 3.2em;
-	line-height: 1.1;
-}
-
 stop.svg-grad-start-color {
 	stop-color: var(--theme-icon-linear-gradient-stop-1);
 }

@@ -3,6 +3,13 @@
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px 20px;
+	background-color: var(--theme-background-color);
+}
+
+h1 {
+	font: 500 22px;
+	line-height: 27px;
+	color: var(--theme-accent-color);
 }
 
 .buttonsWrapper {

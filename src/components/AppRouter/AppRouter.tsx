@@ -3,15 +3,14 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 export const AppRouter = ({ isAuth }: { isAuth: boolean }) => (
 	<Routes>
-		{isAuth
-			? privateRoutes.map(route => (
-					<Route
-						key={route.path}
-						path={route.path}
-						element={<route.component />}
-					/>
-			  ))
-			: null}
+		{isAuth &&
+			privateRoutes.map(route => (
+				<Route
+					key={route.path}
+					path={route.path}
+					element={<route.component />}
+				/>
+			))}
 		{publicRoutes.map(route => (
 			<Route key={route.path} path={route.path} element={<route.component />} />
 		))}

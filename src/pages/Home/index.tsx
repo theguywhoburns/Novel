@@ -1,8 +1,9 @@
-import { IconArrow } from '@/icons/arrow';
-import IconCross from '@/icons/cross';
-import IconCrystal from '@/icons/crystal';
-import IconDiscard from '@/icons/discard';
-import IconLike from '@/icons/like';
+import { Banner } from '@/components/Banner/Banner';
+import { IconArrow } from '@/icons/Arrow';
+import IconCross from '@/icons/Cross';
+import IconCrystal from '@/icons/Crystal';
+import IconDiscard from '@/icons/Discard';
+import IconLike from '@/icons/Like';
 import { useSettingsStore } from '@/store/settings/useSettingsStore';
 import { useTheme } from '@/theme';
 import { Modal } from '@mui/material';
@@ -36,14 +37,11 @@ const Home = () => {
 						<h2 className={styles.settingsModalHeaderText}>Настройки поиска</h2>
 					</div>
 					<div className={styles.settingsModalScrollView}>
-						<div className={styles.baseSubscriptionBanner}>
-							<h3 className={styles.baseSubscriptionTitleText}>
-								Базовая подписка
-							</h3>
-							<p className={styles.baseSubscriptionSubTitleText}>
-								Расширь свои возможности
-							</p>
-						</div>
+						<Banner
+							type='basic'
+							title='Базовая подписка'
+							subTitle='Расширь свои возможности'
+						/>
 
 						<RangeInput label='Расстояние' min={0} max={100} unit='км' />
 						<LabeledSwitch
@@ -70,14 +68,11 @@ const Home = () => {
 							onChange={setShowMeToWomen}
 						/>
 
-						<div className={styles.advancedSubscriptionBanner}>
-							<h3 className={styles.advancedSubscriptionTitleText}>
-								Продвинутая подписка
-							</h3>
-							<p className={styles.advancedSubscriptionSubTitleText}>
-								Подбирай партнера по интересам
-							</p>
-						</div>
+						<Banner
+							type='advanced'
+							title='Продвинутая подписка'
+							subTitle='Расширь свои возможности'
+						/>
 
 						<LabeledSwitch
 							label='Пользователь верифицирован'
