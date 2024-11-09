@@ -1,0 +1,31 @@
+.modalHeader {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 60px;
+    display: flex;
+}
+
+.modalHeaderText {
+	flex: 1;
+	font-size: 24px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.modalContainer {
+    display: flex;
+}
+
+.modalBtn .modalBtn:hover {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	width: 38px;
+	height: 38px;
+	background-color: var(--theme-button-background-color);
+	border: none;
+	border-radius: 19px;
+}

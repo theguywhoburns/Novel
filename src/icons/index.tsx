@@ -7,6 +7,7 @@ export * from './Chat';
 export * from './Cross';
 export * from './Discard';
 export * from './Family';
+export * from './Filter';
 export * from './FingerCross';
 export * from './Food';
 export * from './Head';

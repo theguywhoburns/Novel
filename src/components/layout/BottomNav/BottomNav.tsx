@@ -2,13 +2,11 @@ import { IconChat, IconLike, IconMagnifyingGlass, IconPlaces, IconReels } from '
 import { RouteNames } from '@/routes';
 import { useTheme } from '@/theme';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export const BottomNav = () => {
 	const theme = useTheme();
-	const [currentNavIdx, setCurrentNavIdx] = useState(0);
-
+	const location = useLocation();
 	return (
 		<BottomNavigation
 			style={{
@@ -20,37 +18,33 @@ export const BottomNav = () => {
 				right: 0,
 				height: 60,
 			}}
-			onChange={(event, newValue) => {
-				console.log(event);
-				setCurrentNavIdx(newValue);
-			}}
 		>
 			<BottomNavigationAction
 				label='Home'
 				component={Link}
 				to={RouteNames.HOME}
-				icon={<IconMagnifyingGlass focused={currentNavIdx === 0} />}
+				icon={<IconMagnifyingGlass focused={location.pathname === RouteNames.HOME} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
 				label='Reels'
 				component={Link}
 				to={RouteNames.REELS}
-				icon={<IconReels focused={currentNavIdx === 1} />}
+				icon={<IconReels focused={location.pathname === RouteNames.REELS} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
-				label='Places'
+				label='Interests'
 				component={Link}
-				to={RouteNames.PLACES}
-				icon={<IconPlaces focused={currentNavIdx === 2} />}
+				to={RouteNames.Interests}
+				icon={<IconPlaces focused={location.pathname === RouteNames.Interests} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
 				label='Chat'
 				component={Link}
 				to={RouteNames.CHAT}
-				icon={<IconChat focused={currentNavIdx === 3} />}
+				icon={<IconChat focused={location.pathname === RouteNames.CHAT} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
@@ -63,3 +57,4 @@ export const BottomNav = () => {
 		</BottomNavigation>
 	);
 };
+
