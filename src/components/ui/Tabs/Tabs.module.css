@@ -1,0 +1,15 @@
+.tabs {
+	display: flex;
+	gap: 10px;
+	list-style-type: none;
+	max-width: 570px;
+	width: 100%;
+	overflow-x: auto;
+}
+
+.tab {
+	font-size: 14px;
+	font-weight: 500;
+	border-radius: 30px;
+	padding: 10px 14px;
+}

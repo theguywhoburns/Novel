@@ -215,6 +215,11 @@
   dependencies:
     tslib "^2.1.0"
 
+"@capacitor/geolocation@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@capacitor/geolocation/-/geolocation-6.0.1.tgz#b74acdef224321462abe0116fd87cf743b7fb4e5"
+  integrity sha512-QOkIrSzG6E0vD2MF3gZmtuILQiuVro4LGPjqrUjCzhX10zl/4lx6bq4T+hj2YLUmMUnCiV1hWTOJHcpdVRMz7w==
+
 "@capacitor/ios@^6.1.2":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-6.1.2.tgz#568e8b904ad0a6d42fb1b2cc239eab2735ccd5e5"

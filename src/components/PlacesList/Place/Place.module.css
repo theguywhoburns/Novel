@@ -1,0 +1,38 @@
+.place {
+	position: relative;
+	aspect-ratio: 328 / 163;
+	width: 100%;
+	min-width: 300px;
+	max-width: 600px;
+	width: 100%;
+}
+
+.img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.dataContainer,
+.dataContainer:hover {
+	all: unset;
+	position: absolute;
+	bottom: 16px;
+	left: 16px;
+	cursor: pointer;
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: column;
+	border-radius: 20px;
+}
+
+.placeName {
+	font-weight: 600;
+	font-size: 20px;
+}
+
+.placeDesc {
+	font-weight: 400;
+	font-size: 12px;
+}

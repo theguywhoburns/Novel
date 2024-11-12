@@ -1,4 +1,10 @@
-import { IconChat, IconLike, IconMagnifyingGlass, IconPlaces, IconReels } from '@/icons';
+import {
+	IconChat,
+	IconLike,
+	IconMagnifyingGlass,
+	IconPlaces,
+	IconReels,
+} from '@/icons';
 import { RouteNames } from '@/routes';
 import { useTheme } from '@/theme';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
@@ -23,7 +29,11 @@ export const BottomNav = () => {
 				label='Home'
 				component={Link}
 				to={RouteNames.HOME}
-				icon={<IconMagnifyingGlass focused={location.pathname === RouteNames.HOME} />}
+				icon={
+					<IconMagnifyingGlass
+						focused={location.pathname === RouteNames.HOME}
+					/>
+				}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
@@ -36,8 +46,8 @@ export const BottomNav = () => {
 			<BottomNavigationAction
 				label='Interests'
 				component={Link}
-				to={RouteNames.Interests}
-				icon={<IconPlaces focused={location.pathname === RouteNames.Interests} />}
+				to={RouteNames.PLACES}
+				icon={<IconPlaces focused={location.pathname === RouteNames.PLACES} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
@@ -57,4 +67,3 @@ export const BottomNav = () => {
 		</BottomNavigation>
 	);
 };
-

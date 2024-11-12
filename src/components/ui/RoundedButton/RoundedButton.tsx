@@ -1,12 +1,12 @@
-import { Button } from '@mui/material';
+import { Button, ButtonProps } from '@mui/material';
 import styles from './RoundedButton.module.css';
 
-interface IRoundedButton {
+interface IRoundedButton extends ButtonProps {
 	children: React.ReactNode;
 	onClick: () => void;
 }
 
-export const RoundedButton = ({ children, onClick }: IRoundedButton) => {
+export const RoundedButton = ({ children, onClick, ...props }: IRoundedButton) => {
 	return (
 		<Button
 			className={styles.button}
@@ -18,7 +18,9 @@ export const RoundedButton = ({ children, onClick }: IRoundedButton) => {
 				padding: '12px 30px',
 				borderRadius: '50px',
 				fontSize: '16px',
+				textTransform: 'none',
 			}}
+			{...props}
 		>
 			{children}
 		</Button>

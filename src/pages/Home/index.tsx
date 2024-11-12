@@ -1,13 +1,15 @@
 import { Banner } from '@/components/Banner/Banner';
+import { IconCross, IconDiscard, IconLike } from '@/icons';
 import { IconArrow } from '@/icons/Arrow';
+import { IconCrystal } from '@/icons/Crystal';
+import { IconHeartLoop } from '@/icons/HeartLoop';
+import { IconLoop } from '@/icons/Loop';
 import { useSettingsStore } from '@/store/settings/useSettingsStore';
 import { useTheme } from '@/theme';
 import { Modal } from '@mui/material';
 import { useState } from 'react';
 import { LabeledSwitch, RangeInput, SettingsList } from '../../components';
 import styles from './Home.module.css';
-import { IconCross, IconDiscard, IconLike } from '@/icons';
-import { IconCrystal } from '@/icons/Crystal';
 
 const Home = () => {
 	const theme = useTheme();
@@ -39,6 +41,7 @@ const Home = () => {
 							type='basic'
 							title='Базовая подписка'
 							subTitle='Расширь свои возможности'
+							Icon={IconLoop}
 						/>
 
 						<RangeInput label='Расстояние' min={0} max={100} unit='км' />
@@ -70,6 +73,7 @@ const Home = () => {
 							type='advanced'
 							title='Продвинутая подписка'
 							subTitle='Расширь свои возможности'
+							Icon={IconHeartLoop}
 						/>
 
 						<LabeledSwitch

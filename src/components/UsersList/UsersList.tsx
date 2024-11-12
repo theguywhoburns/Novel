@@ -180,6 +180,7 @@ export const users: IUser[] = [
 export const UsersList = () => {
 	const [direction, setDirection] = useState<'left' | 'right' | ''>('');
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 	const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
 	const { id, imgSrc, isPopular, name, age, search, job, distance } = users[
@@ -192,6 +193,9 @@ export const UsersList = () => {
 		setCurrentIndex(prevIndex =>
 			prevIndex < users.length - 1 ? prevIndex + 1 : prevIndex
 		);
+
+		setNextIndex(currentIndex + 2);
+
 		setDirection('left');
 	};
 
@@ -199,6 +203,9 @@ export const UsersList = () => {
 		setCurrentIndex(prevIndex =>
 			prevIndex < users.length - 1 ? prevIndex + 1 : prevIndex
 		);
+
+		setNextIndex(currentIndex + 2);
+
 		setDirection('right');
 	};
 
@@ -215,10 +222,9 @@ export const UsersList = () => {
 	const handlers = useSwipeable({
 		onSwipedLeft: handleDislike,
 		onSwipedRight: handleLike,
+		preventScrollOnSwipe: true,
 		trackMouse: true,
 	});
-
-	const isTop = users.length === currentIndex + 1;
 
 	return (
 		<div className={styles.usersList} {...handlers}>
@@ -240,6 +246,18 @@ export const UsersList = () => {
 				transition={{ duration: 0.5 }}
 			>
 				<UserCard
+					style={{ position: 'absolute', top: 0, left: 0 }}
+					imgSrc={users[nextIndex]?.imgSrc ?? ''}
+					isPopular={users[nextIndex]?.isPopular ?? false}
+					name={users[nextIndex]?.name ?? 'Ты долистал-(а) до конца'}
+					age={users[nextIndex]?.age ?? ''}
+					search={users[nextIndex]?.search ?? ''}
+					job={users[nextIndex]?.job ?? ''}
+					distance={users[nextIndex]?.distance ?? ''}
+					isDraggable={false}
+					onClick={() => {}}
+				/>
+				<UserCard
 					imgSrc={imgSrc}
 					isPopular={isPopular}
 					name={name}
@@ -247,8 +265,7 @@ export const UsersList = () => {
 					search={search}
 					job={job}
 					distance={distance}
-					drag={isTop}
-					onVote={() => console.log('Vote clicked')}
+					isDraggable={true}
 					onClick={handleClick}
 				/>
 			</motion.div>

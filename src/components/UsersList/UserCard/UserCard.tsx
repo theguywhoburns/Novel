@@ -12,12 +12,11 @@ export interface IUserCard {
 	age: number;
 	search: string;
 	job: string;
-	drag: boolean;
 	distance: string;
 	direction?: 'left' | 'right' | '';
+	isDraggable: boolean;
 	style?: React.CSSProperties;
 	onClick?: () => void;
-	onVote: (direction: boolean | undefined) => void;
 }
 
 export const UserCard = ({
@@ -28,9 +27,9 @@ export const UserCard = ({
 	search,
 	job,
 	distance,
+	isDraggable,
 	style,
 	onClick,
-	onVote,
 }: IUserCard) => {
 	const x = useMotionValue(0);
 	const controls = useAnimation();
@@ -62,8 +61,15 @@ export const UserCard = ({
 	};
 
 	const getTrajectory = () => {
-		setVelocity(x.getVelocity());
+		const velocity = x.getVelocity();
+		setVelocity(velocity);
 		setDirection(getDirection());
+
+		// if (x.get() < -150) {
+		// 	x.set(-150);
+		// } else if (x.get() > 150) {
+		// 	x.set(150);
+		// }
 	};
 
 	const flyAway = (min: number) => {
@@ -91,7 +97,7 @@ export const UserCard = ({
 				const parentRect = (cardRef.current
 					.parentNode as HTMLElement)!.getBoundingClientRect();
 				const result = getVote(childRect, parentRect);
-				result !== undefined && onVote(result);
+				result !== undefined;
 				setDirection(x.get() > 0 ? 'right' : x.get() < 0 ? 'left' : '');
 			}
 		});
@@ -156,7 +162,7 @@ export const UserCard = ({
 			initial={{ opacity: 1, x: 0 }}
 			animate={controls}
 			transition={{ duration: 0.5 }}
-			drag
+			drag={isDraggable}
 			dragConstraints={constrained && { top: 0, bottom: 0, left: 0, right: 0 }}
 			dragElastic={1}
 			onClick={onClick}
