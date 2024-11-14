@@ -1,6 +1,6 @@
 import { useTheme } from '@/theme';
 
-export const Lips = (props: React.SVGProps<SVGSVGElement>) => {
+export const IconLips = (props: React.SVGProps<SVGSVGElement>) => {
 	const theme = useTheme();
 
 	return (

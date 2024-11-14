@@ -216,7 +216,7 @@ export const UserCard = ({
 				<MarkSvg mark='like' x={x.get()} />
 			</div>
 
-			<img src={imgSrc} />
+			<img className={styles.img} src={imgSrc} />
 			{isPopular && (
 				<UserCardTag className={styles.popularTag} Icon={IconPopular}>
 					Popular

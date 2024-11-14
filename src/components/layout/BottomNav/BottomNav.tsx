@@ -12,16 +12,13 @@ import { Link, useLocation } from 'react-router-dom';
 
 export const BottomNav = () => {
 	const theme = useTheme();
-	const location = useLocation();
+	const { pathname } = useLocation();
+
 	return (
 		<BottomNavigation
 			style={{
-				position: 'fixed',
-				bottom: 0,
 				backgroundColor: theme.background_color,
 				justifyContent: 'space-between',
-				left: 0,
-				right: 0,
 				height: 60,
 			}}
 		>
@@ -29,32 +26,28 @@ export const BottomNav = () => {
 				label='Home'
 				component={Link}
 				to={RouteNames.HOME}
-				icon={
-					<IconMagnifyingGlass
-						focused={location.pathname === RouteNames.HOME}
-					/>
-				}
+				icon={<IconMagnifyingGlass focused={pathname === RouteNames.HOME} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
 				label='Reels'
 				component={Link}
 				to={RouteNames.REELS}
-				icon={<IconReels focused={location.pathname === RouteNames.REELS} />}
+				icon={<IconReels focused={pathname === RouteNames.REELS} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
 				label='Interests'
 				component={Link}
 				to={RouteNames.PLACES}
-				icon={<IconPlaces focused={location.pathname === RouteNames.PLACES} />}
+				icon={<IconPlaces focused={pathname === RouteNames.PLACES} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction
 				label='Chat'
 				component={Link}
-				to={RouteNames.CHAT}
-				icon={<IconChat focused={location.pathname === RouteNames.CHAT} />}
+				to={RouteNames.MESSENGER}
+				icon={<IconChat focused={pathname === RouteNames.MESSENGER} />}
 				sx={{ color: theme.text_color }}
 			/>
 			<BottomNavigationAction

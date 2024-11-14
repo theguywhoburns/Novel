@@ -1,7 +1,7 @@
 import { PlacesList } from '@/components/PlacesList/PlacesList';
 import { IconFilter } from '@/icons';
 import { useState } from 'react';
-import { IPlace } from '../../components/PlacesList/Place';
+import { IPlace } from '../../components/PlacesList/Place/Place';
 import { Tabs } from '../../components/ui/Tabs/Tabs';
 import styles from './Places.module.css';
 
@@ -10,7 +10,8 @@ export const placesObj: Record<string, IPlace[]> = {
 		{
 			id: 1,
 			name: 'Парк Победы',
-			imgSrc: 'https://via.placeholder.com/100',
+			imgSrc:
+				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 4.5,
 			description: 'Описание парка',
 			address: 'ул. Победы, 1',
@@ -19,7 +20,8 @@ export const placesObj: Record<string, IPlace[]> = {
 		{
 			id: 2,
 			name: 'Парк Космонавтов',
-			imgSrc: 'https://via.placeholder.com/100',
+			imgSrc:
+				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 4.1,
 			description: 'Описание парка',
 			address: 'ул. Космонавтов, 2',
@@ -28,7 +30,8 @@ export const placesObj: Record<string, IPlace[]> = {
 		{
 			id: 3,
 			name: 'Парк имени Ленина',
-			imgSrc: 'https://via.placeholder.com/100',
+			imgSrc:
+				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 4.3,
 			description: 'Описание парка',
 			address: 'ул. Ленина, 3',
@@ -37,7 +40,8 @@ export const placesObj: Record<string, IPlace[]> = {
 		{
 			id: 4,
 			name: 'Парк имени Калинина',
-			imgSrc: 'https://via.placeholder.com/100',
+			imgSrc:
+				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 4.2,
 			description: 'Описание парка',
 			address: 'ул. Калинина, 4',
@@ -46,7 +50,8 @@ export const placesObj: Record<string, IPlace[]> = {
 		{
 			id: 5,
 			name: 'Парк имени Горького',
-			imgSrc: 'https://via.placeholder.com/100',
+			imgSrc:
+				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 4.8,
 			description: 'Описание парка',
 			address: 'ул. Горького, 5',
@@ -55,7 +60,8 @@ export const placesObj: Record<string, IPlace[]> = {
 		{
 			id: 6,
 			name: 'Парк имени Чкалова',
-			imgSrc: 'https://via.placeholder.com/100',
+			imgSrc:
+				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 4.6,
 			description: 'Описание парка',
 			address: 'ул. Чкалова, 6',
@@ -66,7 +72,8 @@ export const placesObj: Record<string, IPlace[]> = {
 		{
 			id: 1,
 			name: 'Музей Культуры',
-			imgSrc: '',
+			imgSrc:
+				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 4.7,
 			description: 'Описание музея',
 			address: 'ул. Культуры, 0',
@@ -75,7 +82,8 @@ export const placesObj: Record<string, IPlace[]> = {
 		{
 			id: 2,
 			name: 'Музей Искусств',
-			imgSrc: '',
+			imgSrc:
+				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 4.3,
 			description: 'Описание музея',
 			address: 'ул. Искусств, 1',

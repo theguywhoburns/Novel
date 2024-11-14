@@ -1,8 +1,8 @@
-import { IPlace } from '@/components/PlacesList/Place';
+import { IPlace } from '@/components/PlacesList/Place/Place';
 import { PlaceDetailed } from '@/components/PlacesList/Place/PlaceDetailed/PlaceDetailed';
+import { IconArrow } from '@/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { placesObj } from '..';
-import { IconArrow } from '@/icons';
 
 export const PlaceDetailedPage = () => {
 	const { id } = useParams();
@@ -14,12 +14,10 @@ export const PlaceDetailedPage = () => {
 	return (
 		<div>
 			<button onClick={() => navigate(-1)}>
-				<IconArrow color="#fff" />
+				<IconArrow color='#fff' />
 			</button>
 			{place?.id ? (
-				<PlaceDetailed
-					{...place}
-				/>
+				<PlaceDetailed {...place} />
 			) : (
 				<p>Не могу найти это место :/</p>
 			)}

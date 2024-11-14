@@ -1,6 +1,8 @@
-import Page404 from '@/pages/404';
+import { Page404 } from '@/pages/404';
 import Home from '@/pages/Home';
 import { UserCardDetailedPage } from '@/pages/Home/UserCardDetailedPage/UserCardDetailedPage';
+import { ChatPage } from '@/pages/MessengerPage/ChatPage/ChatPage';
+import { MessengerPage } from '@/pages/MessengerPage/MessengerPage';
 import { Places } from '@/pages/Places';
 import { PlaceDetailedPage } from '@/pages/Places/PlaceDetailedPage/PlaceDetailedPage';
 import TestPlayground from '@/pages/TestPlayground';
@@ -16,7 +18,8 @@ export enum RouteNames {
 	REELS = '/reels',
 	PLACES = '/places',
 	PLACE = '/place/:id',
-	CHAT = '/chat',
+	MESSENGER = '/messenger',
+	CHAT = '/chat/:id',
 	PROFILE = '/profile/:id',
 	TESTING_PLAYGROUND = '/testing-playground',
 }
@@ -30,7 +33,8 @@ export const privateRoutes: IRoute[] = [
 	{ path: RouteNames.REELS, component: Page404 },
 	{ path: RouteNames.PLACES, component: Places },
 	{ path: RouteNames.PLACE, component: PlaceDetailedPage },
-	{ path: RouteNames.CHAT, component: Page404 },
+	{ path: RouteNames.MESSENGER, component: MessengerPage },
+	{ path: RouteNames.CHAT, component: ChatPage },
 	{ path: RouteNames.PROFILE, component: UserCardDetailedPage },
 	{ path: RouteNames.TESTING_PLAYGROUND, component: TestPlayground },
 ];

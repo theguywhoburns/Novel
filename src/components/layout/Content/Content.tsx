@@ -1,3 +1,4 @@
+import { useTheme } from '@/theme';
 import styles from './Content.module.css';
 
 interface IContent {
@@ -5,5 +6,17 @@ interface IContent {
 }
 
 export const Content = ({ children }: IContent) => {
-	return <main className={styles.content}>{children}</main>;
+	const theme = useTheme();
+
+	return (
+		<main
+			className={styles.content}
+			style={{
+				color: theme.text_color,
+				backgroundColor: theme.background_color,
+			}}
+		>
+			{children}
+		</main>
+	);
 };

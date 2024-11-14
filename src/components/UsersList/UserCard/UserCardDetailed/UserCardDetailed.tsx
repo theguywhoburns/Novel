@@ -21,7 +21,7 @@ export const UserCardDetailed = ({
 }: IUser) => {
 	return (
 		<div className={styles.container}>
-			<img src={imgSrc} />
+			<img className={styles.img} src={imgSrc} />
 
 			<div className={styles.nameAndAgeContainer}>
 				<span className={styles.name}>{name}</span>

@@ -1,4 +1,4 @@
-import { IPlace, Place } from './Place';
+import { IPlace, Place } from './Place/Place';
 import styles from './PlacesList.module.css';
 
 interface IPlacesList {

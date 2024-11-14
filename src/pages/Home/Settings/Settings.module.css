@@ -1,0 +1,46 @@
+.settingsPage {
+  flex: 1;
+  height: 100vh;
+  width: 100vw;
+  overflow-y: auto;
+  background-color: var(--theme-background-color);
+}
+
+.settingsPageHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 60px;
+}
+
+.settingsPageHeaderText {
+  flex: 1;
+  font-size: 24px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.settingsPageBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 38px;
+  height: 38px;
+  background-color: var(--theme-button-background-color);
+  border: none;
+  border-radius: 19px;
+}
+
+.settingsPageBtn:hover {
+  background-color: var(--theme-button-background-color);
+}
+
+.settingsPageScrollView {
+  overflow-y: auto;
+  width: 100%;
+  max-width: 600px;
+
+  margin: auto;
+}

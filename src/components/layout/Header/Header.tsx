@@ -8,10 +8,10 @@ export const Header = () => {
 
 	return (
 		<header className={styles.header}>
-			<Link to="/">
-				<IconLogo style={{ width: '18vw', height: '6vh' }} />
+			<Link to='/'>
+				<IconLogo style={{ width: 140, height: 50 }} />
 			</Link>
-			
+
 			<div className={styles.buttonsWrapper}>
 				<button className={styles.button}>
 					<IconShield />
