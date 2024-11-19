@@ -1,25 +1,81 @@
-// Create a new hook called useGeolocation
 import { useSettingsStore } from "@/store/settings/useSettingsStore";
+import { Capacitor } from "@capacitor/core";
 import { Geolocation } from "@capacitor/geolocation";
+import { useState, useEffect } from "react";
 
 export const useGeolocation = () => {
-  const geolocationAllowed = useSettingsStore((state) => state);
-  const setGeolocationAllowed = useSettingsStore(
-    (state) => state.setGeolocationAllowed
-  );
+  const geo = Geolocation;
+  const geoAllowed = useSettingsStore.getState().geolocationAllowed;
 
-  const initGeolocation = async () => {
-    if (!geolocationAllowed) return;
+  const [hasPermission, setHasPermission] = useState(false);
+  const [error, setError] = useState<unknown>(null);
 
-    const haveGeolocationPermission = await Geolocation.checkPermissions();
-    if (haveGeolocationPermission.location !== "granted") {
-      if (!(await Geolocation.requestPermissions())) {
-        setGeolocationAllowed(false);
-      }
+  useEffect(() => {
+    checkPermissions(); // Check permissions on mount
+  }, []);
+
+  const checkPermissions = async () => {
+    try {
+      const { location } = await geo.checkPermissions();
+      const granted = location === "granted";
+      setHasPermission(granted);
+      return granted;
+    } catch (err) {
+      setError(err);
+      setHasPermission(false);
+      return false;
     }
   };
 
-  Promise.all([initGeolocation()]);
+  const requestPermissions = async () => {
+    try {
+      let granted;
+      if (Capacitor.getPlatform() !== "web") {
+        const { location } = await geo.requestPermissions();
+        granted = location === "granted";
+      } else {
+        granted = await Geolocation.getCurrentPosition().then(
+          () => true,
+          () => false
+        );
+      }
+      setHasPermission(granted);
+      return granted;
+    } catch (err) {
+      setError(err);
+      setHasPermission(false);
+      return false;
+    }
+  };
 
-  return Geolocation;
+  const getLocation = async () => {
+    if (!geoAllowed) {
+      setError("Geolocation is disabled in settings.");
+      return undefined;
+    }
+
+    if (!hasPermission) {
+      const permissionGranted = await requestPermissions();
+      if (!permissionGranted) {
+        setError("Geolocation permission denied.");
+        return undefined;
+      }
+    }
+
+    try {
+      const position = await geo.getCurrentPosition();
+      return position;
+    } catch (err) {
+      setError(err);
+      return undefined;
+    }
+  };
+
+  return {
+    getLocation,
+    checkPermissions,
+    requestPermissions,
+    hasPermission,
+    error,
+  };
 };

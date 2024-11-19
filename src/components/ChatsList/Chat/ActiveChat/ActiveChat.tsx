@@ -1,26 +1,12 @@
 import { MessagesList } from '@/components/MessagesList/MessagesList';
+import styles from './ActiveChat.module.css';
+import { ChatInput } from './ChatInput/ChatInput';
 
 export const ActiveChat = () => {
 	return (
-		<div
-			style={{
-				width: '100%',
-				maxWidth: 800,
-				margin: '0 auto',
-				position: 'relative',
-			}}
-		>
+		<div className={styles.activeChat}>
 			<MessagesList />
-			<input
-				style={{
-					width: '100%',
-					maxWidth: 800,
-					position: 'fixed',
-					bottom: 60,
-				}}
-				type='text'
-				placeholder='correct input field will be here'
-			/>
+			<ChatInput />
 		</div>
 	);
 };

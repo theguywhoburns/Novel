@@ -29,7 +29,7 @@ export interface Theme {
 export const themes = {
 	light: {
 		background_color: '#FDFEFE',
-		accent_color: '#FB847A',
+		accent_color: '#FB847B',
 		text_color: '#575757',
 		secondary_text_color: '#0A0F33',
 		tertiary_text_color: '#C8CDDF',

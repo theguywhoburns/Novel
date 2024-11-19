@@ -1,12 +1,13 @@
 .message {
 	display: flex;
 	align-items: flex-end;
-	max-width: 90%;
 }
 
 .sender {
+	flex-direction: row-reverse;
 	margin-left: auto;
 	align-self: flex-end;
+	max-width: calc(100% - 45px);
 }
 
 .recipient {
@@ -20,7 +21,6 @@
 	height: auto;
 	padding: 10px 12px;
 	border-radius: 19px;
-	width: auto;
 }
 
 .avatar {
@@ -36,7 +36,6 @@
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 19px;
-
 	word-break: break-word;
 	hyphens: auto;
 }

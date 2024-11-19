@@ -1,92 +1,93 @@
-import { useSettingsStore } from "@/store/settings/useSettingsStore";
-import { useTheme } from "@/theme";
-import styles from "./Settings.module.css";
-import { useNavigate } from "react-router-dom";
-import { IconArrow, IconHeartLoop, IconLoop } from "@/icons";
-import { Banner } from "@/components/Banner/Banner";
-import { LabeledSwitch, RangeInput, SettingsList } from "@/components";
+import { LabeledSwitch, RangeInput, SettingsList } from '@/components';
+import { Banner } from '@/components/Banner/Banner';
+import { IconArrow, IconHeartLoop, IconLoop } from '@/icons';
+import { useSettingsStore } from '@/store/settings/useSettingsStore';
+import { useTheme } from '@/theme';
+import { useNavigate } from 'react-router-dom';
+import styles from './Settings.module.css';
+
 export const Settings = () => {
-  const theme = useTheme();
-  const {
-    showPeopleInDistance,
-    setShowPeopleInDistance,
-    showPeopleInAge,
-    setShowPeopleInAge,
-    showMeToMen,
-    setShowMeToMen,
-    showMeToWomen,
-    setShowMeToWomen,
-    isUserVerified,
-    setIsUserVerified,
-  } = useSettingsStore((state) => ({
-    showPeopleInDistance: state.showPeopleInDistance,
-    setShowPeopleInDistance: state.setShowPeopleInDistance,
-    showPeopleInAge: state.showPeopleInAge,
-    setShowPeopleInAge: state.setShowPeopleInAge,
-    showMeToMen: state.showMeToMen,
-    setShowMeToMen: state.setShowMeToMen,
-    showMeToWomen: state.showMeToWomen,
-    setShowMeToWomen: state.setShowMeToWomen,
-    isUserVerified: state.isUserVerified,
-    setIsUserVerified: state.setIsUserVerified,
-  }));
-  const navigate = useNavigate();
-  return (
-    <div className={styles.settingsPage}>
-      <div className={styles.settingsPageHeader}>
-        <button onClick={() => navigate(-1)} className={styles.settingsPageBtn}>
-          <IconArrow color={theme.accent_color} />
-        </button>
-        <h2 className={styles.settingsPageHeaderText}>Настройки поиска</h2>
-      </div>
-      <div className={styles.settingsPageScrollView}>
-        <Banner
-          type="basic"
-          title="Базовая подписка"
-          subTitle="Расширь свои возможности"
-          Icon={IconLoop}
-        />
+	const theme = useTheme();
 
-        <RangeInput label="Расстояние" min={0} max={100} unit="км" />
-        <LabeledSwitch
-          label="Показывать людей в радиусе"
-          value={showPeopleInDistance}
-          onChange={setShowPeopleInDistance}
-        />
-        <div className={styles.separator} />
+	const navigate = useNavigate();
 
-        <RangeInput label="Возраст" min={18} max={99} unit="лет" />
-        <LabeledSwitch
-          label="Показывать людей в радиусе"
-          value={showPeopleInAge}
-          onChange={setShowPeopleInAge}
-        />
-        <LabeledSwitch
-          label="Показывать меня мужчинам"
-          value={showMeToMen}
-          onChange={setShowMeToMen}
-        />
-        <LabeledSwitch
-          label="Показывать меня женщинам"
-          value={showMeToWomen}
-          onChange={setShowMeToWomen}
-        />
+	const showPeopleInDistance = useSettingsStore(
+		state => state.showPeopleInDistance
+	);
+	const setShowPeopleInDistance = useSettingsStore(
+		state => state.setShowPeopleInDistance
+	);
 
-        <Banner
-          type="advanced"
-          title="Продвинутая подписка"
-          subTitle="Расширь свои возможности"
-          Icon={IconHeartLoop}
-        />
+	const showPeopleInAge = useSettingsStore(state => state.showPeopleInAge);
+	const setShowPeopleInAge = useSettingsStore(
+		state => state.setShowPeopleInAge
+	);
 
-        <LabeledSwitch
-          label="Пользователь верифицирован"
-          value={isUserVerified}
-          onChange={setIsUserVerified}
-        />
+	const showMeToMen = useSettingsStore(state => state.showMeToMen);
+	const setShowMeToMen = useSettingsStore(state => state.setShowMeToMen);
 
-        <SettingsList />
-      </div>
-    </div>
-  );
+	const showMeToWomen = useSettingsStore(state => state.showMeToWomen);
+	const setShowMeToWomen = useSettingsStore(state => state.setShowMeToWomen);
+
+	const isUserVerified = useSettingsStore(state => state.isUserVerified);
+	const setIsUserVerified = useSettingsStore(state => state.setIsUserVerified);
+
+	return (
+		<div className={styles.settingsPage}>
+			<div className={styles.settingsPageHeader}>
+				<button onClick={() => navigate(-1)} className={styles.settingsPageBtn}>
+					<IconArrow color={theme.accent_color} />
+				</button>
+				<h2 className={styles.settingsPageHeaderText}>Настройки поиска</h2>
+			</div>
+			<div className={styles.settingsPageScrollView}>
+				<Banner
+					type='basic'
+					title='Базовая подписка'
+					subTitle='Расширь свои возможности'
+					Icon={IconLoop}
+				/>
+
+				<RangeInput label='Расстояние' min={0} max={100} unit='км' />
+				<LabeledSwitch
+					label='Показывать людей в радиусе'
+					value={showPeopleInDistance}
+					onChange={setShowPeopleInDistance}
+				/>
+				<div className={styles.separator} />
+
+				<RangeInput label='Возраст' min={18} max={99} unit='лет' />
+				<LabeledSwitch
+					label='Показывать людей в радиусе'
+					value={showPeopleInAge}
+					onChange={setShowPeopleInAge}
+				/>
+				<LabeledSwitch
+					label='Показывать меня мужчинам'
+					value={showMeToMen}
+					onChange={setShowMeToMen}
+				/>
+				<LabeledSwitch
+					label='Показывать меня женщинам'
+					value={showMeToWomen}
+					onChange={setShowMeToWomen}
+				/>
+
+				<Banner
+					type='advanced'
+					title='Продвинутая подписка'
+					subTitle='Расширь свои возможности'
+					Icon={IconHeartLoop}
+				/>
+
+				<LabeledSwitch
+					label='Пользователь верифицирован'
+					value={isUserVerified}
+					onChange={setIsUserVerified}
+				/>
+
+				<SettingsList />
+			</div>
+		</div>
+	);
 };

@@ -1,4 +1,4 @@
-.header {
+#header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -17,7 +17,11 @@ h1 {
 	gap: 20px;
 }
 
-.button {
+.link {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	border-radius: 50%;
-	aspect-ratio: 1 / 1;
+	width: 40px;
+	height: 40px;
 }

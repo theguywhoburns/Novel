@@ -179,6 +179,11 @@
     "@babel/helper-string-parser" "^7.25.9"
     "@babel/helper-validator-identifier" "^7.25.9"
 
+"@capacitor-community/safe-area@^6.0.0-alpha.8":
+  version "6.0.0-alpha.8"
+  resolved "https://registry.yarnpkg.com/@capacitor-community/safe-area/-/safe-area-6.0.0-alpha.8.tgz#8fe093f61405e9e7903f97ac0205a8d91a1408d0"
+  integrity sha512-/BIK5jh3CQe6A83FbvuL4Qoed7cikWf28nLAotDbvNvQwTW2rU3JkeWrnGMx/oVudUqlc0OypR+X1oELq4Zcog==
+
 "@capacitor/android@^6.1.2":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-6.1.2.tgz#7c767af5d8f708f19a1abcd9db38b458a76adb14"
@@ -1208,6 +1213,11 @@ caniuse-lite@^1.0.30001669:
   version "1.0.30001674"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001674.tgz#eb200a716c3e796d33d30b9c8890517a72f862c8"
   integrity sha512-jOsKlZVRnzfhLojb+Ykb+gyUSp9Xb57So+fAiFlLzzTKpqg8xxSav0e40c8/4F/v9N8QSvrRRaLeVzQbLqomYw==
+
+capacitor-plugin-safe-area@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/capacitor-plugin-safe-area/-/capacitor-plugin-safe-area-3.0.3.tgz#1082bc37b9bfa88620226b5e7025923921d033a0"
+  integrity sha512-pDM8GQIDC9xxKLZxoO4rrshDuzZqQo6jq7Ni18cYdp2JwmLvlhTYRrvriPAicY1En59UAZ574sIvGlgUBLH3Yw==
 
 chalk@^4.0.0:
   version "4.1.2"

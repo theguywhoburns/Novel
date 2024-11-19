@@ -7,4 +7,6 @@
 	overflow: hidden;
 	overflow-x: hidden;
 	background-color: var(--theme-background-color);
+	padding: var(--safe-area-inset-top) var(--safe-area-inset-right)
+		calc(var(--safe-area-inset-bottom) / 2) var(--safe-area-inset-left);
 }

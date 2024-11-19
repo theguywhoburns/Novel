@@ -1,27 +1,33 @@
-import { useSettingsStore } from '@/store/settings/useSettingsStore';
-import styles from './Header.module.css';
 import { IconLogo, IconSettingsGear, IconShield } from '@/icons';
+import { useTheme } from '@/theme';
 import { Link } from 'react-router-dom';
+import styles from './Header.module.css';
 
 export const Header = () => {
-	const setIsSettingsOpen = useSettingsStore(state => state.setIsSettingsOpen);
+	const theme = useTheme();
 
 	return (
-		<header className={styles.header}>
+		<header id={styles.header}>
 			<Link to='/'>
 				<IconLogo style={{ width: 140, height: 50 }} />
 			</Link>
 
 			<div className={styles.buttonsWrapper}>
-				<button className={styles.button}>
+				<Link
+					to='/'
+					className={styles.link}
+					style={{ backgroundColor: theme.button_background_color }}
+				>
 					<IconShield />
-				</button>
-				<button
-					onClick={() => setIsSettingsOpen(true)}
-					className={styles.button}
+				</Link>
+
+				<Link
+					to='/settings'
+					className={styles.link}
+					style={{ backgroundColor: theme.button_background_color }}
 				>
 					<IconSettingsGear />
-				</button>
+				</Link>
 			</div>
 		</header>
 	);

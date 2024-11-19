@@ -1,5 +1,6 @@
 import { Page404 } from '@/pages/404';
 import Home from '@/pages/Home';
+import { Settings } from '@/pages/Home/Settings/Settings';
 import { UserCardDetailedPage } from '@/pages/Home/UserCardDetailedPage/UserCardDetailedPage';
 import { ChatPage } from '@/pages/MessengerPage/ChatPage/ChatPage';
 import { MessengerPage } from '@/pages/MessengerPage/MessengerPage';
@@ -15,6 +16,7 @@ export interface IRoute {
 export enum RouteNames {
 	LOGIN = '/login',
 	HOME = '/',
+	SETTINGS = 'settings',
 	REELS = '/reels',
 	PLACES = '/places',
 	PLACE = '/place/:id',
@@ -30,6 +32,7 @@ export const publicRoutes: IRoute[] = [
 
 export const privateRoutes: IRoute[] = [
 	{ path: RouteNames.HOME, component: Home },
+	{ path: RouteNames.SETTINGS, component: Settings },
 	{ path: RouteNames.REELS, component: Page404 },
 	{ path: RouteNames.PLACES, component: Places },
 	{ path: RouteNames.PLACE, component: PlaceDetailedPage },

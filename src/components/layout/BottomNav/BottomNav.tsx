@@ -9,17 +9,19 @@ import { RouteNames } from '@/routes';
 import { useTheme } from '@/theme';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
+import styles from './BottomNav.module.css';
 
 export const BottomNav = () => {
 	const theme = useTheme();
+
 	const { pathname } = useLocation();
 
 	return (
 		<BottomNavigation
+			className={styles.bottomNav}
 			style={{
 				backgroundColor: theme.background_color,
 				justifyContent: 'space-between',
-				height: 60,
 			}}
 		>
 			<BottomNavigationAction
