@@ -1,0 +1,55 @@
+.userCard {
+	display: flex;
+	position: relative;
+	border-radius: 22px;
+	width: 310px;
+	height: 410px;
+}
+
+.userCard:hover {
+	cursor: pointer;
+}
+
+.img {
+	border-radius: 22px;
+	width: 310px;
+	height: 410px;
+	object-fit: cover;
+}
+
+.popularTag {
+	position: absolute;
+	top: 17px;
+	right: 15px;
+}
+
+.infoContainer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	padding-left: 16px;
+	padding-bottom: 16px;
+}
+
+.name {
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.age {
+	font-size: 24px;
+	font-weight: 600;
+	margin-left: 10px;
+}
+
+.search {
+	font-size: 12px;
+}
+
+.job {
+	font-size: 12px;
+}
+
+.distance {
+	font-size: 12px;
+}

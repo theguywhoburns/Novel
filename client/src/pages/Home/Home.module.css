@@ -1,0 +1,27 @@
+.screen {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+.lilMenu {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	bottom: 10%;
+	width: 100%;
+}
+
+.lilMenuBtn {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	background: transparent;
+	width: fit-content;
+	border: none;
+}
+
+.lilMenuBtn:hover {
+	background: transparent;
+}

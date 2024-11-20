@@ -1,0 +1,13 @@
+.container {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 5px;
+	padding: 5px 10px;
+	border-radius: 20px;
+	width: auto;
+}
+
+.tagText {
+	font-size: 12px;
+}

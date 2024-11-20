@@ -1,1 +1,0 @@
-Bogos binted, this repo is just some work on a side project so nothing to see here

@@ -1,0 +1,44 @@
+.chatInput {
+	display: flex;
+	flex-direction: column;
+	position: sticky;
+	bottom: 0;
+	max-width: 800px;
+	width: 100%;
+}
+
+.chatInputContainer {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	gap: 8px;
+	padding: 0 16px;
+}
+
+.inputContainer {
+	display: flex;
+	align-items: center;
+	position: relative;
+	width: 100%;
+	padding-bottom: 2px;
+}
+
+.iconSticker {
+	position: absolute;
+	right: 12px;
+}
+
+.input {
+	width: 100%;
+	padding: 4px 42px 4px 12px;
+	border-radius: 20px;
+	border: none;
+	height: 28px;
+}
+
+.input::placeholder {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 16px;
+	color: var(--theme-separator-color);
+}
