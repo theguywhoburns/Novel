@@ -1,4 +1,4 @@
-import { IUser } from '@/components/UsersList/UsersList';
+import { IUser } from '@/components/user/UsersList/UsersList';
 import { IconMuted } from '@/icons';
 import { useTheme } from '@/theme';
 import { useNavigate } from 'react-router-dom';

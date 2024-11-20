@@ -1,6 +1,6 @@
-import { TagsWithTitle } from '@/components/TagsWithTitle/TagsWithTitle';
 import { Separator } from '@/components/ui/Separator/Separator';
-import { UserActionsList } from '@/components/UserActionsList/UserActionsList';
+import { UserActionsList } from '@/components/ui/UserActionsList/UserActionsList';
+import { TagsWithTitle } from '@/components/user/TagsWithTitle/TagsWithTitle';
 import { IconVerified } from '@/icons';
 import { useTheme } from '@/theme';
 import { IUser } from '../../UsersList';

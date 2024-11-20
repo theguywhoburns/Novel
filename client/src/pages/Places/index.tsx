@@ -1,7 +1,7 @@
-import { PlacesList } from '@/components/PlacesList/PlacesList';
+import { PlacesList } from '@/components/place/PlacesList/PlacesList';
 import { IconFilter } from '@/icons';
 import { useState } from 'react';
-import { IPlace } from '../../components/PlacesList/Place/Place';
+import { IPlace } from '../../components/place/PlacesList/Place/Place';
 import { Tabs } from '../../components/ui/Tabs/Tabs';
 import styles from './Places.module.css';
 

@@ -1,7 +1,7 @@
 import { LabeledRadioButton, LabeledSwitch, RangeInput } from '@/components';
 import { BackButton } from '@/components/ui/BackButton/BackButton';
 import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
-import { UsersList } from '@/components/UsersList/UsersList';
+import { UsersList } from '@/components/user/UsersList/UsersList';
 import * as Icons from '@/icons';
 import { useThemeStore } from '@/store/theme/useThemeStore';
 import { setTheme, useTheme } from '@/theme';
