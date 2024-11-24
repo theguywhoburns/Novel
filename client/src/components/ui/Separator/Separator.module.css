@@ -1,4 +1,14 @@
 .separator {
+	display: flex;
+}
+
+.horizontal {
+	flex-direction: row;
 	height: 0.33px;
 	width: 100%;
+}
+
+.vertical {
+	flex-direction: column;
+	width: 2px;
 }

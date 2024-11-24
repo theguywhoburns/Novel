@@ -33,6 +33,7 @@ export * from './Smoke';
 export * from './Social';
 export * from './Sports';
 export * from './Star';
+export * from './LilStar';
 export * from './Sticker';
 export * from './Verified';
 export * from './Vortex';

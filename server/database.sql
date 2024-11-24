@@ -24,19 +24,19 @@ CREATE TABLE `matches` (
   FOREIGN KEY (`user_two`) REFERENCES `users`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `messages` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `dialog_id` INT(11) NOT NULL,
-  `text` TEXT NOT NULL,
-  `sender_id` INT(11) NOT NULL,
-  `receiver_id` INT(11) NOT NULL,
-  `reply_msg_id` INT(11),
-  `send_time` DATETIME NOT NULL,
-  `is_media` BOOLEAN DEFAULT FALSE,
-  `is_read` BOOLEAN DEFAULT FALSE,
-  FOREIGN KEY (`sender_id`) REFERENCES `users`(`id`),
-  FOREIGN KEY (`receiver_id`) REFERENCES `users`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE "messages" (
+  "id" SERIAL PRIMARY KEY,
+  "chatId" INTEGER NOT NULL,
+  "senderId" INTEGER NOT NULL,
+  "recipientId" INTEGER NOT NULL,
+  "type" VARCHAR(50) NOT NULL,
+  "text" TEXT,
+  "createdAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "status" VARCHAR(50) NOT NULL,
+  "replyToMessageId" INTEGER,
+  FOREIGN KEY ("senderId") REFERENCES "users"("id"),
+  FOREIGN KEY ("recipientId") REFERENCES "users"("id")
+);
 
 CREATE TABLE `places` (
   `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -71,38 +71,38 @@ CREATE TABLE `credentials` (
   FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE
 );
 
-CREATE TABLE `users` (
-  `user_id` INT AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(255) NOT NULL,
-  `bDate` DATE NOT NULL,
-  `gender` VARCHAR(20) NOT NULL,
-  `about` TEXT NOT NULL,
-  `city` VARCHAR(255) NOT NULL,
-  `company` VARCHAR(255),
-  `education` VARCHAR(255),
-  `growth` TEXT,
-  `interests` TEXT,
-  `job` VARCHAR(255),
-  `languages` VARCHAR(255),
-  `mediaLinks` TEXT,
-  `familyPlans` TEXT,
-  `relationshipGoals` TEXT,
-  `sports` TEXT,
-  `alcohol` TEXT,
-  `smoke` TEXT,
-  `personalityType` TEXT,
-  `socialMediaLinks` TEXT,
-  `status` VARCHAR(50),
-  `subscriptionType` VARCHAR(50),
-  `zodiacSign` VARCHAR(50),
-  `playlist` TEXT,
-  `location` TEXT,
-  `talkStyle` TEXT,
-  `loveLang` TEXT,
-  `pets` TEXT,
-  `food` TEXT,
-  `isOnline` BOOLEAN NOT NULL DEFAULT FALSE,
-  `balance` DECIMAL(10, 2) DEFAULT 0.00
+CREATE TABLE "users" (
+  "id" SERIAL PRIMARY KEY,
+  "name" VARCHAR(255) NOT NULL,
+  "bDate" DATE NOT NULL,
+  "gender" VARCHAR(20) NOT NULL,
+  "about" TEXT NOT NULL,
+  "city" VARCHAR(255) NOT NULL,
+  "company" VARCHAR(255),
+  "education" VARCHAR(255),
+  "growth" TEXT,
+  "interests" TEXT,
+  "job" VARCHAR(255),
+  "languages" VARCHAR(255),
+  "mediaLinks" TEXT,
+  "familyPlans" TEXT,
+  "relationshipGoals" TEXT,
+  "sports" TEXT,
+  "alcohol" TEXT,
+  "smoke" TEXT,
+  "personalityType" TEXT,
+  "socialMediaLinks" TEXT,
+  "status" VARCHAR(50),
+  "subscriptionType" VARCHAR(50),
+  "zodiacSign" VARCHAR(50),
+  "playlist" TEXT,
+  "location" TEXT,
+  "talkStyle" TEXT,
+  "loveLang" TEXT,
+  "pets" TEXT,
+  "food" TEXT,
+  "isOnline" BOOLEAN NOT NULL DEFAULT FALSE,
+  "balance" DECIMAL(10, 2) DEFAULT 0.00
 );
-
+ 
 COMMIT;

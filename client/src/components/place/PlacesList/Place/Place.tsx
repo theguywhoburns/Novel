@@ -1,29 +1,37 @@
-import { IconGeoTag, IconStar } from '@/icons';
+import { IconGeoTag} from '@/icons';
 import { useTheme } from '@/theme';
 import { Rating } from '@/types/types';
 import { useNavigate } from 'react-router-dom';
 import styles from './Place.module.css';
+import { useGeoPositionStore } from '@/store/geoPosition/useGeoPositionStore';
+import { distance } from '@/utils/distance';
+import { IconLilStar } from '@/icons';
 
 export interface IPlace {
 	id?: number;
 	name: string;
 	imgSrc: string;
 	rating: Rating;
-	workingHours: [number, number] | [string, string];
+	workingHours: [string, string];
 	description?: string;
 	approximateCost?: number;
 	phoneNumber?: string;
 	address?: string; // We will use open street map to get the latitude and longitude from this address
+	coords: [number,number]; // latitude, longtitude
 }
 
-export const Place = ({ id, name, imgSrc, rating }: IPlace) => {
+export const Place = ({ id, name, imgSrc, rating, coords }: IPlace) => {
 	const theme = useTheme();
-
 	const navigate = useNavigate();
-
 	const handleClick = () => {
 		navigate(`/place/${id}`);
 	};
+
+	const position = useGeoPositionStore(state => state.position);
+	let distanceInKm = '';
+	if (position) {
+		distanceInKm = distance(coords[0], coords[1], position.latitude, position.longitude, 'K').toFixed(2);
+	}
 
 	const formattedRating = rating / 10;
 
@@ -36,13 +44,13 @@ export const Place = ({ id, name, imgSrc, rating }: IPlace) => {
 				</p>
 
 				<div className={styles.iconAndValue} style={{ color: theme.grey }}>
-					<IconStar />
+					<IconLilStar />
 					<span>{formattedRating}</span>
 				</div>
 
 				<div className={styles.iconAndValue} style={{ color: theme.grey }}>
 					<IconGeoTag />
-					<span>? км от вас</span>
+					<span>{position ? distanceInKm : '???'} км от вас</span>
 				</div>
 			</div>
 		</li>

@@ -5,6 +5,7 @@
 	max-width: 570px;
 	width: 100%;
 	overflow-x: auto;
+	scrollbar-width: none;
 }
 
 .tab {

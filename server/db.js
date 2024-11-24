@@ -3,11 +3,11 @@ import pg from "pg";
 const { Pool } = pg;
 
 const pool = new Pool({
-  user: "", // TODO: Env
-  password: "", // TODO: Env
+  user: "postgres", // TODO: Env
+  password: "1111", // TODO: Env
   host: "localhost",
   port: "5432",
-  database: "soc_net",
+  database: "novel",
 });
 
 export { pool as db };

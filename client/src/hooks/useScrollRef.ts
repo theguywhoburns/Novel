@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 interface IUseScrollRef {
@@ -25,10 +25,10 @@ export const useScrollRef = (
 	const handleScroll = () => {
 		scrollRef.current?.scrollIntoView({ behavior });
 
-		console.log('scrolled');
+		console.log('scroll');
 	};
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const timeoutId = setTimeout(() => {
 			handleScroll();
 		}, delay);

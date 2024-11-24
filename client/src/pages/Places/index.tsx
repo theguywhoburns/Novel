@@ -13,6 +13,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			imgSrc:
 				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 42,
+			coords: [55.914953, 37.832342],
 			description: 'Описание парка',
 			address: 'ул. Победы, 1',
 			workingHours: ['8:00', '20:00'],
@@ -23,6 +24,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			imgSrc:
 				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 41,
+			coords: [55.914953, 37.832342],
 			description: 'Описание парка',
 			address: 'ул. Космонавтов, 2',
 			workingHours: ['8:00', '21:00'],
@@ -33,6 +35,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			imgSrc:
 				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 43,
+			coords: [55.914953, 37.832342],
 			description: 'Описание парка',
 			address: 'ул. Ленина, 3',
 			workingHours: ['9:00', '19:00'],
@@ -43,6 +46,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			imgSrc:
 				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 42,
+			coords: [55.914953, 37.832342],
 			description: 'Описание парка',
 			address: 'ул. Калинина, 4',
 			workingHours: ['8:00', '22:00'],
@@ -53,6 +57,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			imgSrc:
 				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 48,
+			coords: [55.914953, 37.832342],
 			description: 'Описание парка',
 			address: 'ул. Горького, 5',
 			workingHours: ['7:00', '20:00'],
@@ -63,6 +68,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			imgSrc:
 				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 10,
+			coords: [55.914953, 37.832342],
 			description: 'Описание парка',
 			address: 'ул. Чкалова, 6',
 			workingHours: ['8:00', '21:00'],
@@ -75,6 +81,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			imgSrc:
 				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 12,
+			coords: [55.914953, 37.832342],
 			description: 'Описание музея',
 			address: 'ул. Культуры, 0',
 			workingHours: ['10:00', '18:00'],
@@ -85,6 +92,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			imgSrc:
 				'https://istanbultourstudio.s3.amazonaws.com/uploads/media_content/picture/1213/medium_Istanbul_Modern_Museum_2023_New_Photos_9.jpg',
 			rating: 22,
+			coords: [55.914953, 37.832342],
 			description: 'Описание музея',
 			address: 'ул. Искусств, 1',
 			workingHours: ['11:00', '19:00'],
@@ -94,6 +102,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			name: 'Музей Архитектуры',
 			imgSrc: '',
 			rating: 42,
+			coords: [55.914953, 37.832342],
 			description: 'Описание музея',
 			address: 'ул. Архитектуры, 2',
 			workingHours: ['9:00', '17:00'],
@@ -103,6 +112,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			name: 'Музей Литературы',
 			imgSrc: '',
 			rating: 48,
+			coords: [55.914953, 37.832342],
 			description: 'Описание музея',
 			address: 'ул. Литературы, 3',
 			workingHours: ['10:00', '18:00'],
@@ -112,6 +122,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			name: 'Музей Музыки',
 			imgSrc: '',
 			rating: 46,
+			coords: [55.914953, 37.832342],
 			description: 'Описание музея',
 			address: 'ул. Музыки, 4',
 			workingHours: ['11:00', '19:00'],
@@ -121,6 +132,7 @@ export const placesObj: Record<string, IPlace[]> = {
 			name: 'Музей Театра',
 			imgSrc: '',
 			rating: 50,
+			coords: [55.914953, 37.832342],
 			description: 'Описание музея',
 			address: 'ул. Театра, 5',
 			workingHours: ['10:00', '18:00'],

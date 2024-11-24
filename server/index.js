@@ -5,6 +5,7 @@ import { router as authRouter } from "./routes/auth.routes.js";
 import { router as chatRouter } from "./routes/chat.routes.js";
 import { router as messageRouter } from "./routes/message.routes.js";
 import { router as userRouter } from "./routes/user.routes.js";
+import WebSocketChatServer from './sockets/websocket.js';
 
 const PORT = 4000;
 
@@ -19,4 +20,8 @@ app.use("/api", authRouter);
 app.use("/api", messageRouter);
 app.use("/api", chatRouter);
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+const wss = new WebSocketChatServer(app);
+console.log(`WebSocket server is running on port ${wss.wss.options.port}`);
+wss.start();
+
+app.listen(PORT, () => console.log(`Main server is running on port ${PORT}`));

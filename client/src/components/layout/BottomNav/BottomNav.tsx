@@ -1,3 +1,4 @@
+import { Separator } from '@/components/ui/Separator/Separator';
 import {
 	IconChat,
 	IconLike,
@@ -16,49 +17,60 @@ export const BottomNav = () => {
 
 	const { pathname } = useLocation();
 
+	const isBottomNavVisible = !pathname.includes(RouteNames.CHAT.slice(0, 6));
+
 	return (
-		<BottomNavigation
-			className={styles.bottomNav}
-			style={{
-				backgroundColor: theme.background_color,
-				justifyContent: 'space-between',
-			}}
-		>
-			<BottomNavigationAction
-				label='Home'
-				component={Link}
-				to={RouteNames.HOME}
-				icon={<IconMagnifyingGlass focused={pathname === RouteNames.HOME} />}
-				sx={{ color: theme.text_color }}
-			/>
-			<BottomNavigationAction
-				label='Reels'
-				component={Link}
-				to={RouteNames.REELS}
-				icon={<IconReels focused={pathname === RouteNames.REELS} />}
-				sx={{ color: theme.text_color }}
-			/>
-			<BottomNavigationAction
-				label='Interests'
-				component={Link}
-				to={RouteNames.PLACES}
-				icon={<IconPlaces focused={pathname === RouteNames.PLACES} />}
-				sx={{ color: theme.text_color }}
-			/>
-			<BottomNavigationAction
-				label='Chat'
-				component={Link}
-				to={RouteNames.MESSENGER}
-				icon={<IconChat focused={pathname === RouteNames.MESSENGER} />}
-				sx={{ color: theme.text_color }}
-			/>
-			<BottomNavigationAction
-				label='Testing playground'
-				component={Link}
-				to={RouteNames.TESTING_PLAYGROUND}
-				icon={<IconLike />}
-				sx={{ color: theme.text_color }}
-			/>
-		</BottomNavigation>
+		<>
+			{isBottomNavVisible && (
+				<>
+					<Separator marginY={[0, 0]} />
+					<BottomNavigation
+						className={styles.bottomNav}
+						style={{
+							backgroundColor: theme.background_color,
+							justifyContent: 'space-between',
+						}}
+					>
+						<BottomNavigationAction
+							label='Home'
+							component={Link}
+							to={RouteNames.HOME}
+							icon={
+								<IconMagnifyingGlass focused={pathname === RouteNames.HOME} />
+							}
+							sx={{ color: theme.text_color }}
+						/>
+						<BottomNavigationAction
+							label='Reels'
+							component={Link}
+							to={RouteNames.REELS}
+							icon={<IconReels focused={pathname === RouteNames.REELS} />}
+							sx={{ color: theme.text_color }}
+						/>
+						<BottomNavigationAction
+							label='Interests'
+							component={Link}
+							to={RouteNames.PLACES}
+							icon={<IconPlaces focused={pathname === RouteNames.PLACES} />}
+							sx={{ color: theme.text_color }}
+						/>
+						<BottomNavigationAction
+							label='Chat'
+							component={Link}
+							to={RouteNames.MESSENGER}
+							icon={<IconChat focused={pathname === RouteNames.MESSENGER} />}
+							sx={{ color: theme.text_color }}
+						/>
+						<BottomNavigationAction
+							label='Testing playground'
+							component={Link}
+							to={RouteNames.TESTING_PLAYGROUND}
+							icon={<IconLike />}
+							sx={{ color: theme.text_color }}
+						/>
+					</BottomNavigation>
+				</>
+			)}
+		</>
 	);
 };

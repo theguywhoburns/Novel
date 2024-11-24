@@ -4,8 +4,9 @@ export interface Theme {
 	background_color: string;
 	accent_color: string;
 	text_color: string;
+	high_contrast_text_color: string;
+	low_contrast_text_color: string;
 	secondary_text_color: string;
-	tertiary_text_color: string;
 	button_background_color: string;
 	button_text_color: string;
 	button_selected_background_color: string;
@@ -31,9 +32,9 @@ export const themes = {
 		background_color: '#FDFEFE',
 		accent_color: '#FB847B',
 		text_color: '#575757',
+		high_contrast_text_color: '#000000',
+		low_contrast_text_color: '#C8CDDF',
 		secondary_text_color: '#0A0F33',
-		tertiary_text_color: '#C8CDDF',
-		quaternary_text_color: '#000000',
 		button_background_color: '#F5F6FA',
 		button_text_color: '#C8CDDF',
 		button_selected_background_color: '#FB847A',
@@ -57,9 +58,9 @@ export const themes = {
 		background_color: '#0B1034',
 		accent_color: '#C946DE',
 		text_color: '#FDFEFE',
+		high_contrast_text_color: '#FDFEFE',
+		low_contrast_text_color: '#FDFEFE',
 		secondary_text_color: '#FDFEFE',
-		tertiary_text_color: '#FDFEFE',
-		quaternary_text_color: '#FDFEFE',
 		button_background_color: '#2F3452',
 		button_text_color: '#C8CDDF',
 		button_selected_background_color: '#C946DE',

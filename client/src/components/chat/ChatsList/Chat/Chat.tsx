@@ -16,7 +16,7 @@ export interface IMessage {
 	senderId: number;
 	recipientId: number;
 	type: 'text' | 'image' | 'video' | 'voice' | 'file' | 'sticker';
-	text?: string;
+	text: string;
 	image?: string;
 	video?: string;
 	voice?: string;
@@ -24,10 +24,20 @@ export interface IMessage {
 	sticker?: string;
 	createdAt: Date;
 	status: 'sending' | 'sent' | 'read' | 'updated';
+	replyToMessageId: number | null;
 }
 
 export interface IMessageProps extends IMessage {
 	nextMessageSenderId: number | null;
+	visibleButtonsGroupId: number | null;
+
+	left: number;
+	onToggleButtonsGroup: (
+		messageId: number,
+		e: React.MouseEvent,
+		amISender: boolean,
+		messageRef: React.RefObject<HTMLLIElement>
+	) => void;
 }
 
 export interface IChatProps {
@@ -83,19 +93,12 @@ export const Chat = ({
 		<li className={styles.chat} onClick={handleClick}>
 			<img className={styles.img} src={imgSrc} alt='avatar' />
 			<div className={styles.chatInfo}>
-				<div className={styles.nameAgeAndNotifications}>
-					<span
-						className={styles.name}
-						style={{ color: theme.quaternary_text_color }}
-					>
-						{name},
-					</span>
-					<span
-						className={styles.age}
-						style={{ color: theme.quaternary_text_color }}
-					>
-						{age}
-					</span>
+				<div
+					className={styles.nameAgeAndNotifications}
+					style={{ color: theme.high_contrast_text_color }}
+				>
+					<span className={styles.name}>{name},</span>
+					<span className={styles.age}>{age}</span>
 					{areNotifivationsEnabled ? null : <IconMuted />}
 				</div>
 

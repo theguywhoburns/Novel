@@ -1,10 +1,26 @@
 .chatInput {
 	display: flex;
 	flex-direction: column;
-	position: sticky;
+	position: fixed;
 	bottom: 0;
 	max-width: 800px;
 	width: 100%;
+}
+
+.replyContainer {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 8px;
+	margin-left: 40px;
+}
+
+.replyContainer p {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	overflow: hidden;
+	margin-right: 38px;
 }
 
 .chatInputContainer {
@@ -12,7 +28,7 @@
 	align-items: center;
 	width: 100%;
 	gap: 8px;
-	padding: 0 16px;
+	padding: 0 16px 16px;
 }
 
 .inputContainer {

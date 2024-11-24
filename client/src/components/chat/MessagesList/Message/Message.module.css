@@ -1,6 +1,8 @@
 .message {
 	display: flex;
 	align-items: flex-end;
+	cursor: pointer;
+	position: relative;
 }
 
 .sender {
@@ -17,10 +19,31 @@
 
 .messageContent {
 	display: flex;
-	align-items: flex-end;
+	flex-direction: column;
+	justify-content: flex-end;
 	height: auto;
 	padding: 10px 12px;
 	border-radius: 19px;
+}
+
+.replyToMessage {
+	display: flex;
+
+	margin-bottom: 8px;
+	border-radius: 4px;
+}
+
+.replyToMessageText {
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 19px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	line-clamp: 1;
+	-webkit-box-orient: vertical;
+	margin-left: 6px;
 }
 
 .avatar {

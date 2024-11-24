@@ -1,20 +1,32 @@
 import { IMessageProps } from '@/components/chat/ChatsList/Chat/Chat';
+import { Separator } from '@/components/ui/Separator/Separator';
 import { IconRead } from '@/icons/Read';
 import { IconSending } from '@/icons/Sending';
 import { IconSent } from '@/icons/Sent';
 import { IconUpdated } from '@/icons/Updated';
 import { useTheme } from '@/theme';
+import { useRef } from 'react';
+import { ButtonsGroup } from '../../ButtonsGroup/ButtonsGroup';
 import styles from './Message.module.css';
 
 export const Message = ({
+	id,
+	chatId,
 	senderId,
+	recipientId,
 	type,
 	text,
 	createdAt,
 	status,
+	replyToMessageId,
 	nextMessageSenderId,
+	visibleButtonsGroupId,
+	left,
+	onToggleButtonsGroup,
 }: IMessageProps) => {
 	const theme = useTheme();
+
+	const messageRef = useRef<HTMLLIElement>(null);
 
 	const userId = 1;
 
@@ -22,10 +34,13 @@ export const Message = ({
 
 	const isNextMessageFromSameSender = nextMessageSenderId === senderId;
 
-	const formattedTime = createdAt.toLocaleTimeString([], {
-		hour: '2-digit',
-		minute: '2-digit',
-	});
+	const formattedTime =
+		createdAt &&
+		new Date(createdAt).toLocaleTimeString([], {
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false,
+		});
 
 	const recipientUser = {
 		id: 2,
@@ -46,12 +61,27 @@ export const Message = ({
 		interests: [],
 	}; // we will get the user by recipientId instead
 
+	const replyToMessage = {
+		id: 5,
+		chatId: 1,
+		senderId: 2,
+		recipientId: 1,
+		type: 'text',
+		text:
+			'Я вчера был на концерте, и это было просто невероятно! Я видел своего любимого исполнителя и даже получил автограф!',
+		createdAt: new Date(),
+		status: 'sent',
+		replyToMessageId: 4,
+	}; // we will get the message by replyToMessageId instead
+
 	return (
 		<li
 			className={[
 				styles.message,
 				amISender ? styles.sender : styles.recipient,
 			].join(' ')}
+			ref={messageRef}
+			onClick={e => onToggleButtonsGroup(id, e, amISender, messageRef)}
 		>
 			{!amISender && (
 				<img
@@ -70,38 +100,77 @@ export const Message = ({
 					marginBottom: isNextMessageFromSameSender ? 2 : 8,
 				}}
 			>
-				{type === 'text' ? (
-					<p
-						className={styles.messageText}
-						lang='ru'
-						style={{ color: amISender ? theme.white : theme.text_color }}
+				{id === replyToMessage.id && (
+					<div
+						className={styles.replyToMessage}
+						style={{ background: 'rgba(0, 0, 0, 0.08)' }}
 					>
-						{text}
-					</p>
-				) : (
-					<p>this message has not text type</p>
+						<Separator
+							direction='vertical'
+							color={amISender ? theme.white : theme.accent_color}
+							marginY={[0, 0]}
+						/>
+						<p
+							className={styles.replyToMessageText}
+							lang='ru'
+							style={{ color: amISender ? theme.white : theme.text_color }}
+						>
+							{replyToMessage.text}
+						</p>
+					</div>
 				)}
 
-				<span
-					className={styles.time}
-					style={{ color: amISender ? theme.white : theme.grey }}
-				>
-					{formattedTime}
-				</span>
+				<div style={{ display: 'flex', alignItems: 'flex-end' }}>
+					{type === 'text' ? (
+						<p
+							className={styles.messageText}
+							lang='ru'
+							style={{ color: amISender ? theme.white : theme.text_color }}
+						>
+							{text}
+						</p>
+					) : (
+						<p>this message has not text type</p>
+					)}
 
-				<div className={styles.statusWrapper}>
-					{amISender &&
-						(status === 'sending' ? (
-							<IconSending />
-						) : status === 'sent' ? (
-							<IconSent />
-						) : status === 'read' ? (
-							<IconRead />
-						) : status === 'updated' ? (
-							<IconUpdated />
-						) : null)}
+					<span
+						className={styles.time}
+						style={{ color: amISender ? theme.white : theme.grey }}
+					>
+						{formattedTime}
+					</span>
+
+					{amISender && (
+						<div className={styles.statusWrapper}>
+							{status === 'sending' ? (
+								<IconSending />
+							) : status === 'sent' ? (
+								<IconSent />
+							) : status === 'read' ? (
+								<IconRead />
+							) : status === 'updated' ? (
+								<IconUpdated />
+							) : null}
+						</div>
+					)}
 				</div>
 			</div>
+
+			{visibleButtonsGroupId === id && (
+				<ButtonsGroup
+					id={id}
+					chatId={chatId}
+					senderId={senderId}
+					recipientId={recipientId}
+					type={type}
+					text={text}
+					createdAt={createdAt}
+					status={status}
+					left={left}
+					amISender={amISender}
+					replyToMessageId={replyToMessageId}
+				/>
+			)}
 		</li>
 	);
 };
