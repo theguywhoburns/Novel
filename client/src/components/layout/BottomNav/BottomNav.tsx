@@ -11,17 +11,18 @@ import { useTheme } from '@/theme';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './BottomNav.module.css';
-
-export const BottomNav = () => {
+interface IBottomNavProps {
+	show: boolean;
+}
+export const BottomNav = ({ show }: IBottomNavProps) => {
 	const theme = useTheme();
 
 	const { pathname } = useLocation();
 
-	const isBottomNavVisible = !pathname.includes(RouteNames.CHAT.slice(0, 6));
 
 	return (
 		<>
-			{isBottomNavVisible && (
+			{show && (
 				<>
 					<Separator marginY={[0, 0]} />
 					<BottomNavigation
