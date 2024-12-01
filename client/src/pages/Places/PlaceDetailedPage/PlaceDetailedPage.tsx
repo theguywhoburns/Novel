@@ -1,6 +1,5 @@
 import { IPlace } from '@/components/place/PlacesList/Place/Place';
 import { PlaceDetailed } from '@/components/place/PlacesList/Place/PlaceDetailed/PlaceDetailed';
-import { BackButton } from '@/components/ui/BackButton/BackButton';
 import { useParams } from 'react-router-dom';
 import { placesObj } from '..';
 
@@ -13,7 +12,6 @@ export const PlaceDetailedPage = () => {
 
 	return (
 		<div>
-			<BackButton />
 			{place?.id ? (
 				<PlaceDetailed {...place} />
 			) : (

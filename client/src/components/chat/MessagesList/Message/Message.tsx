@@ -5,172 +5,161 @@ import { IconSending } from '@/icons/Sending';
 import { IconSent } from '@/icons/Sent';
 import { IconUpdated } from '@/icons/Updated';
 import { useTheme } from '@/theme';
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import { ButtonsGroup } from '../../ButtonsGroup/ButtonsGroup';
 import styles from './Message.module.css';
 
-export const Message = ({
-	id,
-	chatId,
-	senderId,
-	recipientId,
-	type,
-	text,
-	createdAt,
-	status,
-	replyToMessageId,
-	nextMessageSenderId,
-	visibleButtonsGroupId,
-	left,
-	onToggleButtonsGroup,
-}: IMessageProps) => {
-	const theme = useTheme();
+export const Message = memo(
+	({
+		id,
+		chatId,
+		senderId,
+		recipientId,
+		type,
+		text,
+		createdAt,
+		status,
+		replyToMessage,
+		nextMessageSenderId,
+		visibleButtonsGroupId,
+		left,
+		onToggleButtonsGroup,
+	}: IMessageProps) => {
+		const theme = useTheme();
 
-	const messageRef = useRef<HTMLLIElement>(null);
+		const messageRef = useRef<HTMLDivElement>(null);
 
-	const userId = 1;
+		const messageContentRef = useRef<HTMLDivElement>(null);
 
-	const amISender = userId === senderId;
+		const userId = 1;
+		const amISender = userId === senderId;
+		const isNextMessageFromSameSender = nextMessageSenderId === senderId;
 
-	const isNextMessageFromSameSender = nextMessageSenderId === senderId;
+		const formattedTime =
+			createdAt &&
+			new Date(createdAt).toLocaleTimeString([], {
+				hour: '2-digit',
+				minute: '2-digit',
+				hour12: false,
+			});
 
-	const formattedTime =
-		createdAt &&
-		new Date(createdAt).toLocaleTimeString([], {
-			hour: '2-digit',
-			minute: '2-digit',
-			hour12: false,
-		});
+		const recipientUser = {
+			id: 2,
+			imgSrc:
+				'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ',
+			name: 'Алиса',
+			age: 23,
+			isPopular: false,
+			search: '',
+			job: '',
+			distance: '',
+			isVerified: false,
+			gender: 'female',
+			city: '',
+			about: '',
+			main: [],
+			languages: [],
+			interests: [],
+		}; // we will get the user by recipientId instead
 
-	const recipientUser = {
-		id: 2,
-		imgSrc:
-			'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ',
-		name: 'Алиса',
-		age: 23,
-		isPopular: false,
-		search: '',
-		job: '',
-		distance: '',
-		isVerified: false,
-		gender: 'female',
-		city: '',
-		about: '',
-		main: [],
-		languages: [],
-		interests: [],
-	}; // we will get the user by recipientId instead
-
-	const replyToMessage = {
-		id: 5,
-		chatId: 1,
-		senderId: 2,
-		recipientId: 1,
-		type: 'text',
-		text:
-			'Я вчера был на концерте, и это было просто невероятно! Я видел своего любимого исполнителя и даже получил автограф!',
-		createdAt: new Date(),
-		status: 'sent',
-		replyToMessageId: 4,
-	}; // we will get the message by replyToMessageId instead
-
-	return (
-		<li
-			className={[
-				styles.message,
-				amISender ? styles.sender : styles.recipient,
-			].join(' ')}
-			ref={messageRef}
-			onClick={e => onToggleButtonsGroup(id, e, amISender, messageRef)}
-		>
-			{!amISender && (
-				<img
-					className={styles.avatar}
-					style={{ marginBottom: isNextMessageFromSameSender ? 2 : 8 }}
-					src={recipientUser.imgSrc}
-					alt='avatar'
-				/>
-			)}
+		return (
 			<div
-				className={styles.messageContent}
-				style={{
-					backgroundColor: amISender
-						? theme.accent_color
-						: theme.button_background_color,
-					marginBottom: isNextMessageFromSameSender ? 2 : 8,
-				}}
+				className={[
+					styles.message,
+					amISender ? styles.sender : styles.recipient,
+				].join(' ')}
+				ref={messageRef}
 			>
-				{id === replyToMessage.id && (
-					<div
-						className={styles.replyToMessage}
-						style={{ background: 'rgba(0, 0, 0, 0.08)' }}
-					>
-						<Separator
-							direction='vertical'
-							color={amISender ? theme.white : theme.accent_color}
-							marginY={[0, 0]}
-						/>
-						<p
-							className={styles.replyToMessageText}
-							lang='ru'
-							style={{ color: amISender ? theme.white : theme.text_color }}
-						>
-							{replyToMessage.text}
-						</p>
-					</div>
+				{!amISender && (
+					<img
+						className={styles.avatar}
+						style={{ marginBottom: isNextMessageFromSameSender ? 2 : 8 }}
+						src={recipientUser.imgSrc}
+						alt='avatar'
+					/>
 				)}
-
-				<div style={{ display: 'flex', alignItems: 'flex-end' }}>
-					{type === 'text' ? (
-						<p
-							className={styles.messageText}
-							lang='ru'
-							style={{ color: amISender ? theme.white : theme.text_color }}
+				<div
+					className={styles.messageContent}
+					style={{
+						backgroundColor: amISender
+							? theme.accent_color
+							: theme.button_background_color,
+						marginBottom: isNextMessageFromSameSender ? 2 : 8,
+					}}
+					ref={messageContentRef}
+					onClick={e => onToggleButtonsGroup(id, e, messageContentRef)}
+				>
+					{replyToMessage?.id && (
+						<div
+							className={styles.replyToMessage}
+							style={{ background: 'rgba(0, 0, 0, 0.08)' }}
 						>
-							{text}
-						</p>
-					) : (
-						<p>this message has not text type</p>
+							<Separator
+								direction='vertical'
+								color={amISender ? theme.white : theme.accent_color}
+								marginY={[0, 0]}
+							/>
+							<p
+								className={styles.replyToMessageText}
+								lang='ru'
+								style={{ color: amISender ? theme.white : theme.text_color }}
+							>
+								{replyToMessage?.text}
+							</p>
+						</div>
 					)}
 
-					<span
-						className={styles.time}
-						style={{ color: amISender ? theme.white : theme.grey }}
-					>
-						{formattedTime}
-					</span>
+					<div style={{ display: 'flex', alignItems: 'flex-end' }}>
+						{type === 'text' ? (
+							<p
+								className={styles.messageText}
+								lang='ru'
+								style={{ color: amISender ? theme.white : theme.text_color }}
+							>
+								{text}
+							</p>
+						) : (
+							<p>this message has not text type</p>
+						)}
 
-					{amISender && (
-						<div className={styles.statusWrapper}>
-							{status === 'sending' ? (
-								<IconSending />
-							) : status === 'sent' ? (
-								<IconSent />
-							) : status === 'read' ? (
-								<IconRead />
-							) : status === 'updated' ? (
-								<IconUpdated />
-							) : null}
-						</div>
+						<span
+							className={styles.time}
+							style={{ color: amISender ? theme.white : theme.grey }}
+						>
+							{formattedTime}
+						</span>
+
+						{amISender && (
+							<div className={styles.statusWrapper}>
+								{status === 'sending' ? (
+									<IconSending />
+								) : status === 'sent' ? (
+									<IconSent />
+								) : status === 'read' ? (
+									<IconRead />
+								) : status === 'updated' ? (
+									<IconUpdated />
+								) : null}
+							</div>
+						)}
+					</div>
+					{visibleButtonsGroupId === id && (
+						<ButtonsGroup
+							id={id}
+							chatId={chatId}
+							senderId={senderId}
+							recipientId={recipientId}
+							type={type}
+							text={text}
+							createdAt={createdAt}
+							status={status}
+							left={left}
+							amISender={amISender}
+							replyToMessage={replyToMessage || null}
+						/>
 					)}
 				</div>
 			</div>
-
-			{visibleButtonsGroupId === id && (
-				<ButtonsGroup
-					id={id}
-					chatId={chatId}
-					senderId={senderId}
-					recipientId={recipientId}
-					type={type}
-					text={text}
-					createdAt={createdAt}
-					status={status}
-					left={left}
-					amISender={amISender}
-					replyToMessageId={replyToMessageId}
-				/>
-			)}
-		</li>
-	);
-};
+		);
+	}
+);

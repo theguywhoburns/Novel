@@ -1,11 +1,10 @@
-import { IconGeoTag} from '@/icons';
+import { IconGeoTag, IconStar } from '@/icons';
+import { useGeoPositionStore } from '@/store/geoPosition/useGeoPositionStore';
 import { useTheme } from '@/theme';
 import { Rating } from '@/types/types';
+import { distance } from '@/utils/distance';
 import { useNavigate } from 'react-router-dom';
 import styles from './Place.module.css';
-import { useGeoPositionStore } from '@/store/geoPosition/useGeoPositionStore';
-import { distance } from '@/utils/distance';
-import { IconLilStar } from '@/icons';
 
 export interface IPlace {
 	id?: number;
@@ -17,7 +16,7 @@ export interface IPlace {
 	approximateCost?: number;
 	phoneNumber?: string;
 	address?: string; // We will use open street map to get the latitude and longitude from this address
-	coords: [number,number]; // latitude, longtitude
+	coords: [number, number]; // latitude, longtitude
 }
 
 export const Place = ({ id, name, imgSrc, rating, coords }: IPlace) => {
@@ -30,7 +29,13 @@ export const Place = ({ id, name, imgSrc, rating, coords }: IPlace) => {
 	const position = useGeoPositionStore(state => state.position);
 	let distanceInKm = '';
 	if (position) {
-		distanceInKm = distance(coords[0], coords[1], position.latitude, position.longitude, 'K').toFixed(2);
+		distanceInKm = distance(
+			coords[0],
+			coords[1],
+			position.latitude,
+			position.longitude,
+			'K'
+		).toFixed(2);
 	}
 
 	const formattedRating = rating / 10;
@@ -44,12 +49,15 @@ export const Place = ({ id, name, imgSrc, rating, coords }: IPlace) => {
 				</p>
 
 				<div className={styles.iconAndValue} style={{ color: theme.grey }}>
-					<IconLilStar />
+					<IconStar style={{ transform: 'scale(0.85)' }} />
 					<span>{formattedRating}</span>
 				</div>
 
-				<div className={styles.iconAndValue} style={{ color: theme.grey }}>
-					<IconGeoTag />
+				<div
+					className={styles.iconAndValue}
+					style={{ color: theme.grey, marginLeft: 2.5 }}
+				>
+					<IconGeoTag style={{ transform: 'scale(0.88)' }} />
 					<span>{position ? distanceInKm : '???'} км от вас</span>
 				</div>
 			</div>

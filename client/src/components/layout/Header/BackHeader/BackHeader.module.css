@@ -1,0 +1,15 @@
+.backHeader {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 16px;
+	width: calc(100% - 40px);
+	position: relative;
+}
+
+.title {
+	margin-right: auto;
+	font-size: 14px;
+	line-height: 16px;
+	font-weight: 500;
+}

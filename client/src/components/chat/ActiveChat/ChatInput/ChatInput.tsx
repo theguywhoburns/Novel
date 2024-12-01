@@ -8,6 +8,12 @@ import { IMessage } from '../../ChatsList/Chat/Chat';
 import { ImageUploader } from '../../ImageUploader/ImageUploader';
 import styles from './ChatInput.module.css';
 
+export interface IMessageEntity
+	extends Omit<IMessage, 'id' | 'replyToMessage'> {
+	id?: number;
+	replyToMessageId: number | null;
+}
+
 interface IChatInput {
 	onChatInputHeightAvailable: (height: number) => void;
 	socket: WebSocket | null;
@@ -18,6 +24,8 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 		const theme = useTheme();
 
 		const inputRef = useRef<HTMLInputElement>(null);
+
+		const chat = useMessengerStore(state => state.chat);
 
 		const replyTo = useMessengerStore(state => state.replyTo);
 		const setReplyTo = useMessengerStore(state => state.setReplyTo);
@@ -33,23 +41,24 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 		const sendNewMessage = useMessengerStore(state => state.sendNewMessage);
 
 		const userId = 1;
-		const recipientId = 2;
-		const chatId = 1;
+		const recipientId =
+			chat?.userOneId === userId ? chat?.userTwoId : chat?.userOneId;
 
-		const newMessage: IMessage = {
-			id: Math.floor(Math.random() * 100000),
+		const newMessage: IMessageEntity = {
 			senderId: userId,
 			recipientId,
-			chatId,
+			chatId: chat?.id,
 			type: 'text',
 			text: newMessageText,
 			createdAt: new Date(Date.now()),
 			status: 'read',
-			replyToMessageId: null,
+			replyToMessageId: replyTo?.id ?? null,
 		};
 
 		const handleSendNewMessage = () => {
-			sendNewMessage({ data: newMessage, socket: socket });
+			sendNewMessage({ data: newMessage, socket });
+			setReplyTo(null);
+			setMessageToEdit(null);
 		};
 
 		useEffect(() => {
@@ -142,6 +151,11 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 							placeholder='Сообщение'
 							value={newMessageText}
 							onChange={e => setNewMessageText(e.target.value)}
+							onKeyDown={e => {
+								if (e.key === 'Enter') {
+									handleSendNewMessage();
+								}
+							}}
 						/>
 						<IconSticker className={styles.iconSticker} />
 					</div>

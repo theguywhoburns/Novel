@@ -1,3 +1,4 @@
+import { Loader } from '@/components/ui/Loader/Loader';
 import { IconEmptyChat } from '@/icons';
 import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useTheme } from '@/theme';
@@ -7,6 +8,7 @@ import {
 	useEffect,
 	useLayoutEffect,
 	useMemo,
+	useRef,
 	useState,
 } from 'react';
 import { IMessage } from '../ChatsList/Chat/Chat';
@@ -23,7 +25,7 @@ import styles from './MessagesList.module.css';
 		text: 'Привет, как дела?',
 		createdAt: new Date('2023-02-20T14:30:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 2,
@@ -34,7 +36,7 @@ import styles from './MessagesList.module.css';
 		text: 'Я хорошо, спасибо!',
 		createdAt: new Date('2023-02-20T14:35:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 3,
@@ -45,7 +47,7 @@ import styles from './MessagesList.module.css';
 		text: 'Отлично!',
 		createdAt: new Date('2023-02-20T14:40:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 4,
@@ -57,7 +59,7 @@ import styles from './MessagesList.module.css';
 			'Я вчера был на концерте, и это было просто невероятно! Я видел своего любимого исполнителя и даже получил автограф!',
 		createdAt: new Date('2023-02-20T14:45:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 5,
@@ -69,7 +71,7 @@ import styles from './MessagesList.module.css';
 			'Это звучит невероятно! Я тоже люблю этот исполнитель. Какой был твой любимый момент на концерте?',
 		createdAt: new Date('2023-02-20T14:50:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 6,
@@ -81,7 +83,7 @@ import styles from './MessagesList.module.css';
 			'Мой любимый момент был когда исполнитель исполнил свою новую песню. Она была просто потрясающей!',
 		createdAt: new Date('2023-02-20T14:55:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 7,
@@ -92,7 +94,7 @@ import styles from './MessagesList.module.css';
 		text: 'Я обязательно посмотрю видео этого концерта. Спасибо за рассказ!',
 		createdAt: new Date('2023-02-20T15:00:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 8,
@@ -103,7 +105,7 @@ import styles from './MessagesList.module.css';
 		text: 'Спасибо за поддержку!',
 		createdAt: new Date('2023-02-20T15:05:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 9,
@@ -114,7 +116,7 @@ import styles from './MessagesList.module.css';
 		text: 'Спасибо за поддержку!',
 		createdAt: new Date('2023-02-20T15:05:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 10,
@@ -125,7 +127,7 @@ import styles from './MessagesList.module.css';
 		text: 'Спасибо за поддержку!',
 		createdAt: new Date('2023-02-20T15:05:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 11,
@@ -137,7 +139,7 @@ import styles from './MessagesList.module.css';
 			'Мой любимый момент был когда исполнитель исполнил свою новую песню. Она была просто потрясающей!',
 		createdAt: new Date('2023-02-20T14:55:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 	{
 		id: 12,
@@ -148,17 +150,26 @@ import styles from './MessagesList.module.css';
 		text: 'Я обязательно посмотрю видео этого концерта. Спасибо за рассказ!',
 		createdAt: new Date('2023-02-20T15:00:00.000Z'),
 		status: 'read',
-		replyToMessageId: null,
+		replyToMessage: null,
 	},
 ]; */
+
+interface IMessagesList {
+	chatInputRef: React.RefObject<HTMLDivElement>;
+	onChatInputHeightAvailable: (height: number) => void;
+	loadMoreMessages: () => void;
+	hasMoreMessages: boolean;
+	pageSize: number;
+	lastMessageInPageIndex: number;
+}
 
 export const MessagesList = ({
 	chatInputRef,
 	onChatInputHeightAvailable,
-}: {
-	chatInputRef: React.RefObject<HTMLDivElement>;
-	onChatInputHeightAvailable: (height: number) => void;
-}) => {
+	loadMoreMessages,
+	hasMoreMessages,
+	lastMessageInPageIndex,
+}: IMessagesList) => {
 	const theme = useTheme();
 
 	const messages = useMessengerStore(state => state.messages);
@@ -168,14 +179,11 @@ export const MessagesList = ({
 		number | null
 	>(null);
 
-	useEffect(() => {
-		// getMessages();
-	});
-
 	const replyTo = useMessengerStore(state => state.replyTo);
 	const messageToEdit = useMessengerStore(state => state.messageToEdit);
 
 	const memoizedMessages: IMessage[] = useMemo(() => messages, [messages]);
+	const isMessagesLoading = useMessengerStore(state => state.isMessagesLoading);
 
 	const chatInputHeight = chatInputRef.current?.offsetHeight || 0;
 
@@ -190,30 +198,33 @@ export const MessagesList = ({
 		(
 			messageId: number,
 			event: React.MouseEvent,
-			isSender: boolean,
-			messageRef: React.RefObject<HTMLLIElement>
+			messageRef: React.RefObject<HTMLDivElement>
 		) => {
 			setActiveButtonsGroupId(prevId =>
 				prevId === messageId ? null : messageId
 			);
 
 			const buttonsGroupHalfWidth = 69;
-			const windowWidth = window.innerWidth;
 			const messageWidth = messageRef.current?.offsetWidth || 0;
+			const clickPosition = event.nativeEvent.offsetX;
 
-			const calculatedLeft =
-				Math.min(
-					Math.max(event.nativeEvent.offsetX, 0),
-					windowWidth - buttonsGroupHalfWidth
-				) + (!isSender ? 45 : 0);
+			let left;
 
-			setOffsetLeft(
-				calculatedLeft < buttonsGroupHalfWidth
-					? buttonsGroupHalfWidth
-					: calculatedLeft > messageWidth - buttonsGroupHalfWidth
-					? messageWidth - buttonsGroupHalfWidth
-					: calculatedLeft
-			);
+			// Click on the left half? Center the button group there
+			if (clickPosition <= messageWidth / 2) {
+				left = clickPosition - buttonsGroupHalfWidth / 2;
+			} else if (clickPosition >= messageWidth - buttonsGroupHalfWidth) {
+				// Click near the right edge? Align the button group to the right
+				left = messageWidth - buttonsGroupHalfWidth * 2;
+			} else {
+				// Otherwise, center the button group relative to the click
+				left = clickPosition - buttonsGroupHalfWidth;
+			}
+
+			// Ensure left stays within the message boundaries
+			left = Math.max(Math.min(left, messageWidth - buttonsGroupHalfWidth), 0);
+
+			setOffsetLeft(left);
 
 			messageRef.current?.scrollIntoView({
 				behavior: 'smooth',
@@ -223,28 +234,79 @@ export const MessagesList = ({
 		[]
 	);
 
+	const scrollRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		scrollRef.current?.addEventListener('scroll', handleScroll);
+
+		return () => scrollRef.current?.removeEventListener('scroll', handleScroll);
+	}, []);
+
+	const handleScroll = (e: any) => {
+		const isTop = e.target.scrollTop === 0;
+
+		if (isTop && hasMoreMessages) {
+			console.log('top and has more messages');
+			loadMoreMessages();
+		}
+	};
+
+	const scrollToMessage = () => {
+		const messagesNode = document.querySelector(
+			`li[data-index="${lastMessageInPageIndex}"]`
+		);
+
+		if (messagesNode) {
+			console.log('scroll to message with index', lastMessageInPageIndex);
+
+			messagesNode.scrollIntoView({
+				behavior: 'instant',
+				block: 'start',
+			});
+		}
+	};
+
+	useEffect(() => {
+		scrollToMessage();
+	}, [memoizedMessages]);
+
 	return (
-		<>
-			{memoizedMessages?.length ? (
+		<div
+			ref={scrollRef}
+			style={{
+				maxHeight: 'calc(100% - 62.33px)',
+				height: '100%',
+				overflowY: 'auto',
+				scrollbarWidth: 'none',
+			}}
+		>
+			{memoizedMessages.length && !isMessagesLoading ? (
 				<ul
 					className={styles.messagesList}
-					style={{ paddingBottom: chatInputHeight + 6 }}
+					style={{
+						paddingBottom:
+							6 + (replyTo || messageToEdit ? chatInputHeight - 64 : 0),
+					}}
 				>
 					{memoizedMessages.map((message, index) => {
 						const nextMessage = memoizedMessages[index + 1];
+
 						return (
-							<MemoizedMessage
-								key={message.id}
-								{...message}
-								nextMessageSenderId={nextMessage?.senderId || null}
-								visibleButtonsGroupId={activeButtonsGroupId}
-								onToggleButtonsGroup={toggleButtonsGroup}
-								left={offsetLeft}
-							/>
+							<li key={message?.id} data-index={index}>
+								<MemoizedMessage
+									key={message?.id}
+									{...message}
+									nextMessageSenderId={nextMessage?.senderId || null}
+									visibleButtonsGroupId={activeButtonsGroupId}
+									onToggleButtonsGroup={toggleButtonsGroup}
+									left={offsetLeft}
+									data-id={message.id}
+								/>
+							</li>
 						);
 					})}
 				</ul>
-			) : (
+			) : !memoizedMessages.length && !isMessagesLoading ? (
 				<div className={styles.noMessages} style={{ color: theme.grey }}>
 					<div className={styles.iconWrapper}>
 						<IconEmptyChat />
@@ -252,8 +314,10 @@ export const MessagesList = ({
 					<p className={styles.noMessagesText}>Нет сообщений!</p>
 					<p className={styles.noMessagesText}>Начни диалог первым</p>
 				</div>
+			) : (
+				<Loader />
 			)}
-		</>
+		</div>
 	);
 };
 

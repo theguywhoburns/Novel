@@ -6,7 +6,6 @@
 	max-width: 100%;
 	overflow: hidden;
 	overflow-x: hidden;
-
-	padding: var(--safe-area-inset-top) var(--safe-area-inset-right)
-		calc(var(--safe-area-inset-bottom) / 2) var(--safe-area-inset-left);
+	padding: env(safe-area-inset-top) env(safe-area-inset-right)
+		env(safe-area-inset-bottom) env(safe-area-inset-left);
 }

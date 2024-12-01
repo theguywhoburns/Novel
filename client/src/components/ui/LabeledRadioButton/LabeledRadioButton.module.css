@@ -4,10 +4,11 @@
 	width: 100%;
 }
 
-.container:hover {
+.container {
 	cursor: pointer;
 }
 
 .label {
 	font-size: 16px;
+	cursor: pointer;
 }

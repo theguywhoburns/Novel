@@ -10,6 +10,7 @@
 	margin: 0;
 	padding: 0;
 	transition: background-color 0.5s, color 0.01s;
+	-webkit-tap-highlight-color: transparent;
 }
 
 body {

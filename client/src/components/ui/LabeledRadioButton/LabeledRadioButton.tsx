@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Radio } from '@mui/material';
 import styles from './LabeledRadioButton.module.css';
 
-export interface IRadioInput {
+export interface ILabledRadioButton {
 	label: string;
 	selectedValue: string;
 	setSelectedValue: () => void;
@@ -17,10 +17,6 @@ const BpIcon = styled('span')(() => {
 		height: 20,
 		backgroundColor: theme.button_background_color,
 		backgroundImage: `radial-gradient(${theme.button_secondary_background_color},${theme.button_secondary_background_color} 33%,transparent 32%)`,
-
-		'input:hover ~ &': {
-			// rn unused
-		},
 	};
 });
 
@@ -36,9 +32,6 @@ const BpCheckedIcon = styled(BpIcon)(() => {
 			backgroundImage: `radial-gradient(${theme.button_selected_background_color},${theme.button_selected_background_color} 33%,transparent 32%)`,
 			content: '""',
 		},
-		'input:hover ~ &': {
-			// rn unused
-		},
 	};
 });
 
@@ -46,7 +39,7 @@ export const LabeledRadioButton = ({
 	label,
 	selectedValue,
 	setSelectedValue,
-}: IRadioInput) => {
+}: ILabledRadioButton) => {
 	const theme = useTheme();
 
 	const handleChange = () => {

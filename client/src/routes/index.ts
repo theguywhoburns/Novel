@@ -1,5 +1,6 @@
 import { ChatHeader } from '@/components/layout/Header/ChatHeader/ChatHeader';
 import { Header as DefaultHeader } from '@/components/layout/Header/Header';
+import { PlaceHeader } from '@/components/layout/Header/PlaceHeader/PlaceHeader';
 import { Page404 } from '@/pages/404';
 import Home from '@/pages/Home';
 import { Settings } from '@/pages/Home/Settings/Settings';
@@ -16,16 +17,16 @@ export interface IRoute {
 }
 
 export enum RouteBase {
-	LOGIN = "/login",
-	HOME = "/",
-	SETTINGS = "/settings",
-	REELS = "/reels",
-	PLACES = "/places",
-	PLACE = "/place",
-	MESSENGER = "/messenger",
-	CHAT = "/chat",
-	PROFILE = "/profile",
-	TESTING_PLAYGROUND = "/testing-playground",
+	LOGIN = '/login',
+	HOME = '/',
+	SETTINGS = '/settings',
+	REELS = '/reels',
+	PLACES = '/places',
+	PLACE = '/place',
+	MESSENGER = '/messenger',
+	CHAT = '/chat',
+	PROFILE = '/profile',
+	TESTING_PLAYGROUND = '/testing-playground',
 }
 
 export enum RouteNames {
@@ -34,31 +35,28 @@ export enum RouteNames {
 	SETTINGS = RouteBase.SETTINGS,
 	REELS = RouteBase.REELS,
 	PLACES = RouteBase.PLACES,
-	PLACE = RouteBase.PLACE + "/:id",
+	PLACE = RouteBase.PLACE + '/:id',
 	MESSENGER = RouteBase.MESSENGER,
-	CHAT = RouteBase.CHAT + "/:id",
-	PROFILE = RouteBase.PROFILE + "/:id",
+	CHAT = RouteBase.CHAT + '/:id',
+	PROFILE = RouteBase.PROFILE + '/:id',
 	TESTING_PLAYGROUND = RouteBase.TESTING_PLAYGROUND,
-};
+}
 
 export const RouteLayouts: Record<
 	string,
 	[React.FC /*Header*/, boolean /*Show bottom nav*/]
 > = {
-	[RouteBase.LOGIN]:[DefaultHeader, true],
-	[RouteBase.HOME]:[DefaultHeader, true],
-	[RouteBase.SETTINGS]:[DefaultHeader, true],
-	[RouteBase.REELS]:[DefaultHeader, true],
-	[RouteBase.PLACES]:[DefaultHeader, true],
-	[RouteBase.PLACE]:[DefaultHeader, true],
-	[RouteBase.MESSENGER]:[DefaultHeader, true],
-	[RouteBase.CHAT]:[ChatHeader, false],
-	[RouteBase.PROFILE]:[DefaultHeader, true],
-	[RouteBase.TESTING_PLAYGROUND]:[DefaultHeader, true],
+	[RouteBase.LOGIN]: [DefaultHeader, true],
+	[RouteBase.HOME]: [DefaultHeader, true],
+	[RouteBase.SETTINGS]: [DefaultHeader, true],
+	[RouteBase.REELS]: [DefaultHeader, true],
+	[RouteBase.PLACES]: [DefaultHeader, true],
+	[RouteBase.PLACE]: [PlaceHeader, false],
+	[RouteBase.MESSENGER]: [DefaultHeader, true],
+	[RouteBase.CHAT]: [ChatHeader, false],
+	[RouteBase.PROFILE]: [DefaultHeader, true],
+	[RouteBase.TESTING_PLAYGROUND]: [DefaultHeader, true],
 };
-
-
-
 
 export const publicRoutes: IRoute[] = [
 	{ path: RouteNames.LOGIN, component: Page404 },

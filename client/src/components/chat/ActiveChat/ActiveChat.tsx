@@ -1,18 +1,19 @@
 import { MessagesList } from '@/components/chat/MessagesList/MessagesList';
 import { useChatWebSocket } from '@/hooks/useChatWebSocket';
-import { useScrollRef } from '@/hooks/useScrollRef';
-import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useCallback, useRef, useState } from 'react';
 import styles from './ActiveChat.module.css';
 import { ChatInput } from './ChatInput/ChatInput';
 
 export const ActiveChat = () => {
-	const { socket } = useChatWebSocket();
+	const {
+		socket,
+		loadMoreMessages,
+		hasMoreMessages,
+		pageSize,
+		lastMessageInPageIndex,
+	} = useChatWebSocket();
 
-	const messages = useMessengerStore(state => state.messages);
-	const scrollRef = useScrollRef({ behavior: 'smooth', deps: [messages] });
-
-	const chatInputRef = useRef<HTMLDivElement>(null);
+	const chatInputRef = useRef<HTMLDivElement | null>(null);
 	const [_, setChatInputHeight] = useState(0);
 
 	const onChatInputHeightAvailable = useCallback((height: number) => {
@@ -24,8 +25,11 @@ export const ActiveChat = () => {
 			<MessagesList
 				chatInputRef={chatInputRef}
 				onChatInputHeightAvailable={onChatInputHeightAvailable}
+				loadMoreMessages={loadMoreMessages}
+				hasMoreMessages={hasMoreMessages}
+				pageSize={pageSize}
+				lastMessageInPageIndex={lastMessageInPageIndex}
 			/>
-			<div ref={scrollRef} />
 
 			<ChatInput
 				ref={chatInputRef}

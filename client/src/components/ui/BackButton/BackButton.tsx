@@ -2,18 +2,19 @@ import { IconArrow } from '@/icons';
 import { useTheme } from '@/theme';
 import { IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import styles from './BackButton.module.css';
 
 interface IBackButton {
 	backgroundColor?: string;
 	arrowColor?: string;
 	className?: string;
+	onClick?: () => void;
 }
 
 export const BackButton = ({
 	backgroundColor,
 	arrowColor,
 	className,
+	onClick,
 }: IBackButton) => {
 	const theme = useTheme();
 
@@ -24,13 +25,17 @@ export const BackButton = ({
 
 	const handleClick = () => {
 		navigate(-1);
+		onClick && onClick();
 	};
 
 	return (
 		<IconButton
-			className={`${styles.backButton} ${className || ''}`}
-			style={{
+			className={className}
+			sx={{
 				backgroundColor: backgroundColor || defaultBackgroundColor,
+				marginRight: 'auto',
+				width: 40,
+				height: 40,
 			}}
 			onClick={handleClick}
 		>

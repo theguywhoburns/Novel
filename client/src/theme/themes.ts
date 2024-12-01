@@ -8,7 +8,6 @@ export interface Theme {
 	low_contrast_text_color: string;
 	secondary_text_color: string;
 	button_background_color: string;
-	button_text_color: string;
 	button_selected_background_color: string;
 	button_selected_text_color: string;
 	button_secondary_background_color: string;
@@ -36,17 +35,14 @@ export const themes = {
 		low_contrast_text_color: '#C8CDDF',
 		secondary_text_color: '#0A0F33',
 		button_background_color: '#F5F6FA',
-		button_text_color: '#C8CDDF',
 		button_selected_background_color: '#FB847A',
 		button_selected_text_color: '#FDFEFE',
 		button_secondary_background_color: '#C8CDDF',
 		settings_modal_background_color: '#FDFEFE',
 		separator_color: '#C8CDDF',
 		list_item_background_color: '#F9FAFD',
-
 		icon_linear_gradient_stop_1: '#FF627E',
 		icon_linear_gradient_stop_2: '#F4CD76',
-
 		rounded_button_linear_gradiend_1: '#F4CD76',
 		rounded_button_linear_gradiend_2: '#FF627E',
 
@@ -62,7 +58,7 @@ export const themes = {
 		low_contrast_text_color: '#FDFEFE',
 		secondary_text_color: '#FDFEFE',
 		button_background_color: '#2F3452',
-		button_text_color: '#C8CDDF',
+
 		button_selected_background_color: '#C946DE',
 		button_selected_text_color: '#0A0F33',
 		button_secondary_background_color: '#A3A8BA4C',

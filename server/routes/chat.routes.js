@@ -3,6 +3,6 @@ import ChatController from "../controllers/chat.controller.js";
 
 export const router = express.Router();
 
-router.get("/chats", ChatController.getChatsByUser);
+router.get("/chats/:id", ChatController.getChatsByUser);
 router.get("/chat", ChatController.getChatByUsers);
 router.post("/chat", ChatController.createChat);

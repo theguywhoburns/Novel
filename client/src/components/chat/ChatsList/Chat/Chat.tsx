@@ -1,14 +1,8 @@
-import { IUser } from '@/components/user/UsersList/UsersList';
 import { IconMuted } from '@/icons';
+import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useTheme } from '@/theme';
 import { useNavigate } from 'react-router-dom';
 import styles from './Chat.module.css';
-
-export interface IChat {
-	id: number;
-	participantIds: number[];
-	areNotifivationsEnabled: boolean;
-}
 
 export interface IMessage {
 	id: number;
@@ -24,61 +18,52 @@ export interface IMessage {
 	sticker?: string;
 	createdAt: Date;
 	status: 'sending' | 'sent' | 'read' | 'updated';
-	replyToMessageId: number | null;
+	replyToMessage: IMessage | null;
 }
 
 export interface IMessageProps extends IMessage {
 	nextMessageSenderId: number | null;
 	visibleButtonsGroupId: number | null;
-
 	left: number;
+
 	onToggleButtonsGroup: (
 		messageId: number,
 		e: React.MouseEvent,
-		amISender: boolean,
-		messageRef: React.RefObject<HTMLLIElement>
+		messageRef: React.RefObject<HTMLDivElement>
 	) => void;
 }
 
-export interface IChatProps {
+export interface IChat {
 	id: number;
-	lastMessage: IMessage;
+	userOneId: number;
+	userTwoId: number;
+	isMuted: boolean;
+	lastMessage: IMessage | null;
 	newMessagesAmount: number;
-	areNotifivationsEnabled: boolean;
+	interlocutor: {
+		id: number;
+		name: string;
+		age: number;
+		gender: 'male' | 'female';
+		imgSrc: string;
+	};
 }
 
 export const Chat = ({
 	id,
+	userOneId,
+	userTwoId,
 	lastMessage,
 	newMessagesAmount,
-	areNotifivationsEnabled,
-}: IChatProps) => {
+	isMuted,
+	interlocutor,
+}: IChat) => {
 	const theme = useTheme();
-
 	const navigate = useNavigate();
 
-	const { text } = lastMessage;
+	const setChat = useMessengerStore(state => state.setChat);
 
-	const user: IUser = {
-		id: 5,
-		imgSrc:
-			'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ',
-		name: 'Алиса',
-		age: 23,
-		isPopular: false,
-		search: '',
-		job: '',
-		distance: '',
-		isVerified: false,
-		gender: 'female',
-		city: '',
-		about: '',
-		main: [],
-		languages: [],
-		interests: [],
-	}; // we will get the user by senderId instead
-
-	const { imgSrc, name, age } = user;
+	const { imgSrc, name, age } = interlocutor;
 
 	const formattedAmount = Intl.NumberFormat('en-EN', {
 		notation: 'compact',
@@ -87,6 +72,28 @@ export const Chat = ({
 
 	const handleClick = () => {
 		navigate(`/chat/${id}`);
+		setChat({
+			id,
+			userOneId,
+			userTwoId,
+			isMuted,
+			lastMessage,
+			newMessagesAmount,
+			interlocutor,
+		});
+		localStorage.setItem(
+			'chat',
+			JSON.stringify({
+				id,
+				userOneId,
+				userTwoId,
+				isMuted,
+				lastMessage,
+				newMessagesAmount,
+				interlocutor,
+			})
+		);
+		console.log(id, lastMessage, newMessagesAmount, isMuted, interlocutor);
 	};
 
 	return (
@@ -99,12 +106,12 @@ export const Chat = ({
 				>
 					<span className={styles.name}>{name},</span>
 					<span className={styles.age}>{age}</span>
-					{areNotifivationsEnabled ? null : <IconMuted />}
+					{isMuted ? <IconMuted /> : null}
 				</div>
 
 				<div className={styles.textAndAmount}>
 					<p className={styles.messageText} style={{ color: theme.grey }}>
-						{text}
+						{lastMessage?.text}
 					</p>
 					{newMessagesAmount ? (
 						<div
@@ -122,3 +129,29 @@ export const Chat = ({
 		</li>
 	);
 };
+
+[
+	{
+		id: 2,
+		userOneId: 1,
+		userTwoId: 3,
+		isMuted: false,
+		lastMessage: {
+			id: 2,
+			chatId: 2,
+			senderId: 1,
+			recipientId: 3,
+			type: 'text',
+			text: 'Hi there!',
+		},
+		newMessagesAmount: 0,
+		interlocutor: {
+			id: 3,
+			name: 'Charlie Brown',
+			age: 36,
+			imgSrc: null,
+			gender: 'Male',
+			isOnline: true,
+		},
+	},
+];

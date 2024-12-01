@@ -77,7 +77,7 @@ export const Settings = () => {
 				<Banner
 					type='advanced'
 					title='Продвинутая подписка'
-					subTitle='Расширь свои возможности'
+					subTitle='Подбирай партнёра по интересам'
 					Icon={IconHeartLoop}
 				/>
 

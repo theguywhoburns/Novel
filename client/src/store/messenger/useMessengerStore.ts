@@ -1,10 +1,9 @@
-import { IMessage } from '@/components/chat/ChatsList/Chat/Chat';
+import { IMessageEntity } from '@/components/chat/ActiveChat/ChatInput/ChatInput';
+import { IChat, IMessage } from '@/components/chat/ChatsList/Chat/Chat';
+import axios from 'axios';
 import { create } from 'zustand';
 
-interface ITodo {
-	title: string;
-	isCompleted: boolean;
-}
+const baseUrl = 'http://localhost:4000/api';
 
 interface IMessengerStore {
 	messages: IMessage[];
@@ -12,14 +11,14 @@ interface IMessengerStore {
 		value: IMessage[] | ((state: IMessage[]) => IMessage[])
 	) => void;
 
-	todos: ITodo[];
-	setTodos: (value: ITodo[] | ((state: ITodo[]) => ITodo[])) => void;
+	isMessagesLoading: boolean;
+	setIsMessagesLoading: (isMessagesLoading: boolean) => void;
 
 	newMessageText: string;
 	setNewMessageText: (newMessageText: string) => void;
 
-	replyTo: IMessage | null;
-	setReplyTo: (replyTo: IMessage | null) => void;
+	replyTo: IMessageEntity | null;
+	setReplyTo: (replyTo: IMessageEntity | null) => void;
 
 	messageToEdit: IMessage | null;
 	setMessageToEdit: (messageToEdit: IMessage | null) => void;
@@ -32,15 +31,21 @@ interface IMessengerStore {
 	left: number;
 	setLeft: (left: number) => void;
 
-	// getMessages: (socket: WebSocket | null) => void;
+	chats: IChat[];
+	setChats: (chats: IChat[]) => void;
+
+	chat: IChat;
+	setChat: (chat: IChat) => void;
 
 	sendNewMessage: ({
 		data,
 		socket,
 	}: {
-		data: IMessage;
+		data: IMessageEntity;
 		socket: WebSocket | null;
 	}) => void;
+
+	getChatsByUser: (userId: number) => void;
 }
 
 export const useMessengerStore = create<IMessengerStore>(set => ({
@@ -50,11 +55,8 @@ export const useMessengerStore = create<IMessengerStore>(set => ({
 			messages: typeof value === 'function' ? value(state.messages) : value,
 		})),
 
-	todos: [],
-	setTodos: (value: ITodo[] | ((state: ITodo[]) => ITodo[])) =>
-		set(state => ({
-			todos: typeof value === 'function' ? value(state.todos) : value,
-		})),
+	isMessagesLoading: true,
+	setIsMessagesLoading: isMessagesLoading => set({ isMessagesLoading }),
 
 	newMessageText: '',
 	setNewMessageText: newMessageText => set({ newMessageText }),
@@ -72,21 +74,13 @@ export const useMessengerStore = create<IMessengerStore>(set => ({
 	left: 0,
 	setLeft: left => set({ left }),
 
-	/* getMessages: socket => {
-		if (!socket || socket.readyState !== WebSocket.OPEN) {
-			console.log('no socket or socket is not open');
-			return;
-		}
+	chats: [],
+	setChats: chats => set({ chats }),
 
-		const state = useMessengerStore.getState();
-
-		socket.send(JSON.stringify({ type: 'getMessages' }));
-
-		socket.onmessage = event => {
-			const messages = JSON.parse(event.data);
-			state.setMessages(messages);
-		};
-	}, */
+	chat: localStorage.getItem('chat')
+		? JSON.parse(localStorage.getItem('chat') as string)
+		: {},
+	setChat: chat => set({ chat }),
 
 	sendNewMessage: ({ data, socket }) => {
 		if (!socket || socket.readyState !== WebSocket.OPEN) {
@@ -95,7 +89,6 @@ export const useMessengerStore = create<IMessengerStore>(set => ({
 		}
 
 		const {
-			id,
 			senderId,
 			recipientId,
 			chatId,
@@ -108,8 +101,7 @@ export const useMessengerStore = create<IMessengerStore>(set => ({
 
 		const state = useMessengerStore.getState();
 
-		const message: IMessage = {
-			id,
+		const message: IMessageEntity = {
 			senderId,
 			recipientId,
 			chatId,
@@ -125,6 +117,22 @@ export const useMessengerStore = create<IMessengerStore>(set => ({
 		if (state.newMessageText.length) {
 			state.setNewMessageText('');
 			socket.send(JSON.stringify(message));
+		}
+	},
+
+	getChatsByUser: async userId => {
+		try {
+			const response = await axios.get<IChat[]>(`${baseUrl}/chats/${userId}`);
+
+			console.log(response);
+
+			if (response.status !== 200) {
+				throw new Error(response.statusText);
+			}
+
+			useMessengerStore.getState().setChats(response.data);
+		} catch (err) {
+			console.error(err);
 		}
 	},
 }));
