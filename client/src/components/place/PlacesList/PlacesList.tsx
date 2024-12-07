@@ -1,21 +1,26 @@
-import { updateGeoPosition } from '@/utils/updateGeoPosition';
+import { Loader } from '@/components/ui/Loader/Loader';
+import { useGeoPositionStore } from '@/store/geoPosition/useGeoPositionStore';
 import { IPlace, Place } from './Place/Place';
 import styles from './PlacesList.module.css';
-import { useEffect } from 'react';
 
 interface IPlacesList {
 	places: IPlace[];
 }
 
 export const PlacesList = ({ places }: IPlacesList) => {
-	useEffect(() => {
-		updateGeoPosition();
-	}, []);
+	const position = useGeoPositionStore(state => state.position);
+
 	return (
-		<ul className={styles.placesList}>
-			{places?.map(place => (
-				<Place key={place.id} {...place} />
-			))}
-		</ul>
+		<>
+			{position ? (
+				<ul className={styles.placesList}>
+					{places?.map(place => (
+						<Place key={place.id} {...place} />
+					))}
+				</ul>
+			) : (
+				<Loader />
+			)}
+		</>
 	);
 };

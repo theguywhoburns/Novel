@@ -7,13 +7,17 @@ import {
 	IconStar,
 } from '@/icons';
 import { useGeoPositionStore } from '@/store/geoPosition/useGeoPositionStore';
+import { usePlacesStore } from '@/store/places/usePlacesStore';
 import { useTheme } from '@/theme';
 import { distance } from '@/utils/distance';
+import { updateGeoPosition } from '@/utils/updateGeoPosition';
+import { useEffect } from 'react';
 import { IPlace } from '../Place';
 import styles from './PlaceDetailed.module.css';
 import { PlaceInfoItem } from './PlaceInfoItem/PlaceInfoItem';
 
 export const PlaceDetailed = ({
+	id,
 	imgSrc,
 	name,
 	rating,
@@ -21,25 +25,40 @@ export const PlaceDetailed = ({
 	workingHours,
 	approximateCost,
 	phoneNumber,
-	coords,
+	geoLat,
+	geoLon,
+	link,
 }: IPlace) => {
 	const theme = useTheme();
 
-	const formattedRating = rating / 10;
+	const formattedRating = (rating / 10).toString();
 
 	const position = useGeoPositionStore(state => state.position);
+
 	let distanceInKm = '';
 	if (position) {
 		distanceInKm = distance(
-			coords[0],
-			coords[1],
-			position.latitude,
-			position.longitude,
+			geoLat,
+			geoLon,
+			position?.geoLat,
+			position?.geoLon,
 			'K'
 		).toFixed(2);
 	}
 
-	const handleClick = () => {};
+	const getPlace = usePlacesStore(state => state.getPlace);
+
+	useEffect(() => {
+		getPlace(Number(id));
+	}, []);
+
+	useEffect(() => {
+		updateGeoPosition();
+	}, []);
+
+	const handleClick = () => {
+		window.open(link, '_blank');
+	};
 
 	return (
 		<div className={styles.placeDetailed}>
@@ -63,18 +82,27 @@ export const PlaceDetailed = ({
 					<PlaceInfoItem
 						Icon={<IconClock />}
 						title='Рабочие часы'
-						value={`${workingHours[0]} - ${workingHours[1]}`}
+						value={
+							Array.isArray(workingHours) && workingHours.length === 2
+								? `${workingHours[0]} - ${workingHours[1]}`
+								: 'not found'
+						}
 					/>
-					<PlaceInfoItem
-						Icon={<IconDollar />}
-						title='Средний чек'
-						value={`от ${approximateCost} ₽`}
-					/>
-					<PlaceInfoItem
-						Icon={<IconPhone />}
-						title='Номер телефона'
-						value={`+${phoneNumber}`}
-					/>
+					{approximateCost && (
+						<PlaceInfoItem
+							Icon={<IconDollar />}
+							title='Средний чек'
+							value={`от ${approximateCost} ₽`}
+						/>
+					)}
+
+					{phoneNumber && (
+						<PlaceInfoItem
+							Icon={<IconPhone />}
+							title='Номер телефона'
+							value={`+${phoneNumber}`}
+						/>
+					)}
 				</ul>
 			</div>
 

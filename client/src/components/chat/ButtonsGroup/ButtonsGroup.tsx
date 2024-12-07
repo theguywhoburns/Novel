@@ -3,15 +3,7 @@ import { useTheme } from '@/theme';
 import { Button, ButtonGroup } from '@mui/material';
 import { IMessage } from '../ChatsList/Chat/Chat';
 
-interface IButtonsGroup {
-	id: number;
-	chatId: number;
-	senderId: number;
-	recipientId: number;
-	type: 'text' | 'image' | 'video' | 'voice' | 'file' | 'sticker';
-	text: string;
-	createdAt: Date;
-	status: 'sending' | 'sent' | 'read' | 'updated';
+interface IButtonsGroup extends IMessage {
 	left: number;
 	amISender: boolean;
 	replyToMessage: IMessage | null;
@@ -26,6 +18,7 @@ export const ButtonsGroup = ({
 	text,
 	createdAt,
 	status,
+	replyToMessage,
 	left,
 	amISender,
 }: IButtonsGroup) => {
@@ -34,6 +27,9 @@ export const ButtonsGroup = ({
 	const setReplyTo = useMessengerStore(state => state.setReplyTo);
 	const setMessageToEdit = useMessengerStore(state => state.setMessageToEdit);
 	const setNewMessageText = useMessengerStore(state => state.setNewMessageText);
+	const setEditedMessageText = useMessengerStore(
+		state => state.setEditedMessageText
+	);
 
 	const handleReply = () => {
 		setReplyTo({
@@ -45,7 +41,7 @@ export const ButtonsGroup = ({
 			text,
 			createdAt,
 			status,
-			replyToMessageId: null,
+			replyToMessageId: replyToMessage?.id || null,
 		});
 		setMessageToEdit(null);
 	};
@@ -60,10 +56,34 @@ export const ButtonsGroup = ({
 			text,
 			createdAt,
 			status,
-			replyToMessage: null,
+			replyToMessage,
 		});
 		setReplyTo(null);
-		setNewMessageText(text || '');
+		setNewMessageText('');
+		setEditedMessageText(text);
+	};
+
+	interface IActionButton {
+		text: string;
+		onClick: () => void;
+	}
+
+	const ActionButton = ({ text, onClick }: IActionButton) => {
+		return (
+			<Button
+				sx={{
+					backgroundColor: theme.grey,
+					color: theme.white,
+					'&:hover': {
+						color: theme.white,
+					},
+					widht: 138,
+				}}
+				onClick={onClick}
+			>
+				{text}
+			</Button>
+		);
 	};
 
 	return (
@@ -86,34 +106,9 @@ export const ButtonsGroup = ({
 				borderRadius: 4,
 			}}
 		>
-			<Button
-				sx={{
-					backgroundColor: theme.grey,
-					color: theme.white,
-					'&:hover': {
-						color: theme.white,
-					},
-					widht: 138,
-				}}
-				onClick={handleReply}
-			>
-				Ответить
-			</Button>
-
+			<ActionButton text={'Ответить'} onClick={handleReply} />
 			{amISender && (
-				<Button
-					sx={{
-						backgroundColor: theme.grey,
-						color: theme.white,
-						'&:hover': {
-							color: theme.white,
-						},
-						widht: 138,
-					}}
-					onClick={handleEdit}
-				>
-					Редактировать
-				</Button>
+				<ActionButton text={'Редактировать'} onClick={handleEdit} />
 			)}
 		</ButtonGroup>
 	);

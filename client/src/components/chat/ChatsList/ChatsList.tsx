@@ -1,5 +1,6 @@
+import { Loader } from '@/components/ui/Loader/Loader';
 import { useMessengerStore } from '@/store/messenger/useMessengerStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Chat } from './Chat/Chat';
 import styles from './ChatsList.module.css';
 
@@ -106,17 +107,26 @@ export const ChatsList = () => {
 	const chats = useMessengerStore(state => state.chats);
 	const getChatsByUser = useMessengerStore(state => state.getChatsByUser);
 
+	const [isLoading, setIsLoading] = useState(true);
+
 	const userId = 1;
 
 	useEffect(() => {
 		getChatsByUser(userId);
+		setIsLoading(false);
 	}, []);
 
 	return (
-		<ul className={styles.chatsList}>
-			{chats?.map(chat => (
-				<Chat key={chat.id} {...chat} />
-			))}
-		</ul>
+		<>
+			{isLoading ? (
+				<Loader />
+			) : (
+				<ul className={styles.chatsList}>
+					{chats?.map(chat => (
+						<Chat key={chat.id} {...chat} />
+					))}
+				</ul>
+			)}
+		</>
 	);
 };

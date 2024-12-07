@@ -18,7 +18,6 @@ export const ImageUploader = ({
 
 	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0] || null;
-		console.log(file);
 
 		if (file) {
 			const reader = new FileReader();

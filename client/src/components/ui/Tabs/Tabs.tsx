@@ -19,7 +19,7 @@ export const Tabs = ({ tabs, selectedTab, onSelectTab }: ITabs) => {
 	return (
 		<ul className={styles.tabs}>
 			{tabs.map(({ type, label }) => (
-				<li>
+				<li key={label}>
 					<button
 						className={styles.tab}
 						style={{

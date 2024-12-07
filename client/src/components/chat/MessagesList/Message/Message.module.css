@@ -30,6 +30,7 @@
 	display: flex;
 	margin-bottom: 8px;
 	border-radius: 4px;
+	overflow: hidden;
 }
 
 .replyToMessageText {
@@ -42,7 +43,7 @@
 	-webkit-line-clamp: 1;
 	line-clamp: 1;
 	-webkit-box-orient: vertical;
-	margin-left: 6px;
+	margin: 0 6px;
 }
 
 .avatar {
@@ -60,6 +61,11 @@
 	line-height: 19px;
 	word-break: break-word;
 	hyphens: auto;
+}
+
+.timeAndStatus {
+	display: flex;
+	align-items: flex-end;
 }
 
 .time {

@@ -1,3 +1,10 @@
 .bottomNav {
-	height: calc(60px + var(--safe-area-inset-bottom) / 2) !important;
+	height: 60px;
+}
+
+.loaderWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
 }

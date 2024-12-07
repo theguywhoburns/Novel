@@ -1,7 +1,6 @@
 import { LabeledSwitch, RangeInput } from '@/components';
 import { Banner } from '@/components/settings/Banner/Banner';
 import { SettingsList } from '@/components/settings/SettingsList/SettingsList';
-import { BackButton } from '@/components/ui/BackButton/BackButton';
 import { IconHeartLoop, IconLoop } from '@/icons';
 import { useSettingsStore } from '@/store/settings/useSettingsStore';
 import { useTheme } from '@/theme';
@@ -36,59 +35,52 @@ export const Settings = () => {
 			className={styles.settingsPage}
 			style={{ backgroundColor: theme.background_color }}
 		>
-			<div className={styles.settingsPageHeader}>
-				<BackButton className={styles.settingsPageBtn} />
+			<Banner
+				type='basic'
+				title='Базовая подписка'
+				subTitle='Расширь свои возможности'
+				Icon={IconLoop}
+			/>
 
-				<h2 className={styles.settingsPageHeaderText}>Настройки поиска</h2>
-			</div>
-			<div className={styles.settingsPageScrollView}>
-				<Banner
-					type='basic'
-					title='Базовая подписка'
-					subTitle='Расширь свои возможности'
-					Icon={IconLoop}
-				/>
+			<RangeInput label='Расстояние' min={0} max={100} unit='км' />
+			<LabeledSwitch
+				label='Показывать людей в радиусе'
+				value={showPeopleInDistance}
+				onChange={setShowPeopleInDistance}
+			/>
+			<div className={styles.separator} />
 
-				<RangeInput label='Расстояние' min={0} max={100} unit='км' />
-				<LabeledSwitch
-					label='Показывать людей в радиусе'
-					value={showPeopleInDistance}
-					onChange={setShowPeopleInDistance}
-				/>
-				<div className={styles.separator} />
+			<RangeInput label='Возраст' min={18} max={99} unit='лет' />
+			<LabeledSwitch
+				label='Показывать людей в радиусе'
+				value={showPeopleInAge}
+				onChange={setShowPeopleInAge}
+			/>
+			<LabeledSwitch
+				label='Показывать меня мужчинам'
+				value={showMeToMen}
+				onChange={setShowMeToMen}
+			/>
+			<LabeledSwitch
+				label='Показывать меня женщинам'
+				value={showMeToWomen}
+				onChange={setShowMeToWomen}
+			/>
 
-				<RangeInput label='Возраст' min={18} max={99} unit='лет' />
-				<LabeledSwitch
-					label='Показывать людей в радиусе'
-					value={showPeopleInAge}
-					onChange={setShowPeopleInAge}
-				/>
-				<LabeledSwitch
-					label='Показывать меня мужчинам'
-					value={showMeToMen}
-					onChange={setShowMeToMen}
-				/>
-				<LabeledSwitch
-					label='Показывать меня женщинам'
-					value={showMeToWomen}
-					onChange={setShowMeToWomen}
-				/>
+			<Banner
+				type='advanced'
+				title='Продвинутая подписка'
+				subTitle='Подбирай партнёра по интересам'
+				Icon={IconHeartLoop}
+			/>
 
-				<Banner
-					type='advanced'
-					title='Продвинутая подписка'
-					subTitle='Подбирай партнёра по интересам'
-					Icon={IconHeartLoop}
-				/>
+			<LabeledSwitch
+				label='Пользователь верифицирован'
+				value={isUserVerified}
+				onChange={setIsUserVerified}
+			/>
 
-				<LabeledSwitch
-					label='Пользователь верифицирован'
-					value={isUserVerified}
-					onChange={setIsUserVerified}
-				/>
-
-				<SettingsList />
-			</div>
+			<SettingsList />
 		</div>
 	);
 };

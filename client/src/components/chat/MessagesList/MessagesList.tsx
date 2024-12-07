@@ -11,153 +11,16 @@ import {
 	useRef,
 	useState,
 } from 'react';
-import { IMessage } from '../ChatsList/Chat/Chat';
+import { Status } from '../ChatsList/Chat/Chat';
 import { Message } from './Message/Message';
 import styles from './MessagesList.module.css';
 
-/* const initialMessages: IMessage[] = [
-	{
-		id: 1,
-		chatId: 1,
-		senderId: 1,
-		recipientId: 2,
-		type: 'text',
-		text: 'Привет, как дела?',
-		createdAt: new Date('2023-02-20T14:30:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 2,
-		chatId: 1,
-		senderId: 2,
-		recipientId: 1,
-		type: 'text',
-		text: 'Я хорошо, спасибо!',
-		createdAt: new Date('2023-02-20T14:35:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 3,
-		chatId: 1,
-		senderId: 1,
-		recipientId: 2,
-		type: 'text',
-		text: 'Отлично!',
-		createdAt: new Date('2023-02-20T14:40:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 4,
-		chatId: 1,
-		senderId: 2,
-		recipientId: 1,
-		type: 'text',
-		text:
-			'Я вчера был на концерте, и это было просто невероятно! Я видел своего любимого исполнителя и даже получил автограф!',
-		createdAt: new Date('2023-02-20T14:45:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 5,
-		chatId: 1,
-		senderId: 1,
-		recipientId: 2,
-		type: 'text',
-		text:
-			'Это звучит невероятно! Я тоже люблю этот исполнитель. Какой был твой любимый момент на концерте?',
-		createdAt: new Date('2023-02-20T14:50:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 6,
-		chatId: 1,
-		senderId: 2,
-		recipientId: 1,
-		type: 'text',
-		text:
-			'Мой любимый момент был когда исполнитель исполнил свою новую песню. Она была просто потрясающей!',
-		createdAt: new Date('2023-02-20T14:55:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 7,
-		chatId: 1,
-		senderId: 1,
-		recipientId: 2,
-		type: 'text',
-		text: 'Я обязательно посмотрю видео этого концерта. Спасибо за рассказ!',
-		createdAt: new Date('2023-02-20T15:00:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 8,
-		chatId: 1,
-		senderId: 2,
-		recipientId: 1,
-		type: 'text',
-		text: 'Спасибо за поддержку!',
-		createdAt: new Date('2023-02-20T15:05:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 9,
-		chatId: 1,
-		senderId: 2,
-		recipientId: 1,
-		type: 'text',
-		text: 'Спасибо за поддержку!',
-		createdAt: new Date('2023-02-20T15:05:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 10,
-		chatId: 1,
-		senderId: 2,
-		recipientId: 1,
-		type: 'text',
-		text: 'Спасибо за поддержку!',
-		createdAt: new Date('2023-02-20T15:05:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 11,
-		chatId: 1,
-		senderId: 2,
-		recipientId: 1,
-		type: 'text',
-		text:
-			'Мой любимый момент был когда исполнитель исполнил свою новую песню. Она была просто потрясающей!',
-		createdAt: new Date('2023-02-20T14:55:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-	{
-		id: 12,
-		chatId: 1,
-		senderId: 1,
-		recipientId: 2,
-		type: 'text',
-		text: 'Я обязательно посмотрю видео этого концерта. Спасибо за рассказ!',
-		createdAt: new Date('2023-02-20T15:00:00.000Z'),
-		status: 'read',
-		replyToMessage: null,
-	},
-]; */
-
 interface IMessagesList {
 	chatInputRef: React.RefObject<HTMLDivElement>;
+	scrollBottomRef: React.RefObject<HTMLDivElement>;
 	onChatInputHeightAvailable: (height: number) => void;
 	loadMoreMessages: () => void;
+	updateMessageStatus: (messageId: number, status: Status) => void;
 	hasMoreMessages: boolean;
 	pageSize: number;
 	lastMessageInPageIndex: number;
@@ -165,14 +28,14 @@ interface IMessagesList {
 
 export const MessagesList = ({
 	chatInputRef,
+	scrollBottomRef,
 	onChatInputHeightAvailable,
 	loadMoreMessages,
+	updateMessageStatus,
 	hasMoreMessages,
 	lastMessageInPageIndex,
 }: IMessagesList) => {
 	const theme = useTheme();
-
-	const messages = useMessengerStore(state => state.messages);
 
 	const [offsetLeft, setOffsetLeft] = useState(0);
 	const [activeButtonsGroupId, setActiveButtonsGroupId] = useState<
@@ -182,10 +45,25 @@ export const MessagesList = ({
 	const replyTo = useMessengerStore(state => state.replyTo);
 	const messageToEdit = useMessengerStore(state => state.messageToEdit);
 
-	const memoizedMessages: IMessage[] = useMemo(() => messages, [messages]);
 	const isMessagesLoading = useMessengerStore(state => state.isMessagesLoading);
+	const setIsMessagesLoading = useMessengerStore(
+		state => state.setIsMessagesLoading
+	);
+
+	const messages = useMessengerStore(state => state.messages);
+	const memoizedMessages = useMemo(() => messages, [messages]);
 
 	const chatInputHeight = chatInputRef.current?.offsetHeight || 0;
+
+	useEffect(() => {
+		setIsMessagesLoading(true);
+	}, []);
+
+	useEffect(() => {
+		if (messages) {
+			updateMessageStatus(messages.slice(-1)[0]?.id, 'sent');
+		}
+	}, [messages.length]);
 
 	useLayoutEffect(() => {
 		if (chatInputRef.current) {
@@ -210,8 +88,10 @@ export const MessagesList = ({
 
 			let left;
 
-			// Click on the left half? Center the button group there
-			if (clickPosition <= messageWidth / 2) {
+			if (messageWidth < buttonsGroupHalfWidth * 2) {
+				left = messageWidth - buttonsGroupHalfWidth * 2;
+			} // Click on the left half? Center the button group there
+			else if (clickPosition <= messageWidth / 2) {
 				left = clickPosition - buttonsGroupHalfWidth / 2;
 			} else if (clickPosition >= messageWidth - buttonsGroupHalfWidth) {
 				// Click near the right edge? Align the button group to the right
@@ -222,7 +102,7 @@ export const MessagesList = ({
 			}
 
 			// Ensure left stays within the message boundaries
-			left = Math.max(Math.min(left, messageWidth - buttonsGroupHalfWidth), 0);
+			left = Math.max(Math.min(left, messageWidth - buttonsGroupHalfWidth));
 
 			setOffsetLeft(left);
 
@@ -246,20 +126,17 @@ export const MessagesList = ({
 		const isTop = e.target.scrollTop === 0;
 
 		if (isTop && hasMoreMessages) {
-			console.log('top and has more messages');
 			loadMoreMessages();
 		}
 	};
 
 	const scrollToMessage = () => {
-		const messagesNode = document.querySelector(
+		const messageNode = document.querySelector(
 			`li[data-index="${lastMessageInPageIndex}"]`
 		);
 
-		if (messagesNode) {
-			console.log('scroll to message with index', lastMessageInPageIndex);
-
-			messagesNode.scrollIntoView({
+		if (messageNode) {
+			messageNode.scrollIntoView({
 				behavior: 'instant',
 				block: 'start',
 			});
@@ -285,16 +162,16 @@ export const MessagesList = ({
 					className={styles.messagesList}
 					style={{
 						paddingBottom:
-							6 + (replyTo || messageToEdit ? chatInputHeight - 64 : 0),
+							6 + (replyTo || messageToEdit ? chatInputHeight - 60 : 0),
 					}}
 				>
 					{memoizedMessages.map((message, index) => {
 						const nextMessage = memoizedMessages[index + 1];
 
 						return (
-							<li key={message?.id} data-index={index}>
+							<li key={message.id} data-index={index}>
 								<MemoizedMessage
-									key={message?.id}
+									key={message.id}
 									{...message}
 									nextMessageSenderId={nextMessage?.senderId || null}
 									visibleButtonsGroupId={activeButtonsGroupId}
@@ -317,6 +194,7 @@ export const MessagesList = ({
 			) : (
 				<Loader />
 			)}
+			<div ref={scrollBottomRef} />
 		</div>
 	);
 };

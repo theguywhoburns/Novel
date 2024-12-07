@@ -1,9 +1,10 @@
 import { IMessageProps } from '@/components/chat/ChatsList/Chat/Chat';
 import { Separator } from '@/components/ui/Separator/Separator';
+import { IconNotSent } from '@/icons/NotSent';
 import { IconRead } from '@/icons/Read';
 import { IconSending } from '@/icons/Sending';
 import { IconSent } from '@/icons/Sent';
-import { IconUpdated } from '@/icons/Updated';
+import { useThemeStore } from '@/store/theme/useThemeStore';
 import { useTheme } from '@/theme';
 import { memo, useRef } from 'react';
 import { ButtonsGroup } from '../../ButtonsGroup/ButtonsGroup';
@@ -26,6 +27,8 @@ export const Message = memo(
 		onToggleButtonsGroup,
 	}: IMessageProps) => {
 		const theme = useTheme();
+
+		const currentTheme = useThemeStore(state => state.theme);
 
 		const messageRef = useRef<HTMLDivElement>(null);
 
@@ -92,7 +95,12 @@ export const Message = memo(
 					{replyToMessage?.id && (
 						<div
 							className={styles.replyToMessage}
-							style={{ background: 'rgba(0, 0, 0, 0.08)' }}
+							style={{
+								background:
+									currentTheme === 'light'
+										? 'rgba(0, 0, 0, 0.08)'
+										: 'rgba(0, 0, 0, 0.14)',
+							}}
 						>
 							<Separator
 								direction='vertical'
@@ -109,7 +117,13 @@ export const Message = memo(
 						</div>
 					)}
 
-					<div style={{ display: 'flex', alignItems: 'flex-end' }}>
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'flex-end',
+							justifyContent: 'space-between',
+						}}
+					>
 						{type === 'text' ? (
 							<p
 								className={styles.messageText}
@@ -122,26 +136,28 @@ export const Message = memo(
 							<p>this message has not text type</p>
 						)}
 
-						<span
-							className={styles.time}
-							style={{ color: amISender ? theme.white : theme.grey }}
-						>
-							{formattedTime}
-						</span>
+						<div className={styles.timeAndStatus}>
+							<span
+								className={styles.time}
+								style={{ color: amISender ? theme.white : theme.grey }}
+							>
+								{formattedTime}
+							</span>
 
-						{amISender && (
-							<div className={styles.statusWrapper}>
-								{status === 'sending' ? (
-									<IconSending />
-								) : status === 'sent' ? (
-									<IconSent />
-								) : status === 'read' ? (
-									<IconRead />
-								) : status === 'updated' ? (
-									<IconUpdated />
-								) : null}
-							</div>
-						)}
+							{amISender && (
+								<div className={styles.statusWrapper}>
+									{status === 'sending' ? (
+										<IconSending />
+									) : status === 'sent' ? (
+										<IconSent />
+									) : status === 'read' ? (
+										<IconRead />
+									) : status === 'not sent' ? (
+										<IconNotSent />
+									) : null}
+								</div>
+							)}
+						</div>
 					</div>
 					{visibleButtonsGroupId === id && (
 						<ButtonsGroup

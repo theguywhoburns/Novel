@@ -3,7 +3,7 @@ import { IChat, IMessage } from '@/components/chat/ChatsList/Chat/Chat';
 import axios from 'axios';
 import { create } from 'zustand';
 
-const baseUrl = 'http://localhost:4000/api';
+export const baseUrl = 'http://localhost:4000/api';
 
 interface IMessengerStore {
 	messages: IMessage[];
@@ -14,8 +14,14 @@ interface IMessengerStore {
 	isMessagesLoading: boolean;
 	setIsMessagesLoading: (isMessagesLoading: boolean) => void;
 
+	isNewMessageSent: boolean;
+	setIsNewMessageSent: (isNewMessageSent: boolean) => void;
+
 	newMessageText: string;
 	setNewMessageText: (newMessageText: string) => void;
+
+	editedMessageText: string;
+	setEditedMessageText: (editedMessageText: string) => void;
 
 	replyTo: IMessageEntity | null;
 	setReplyTo: (replyTo: IMessageEntity | null) => void;
@@ -58,8 +64,14 @@ export const useMessengerStore = create<IMessengerStore>(set => ({
 	isMessagesLoading: true,
 	setIsMessagesLoading: isMessagesLoading => set({ isMessagesLoading }),
 
+	isNewMessageSent: false,
+	setIsNewMessageSent: isNewMessageSent => set({ isNewMessageSent }),
+
 	newMessageText: '',
 	setNewMessageText: newMessageText => set({ newMessageText }),
+
+	editedMessageText: '',
+	setEditedMessageText: editedMessageText => set({ editedMessageText }),
 
 	replyTo: null,
 	setReplyTo: replyTo => set({ replyTo }),
@@ -84,7 +96,6 @@ export const useMessengerStore = create<IMessengerStore>(set => ({
 
 	sendNewMessage: ({ data, socket }) => {
 		if (!socket || socket.readyState !== WebSocket.OPEN) {
-			console.log('no socket or socket is not open');
 			return;
 		}
 
@@ -112,10 +123,10 @@ export const useMessengerStore = create<IMessengerStore>(set => ({
 			replyToMessageId,
 		};
 
-		console.log(socket);
-
 		if (state.newMessageText.length) {
 			state.setNewMessageText('');
+			state.setIsNewMessageSent(true);
+			setTimeout(() => state.setIsNewMessageSent(false), 100);
 			socket.send(JSON.stringify(message));
 		}
 	},
@@ -123,8 +134,6 @@ export const useMessengerStore = create<IMessengerStore>(set => ({
 	getChatsByUser: async userId => {
 		try {
 			const response = await axios.get<IChat[]>(`${baseUrl}/chats/${userId}`);
-
-			console.log(response);
 
 			if (response.status !== 200) {
 				throw new Error(response.statusText);

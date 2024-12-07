@@ -1,3 +1,4 @@
+import { IMessage, Status } from '@/components/chat/ChatsList/Chat/Chat';
 import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useEffect, useRef, useState } from 'react';
 
@@ -23,31 +24,22 @@ export const useChatWebSocket = () => {
 	const wsPort = 4200;
 	const wsUrl = `ws://localhost:${wsPort}/api/ws`;
 
-	useEffect(() => {
-		console.log('test effect triggered');
-	}, []);
-
 	const connectToSocket = () => {
 		socket.current = new WebSocket(wsUrl);
 
 		socket.current.onopen = () => {
 			setIsConnected(true);
-			console.log(':: Socket open');
 
 			if (socket.current?.readyState === WebSocket.OPEN) {
-				console.log(':: Socket is ready');
-				console.log(':: Fetching messages');
 				getMessages();
 			}
 		};
 
 		socket.current.onmessage = event => {
 			const message = JSON.parse(event.data);
-			console.log(':: Socket MESSAGE: ', message);
 
 			switch (message.type) {
 				case 'getMessages':
-					console.log('messages page length: ', message.messages.length);
 					setHasMoreMessages(message.messages.length === pageSize);
 					setLastMessageInPageIndex(message.messages.length - 1);
 
@@ -56,36 +48,73 @@ export const useChatWebSocket = () => {
 						setIsMessagesLoading(false);
 					}, 300);
 					break;
+
+				case 'editMessage':
+					setMessages(prev => {
+						return prev.map(m => {
+							if (m.id === message.message.id) {
+								return message.message;
+							}
+
+							if (m.replyToMessage?.id === message.message.id) {
+								return {
+									...m,
+									replyToMessage: {
+										...m.replyToMessage,
+										text: message.message.text,
+									},
+								};
+							}
+
+							return m;
+						});
+					});
+					break;
+
+				case 'updateMessageStatus':
+					setMessages(prev => {
+						return prev.map(m => {
+							if (m.id === message.message.id) {
+								return {
+									...m,
+									status: message.message.status,
+								};
+							}
+							return m;
+						});
+					});
+					break;
+
 				default:
-					console.log('default');
-					console.log('MESSAGE:', message);
 					setMessages(prev => [...prev, message]);
 					break;
 			}
-			console.log('messages updated');
 		};
 
 		socket.current.onclose = () => {
 			setIsConnected(false);
-			console.log(':: Socket close');
 		};
 
-		socket.current.onerror = error => {
-			console.log(':: Socket error: ', error);
+		socket.current.onerror = err => {
+			console.error(':: Socket error: ', err);
 		};
 	};
 
 	const getMessages = () => {
-		if (socket.current?.readyState === WebSocket.OPEN) {
-			socket.current.send(
-				JSON.stringify({
-					type: 'getMessages',
-					page: currentPage,
-					pageSize,
-					chatId: chat.id,
-				})
-			);
-			console.log('current page: ', currentPage);
+		try {
+			if (socket.current?.readyState === WebSocket.OPEN) {
+				socket.current.send(
+					JSON.stringify({
+						type: 'getMessages',
+						page: currentPage,
+						pageSize,
+						chatId: chat.id,
+					})
+				);
+			}
+		} catch (error) {
+			console.error('Error fetching messages:', error);
+			setHasMoreMessages(false);
 		}
 	};
 
@@ -94,7 +123,39 @@ export const useChatWebSocket = () => {
 			setCurrentPage(prevPage => prevPage + 1);
 			getMessages();
 			setIsMessagesLoading(true);
-			console.log('load more called'.toUpperCase());
+		}
+	};
+
+	const editMessage = (message: IMessage) => {
+		try {
+			if (socket.current?.readyState === WebSocket.OPEN) {
+				socket.current.send(
+					JSON.stringify({
+						type: 'editMessage',
+						message,
+					})
+				);
+			}
+		} catch (error) {
+			console.error('Error fetching messages:', error);
+			setHasMoreMessages(false);
+		}
+	};
+
+	const updateMessageStatus = (messageId: number, status: Status) => {
+		try {
+			if (socket.current?.readyState === WebSocket.OPEN) {
+				socket.current.send(
+					JSON.stringify({
+						type: 'updateMessageStatus',
+						messageId,
+						status,
+					})
+				);
+			}
+		} catch (err) {
+			console.error('Error fetching messages:', err);
+			setHasMoreMessages(false);
 		}
 	};
 
@@ -107,7 +168,10 @@ export const useChatWebSocket = () => {
 	return {
 		socket,
 		isConnected,
+		getMessages,
 		loadMoreMessages,
+		editMessage,
+		updateMessageStatus,
 		hasMoreMessages,
 		pageSize,
 		lastMessageInPageIndex,

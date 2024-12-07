@@ -1,6 +1,7 @@
 import { ChatHeader } from '@/components/layout/Header/ChatHeader/ChatHeader';
 import { Header as DefaultHeader } from '@/components/layout/Header/Header';
 import { PlaceHeader } from '@/components/layout/Header/PlaceHeader/PlaceHeader';
+import { SettingsHeader } from '@/components/layout/Header/SettingsHeader/SettingsHeader';
 import { Page404 } from '@/pages/404';
 import Home from '@/pages/Home';
 import { Settings } from '@/pages/Home/Settings/Settings';
@@ -48,7 +49,7 @@ export const RouteLayouts: Record<
 > = {
 	[RouteBase.LOGIN]: [DefaultHeader, true],
 	[RouteBase.HOME]: [DefaultHeader, true],
-	[RouteBase.SETTINGS]: [DefaultHeader, true],
+	[RouteBase.SETTINGS]: [SettingsHeader, true],
 	[RouteBase.REELS]: [DefaultHeader, true],
 	[RouteBase.PLACES]: [DefaultHeader, true],
 	[RouteBase.PLACE]: [PlaceHeader, false],

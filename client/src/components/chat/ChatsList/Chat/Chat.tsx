@@ -4,6 +4,8 @@ import { useTheme } from '@/theme';
 import { useNavigate } from 'react-router-dom';
 import styles from './Chat.module.css';
 
+export type Status = 'sending' | 'sent' | 'read' | 'not sent';
+
 export interface IMessage {
 	id: number;
 	chatId: number;
@@ -17,7 +19,7 @@ export interface IMessage {
 	file?: string;
 	sticker?: string;
 	createdAt: Date;
-	status: 'sending' | 'sent' | 'read' | 'updated';
+	status: Status;
 	replyToMessage: IMessage | null;
 }
 
@@ -72,7 +74,8 @@ export const Chat = ({
 
 	const handleClick = () => {
 		navigate(`/chat/${id}`);
-		setChat({
+
+		const selectedChat: IChat = {
 			id,
 			userOneId,
 			userTwoId,
@@ -80,20 +83,10 @@ export const Chat = ({
 			lastMessage,
 			newMessagesAmount,
 			interlocutor,
-		});
-		localStorage.setItem(
-			'chat',
-			JSON.stringify({
-				id,
-				userOneId,
-				userTwoId,
-				isMuted,
-				lastMessage,
-				newMessagesAmount,
-				interlocutor,
-			})
-		);
-		console.log(id, lastMessage, newMessagesAmount, isMuted, interlocutor);
+		};
+
+		setChat(selectedChat);
+		localStorage.setItem('chat', JSON.stringify(selectedChat));
 	};
 
 	return (
@@ -129,29 +122,3 @@ export const Chat = ({
 		</li>
 	);
 };
-
-[
-	{
-		id: 2,
-		userOneId: 1,
-		userTwoId: 3,
-		isMuted: false,
-		lastMessage: {
-			id: 2,
-			chatId: 2,
-			senderId: 1,
-			recipientId: 3,
-			type: 'text',
-			text: 'Hi there!',
-		},
-		newMessagesAmount: 0,
-		interlocutor: {
-			id: 3,
-			name: 'Charlie Brown',
-			age: 36,
-			imgSrc: null,
-			gender: 'Male',
-			isOnline: true,
-		},
-	},
-];

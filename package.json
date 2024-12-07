@@ -18,6 +18,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "concurrently": "^9.1.0"
+    "concurrently": "^9.1.0",
+    "react-aria": "^3.36.0",
+    "react-stately": "^3.34.0"
   }
 }

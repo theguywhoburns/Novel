@@ -1,42 +1,7 @@
 .settingsPage {
 	display: flex;
 	flex-direction: column;
-}
-
-.settingsPageHeader {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: calc(100% - 38px);
-	height: 60px;
-}
-
-.settingsPageHeaderText {
-	display: flex;
-	justify-content: center;
-	flex: 1;
-	flex-grow: 1;
-	font-size: 24px;
-	text-align: center;
-	font-weight: bold;
-}
-
-.settingsPageBtn {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-	padding: 0;
-	width: 38px;
-	height: 38px;
-	border: none;
-	border-radius: 19px;
-	margin-right: auto;
-}
-
-.settingsPageScrollView {
-	overflow-y: auto;
 	width: 100%;
-	max-width: 600px;
-	margin: auto;
+	max-width: 800px;
+	margin: 0 auto;
 }

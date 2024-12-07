@@ -1,12 +1,20 @@
 .place {
 	position: relative;
 	aspect-ratio: 328 / 163;
-	width: 100%;
 	min-width: 300px;
 	max-width: 600px;
 	border-radius: 18px;
 	width: 100%;
 	cursor: pointer;
+	transition: 0.3s;
+}
+
+.place:hover {
+	opacity: 0.9;
+}
+
+.place:active {
+	transform: scale(0.95);
 }
 
 .img {

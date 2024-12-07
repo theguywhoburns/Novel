@@ -99,7 +99,7 @@ class UserController {
 
       res.json(user.rows[0]);
     } catch (error) {
-      console.log("error: ", error);
+
       res.status(500).json({ error });
     }
   }

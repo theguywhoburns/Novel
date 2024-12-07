@@ -1,14 +1,17 @@
-import { IPlace } from '@/components/place/PlacesList/Place/Place';
 import { PlaceDetailed } from '@/components/place/PlacesList/Place/PlaceDetailed/PlaceDetailed';
+import { usePlacesStore } from '@/store/places/usePlacesStore';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { placesObj } from '..';
 
 export const PlaceDetailedPage = () => {
 	const { id } = useParams();
 
-	const place: IPlace | undefined = placesObj['parks'].find(
-		place => place.id === parseInt(id ?? '')
-	);
+	const place = usePlacesStore(state => state.place);
+	const getPlace = usePlacesStore(state => state.getPlace);
+
+	useEffect(() => {
+		getPlace(Number(id));
+	}, []);
 
 	return (
 		<div>

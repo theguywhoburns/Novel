@@ -25,8 +25,6 @@
 .placeInfoList {
 	display: flex;
 	flex-direction: column;
-	gap: 5;
-}
-
-.button {
+	gap: 5px;
+	margin-bottom: 20px;
 }

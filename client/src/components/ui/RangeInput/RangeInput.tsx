@@ -22,11 +22,10 @@ export const RangeInput = ({
 	const [sliderValues, setSliderValues] = useState([min, max]);
 
 	const handleValuesChange = (
-		event: Event,
+		_event: Event,
 		values: number | number[],
-		activeThumb: number
+		_activeThumb: number
 	) => {
-		console.log(event, values, activeThumb);
 		setSliderValues(typeof values === 'number' ? [values, values] : values);
 	};
 	const theme = useTheme();

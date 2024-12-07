@@ -8,33 +8,53 @@ class WebSocketChatServer {
 	}
 
 	start() {
+		console.log(`WebSocket server is listenting on port ${this.wss.address().port}`);
 		this.wss.on('connection', async (ws) => {
+
+
 			ws.on('message', async (message) => {
-				message = JSON.parse(message);
-				console.log(':: Socket MESSAGE: ', message);
-				if (message.type === 'getMessages') {
-					await this.getMessages(ws, message.page || 1, message.pageSize || 20, message.chatId);
-				} else {
-					const formattedMessages = await this.storeNewMessage(message);
-					console.log('unfmt msg: ', message);
-					console.log("formattedMessages: ", formattedMessages);
-					this.broadcastMessage(formattedMessages);
+				const parsedMessage = JSON.parse(message);
+
+				switch (parsedMessage.type) {
+					case 'getMessages':
+						await this.getMessages(ws, parsedMessage.page || 1, parsedMessage.pageSize || 20, parsedMessage.chatId);
+						break;
+
+					case 'editMessage':
+						await this.editMessage(ws, parsedMessage);
+						break;
+
+					case 'updateMessageStatus':
+						await this.updateMessageStatus(ws, parsedMessage?.messageId, parsedMessage?.status);
+						break;
+
+					default:
+						const formattedMessages = await this.storeNewMessage(parsedMessage);
+						this.broadcastMessage(ws, formattedMessages);
+						break;
 				}
 			});
 		});
 	}
 
-	broadcastMessage(message, excludeClient) {
-		this.wss.clients.forEach((client) => {
-			if (client !== excludeClient && client.readyState === client.OPEN) {
-				client.send(JSON.stringify(message));
-			}
-		});
-		console.log('Clients connected: ', this.wss.clients.size);
+	broadcastMessage(ws, message, excludeClient) {
+		try {
+			this.wss.clients.forEach((client) => {
+				if (client !== excludeClient && client.readyState === client.OPEN) {
+					client.send(JSON.stringify(message));
+
+					if (message.status !== 'read') {
+						this.updateMessageStatus(ws, message?.id, 'sent', message?.replyToMessage);
+					}
+				}
+			});
+
+		} catch (error) {
+			console.error('Error broadcasting message:', error);
+		}
 	}
 
 	async storeNewMessage(message) {
-		console.log('storeNewMessage: ', message);
 		try {
 			const result = await db.query(
 				'INSERT INTO messages ("senderId", "recipientId", "chatId", type, text, "createdAt", status, "replyToMessageId") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
@@ -42,7 +62,7 @@ class WebSocketChatServer {
 			);
 
 			const newMessage = result.rows[0];
-			console.log('newMessage: ', newMessage);
+
 
 			let replyToMessage = null;
 			if (newMessage?.replyToMessageId) {
@@ -52,32 +72,10 @@ class WebSocketChatServer {
 				);
 				replyToMessage = replyResult.rows[0] || null;
 			}
-			const formattedMessage = {
-				id: newMessage.id,
-				chatId: newMessage.chatId,
-				senderId: newMessage.senderId,
-				recipientId: newMessage.recipientId,
-				type: newMessage.type,
-				text: newMessage.text,
-				createdAt: newMessage.createdAt,
-				status: newMessage.status,
-				replyToMessage: replyToMessage ? {
-					id: replyToMessage.id,
-					chatId: replyToMessage.chatId,
-					senderId: replyToMessage.senderId,
-					recipientId: replyToMessage.recipientId,
-					type: replyToMessage.type,
-					text: replyToMessage.text,
-					createdAt: replyToMessage.createdAt,
-					status: replyToMessage.status,
-					replyToMessageId: replyToMessage.replyToMessageId
-				} : null
-			};
-			console.log("MESSAGE WITH ID: ", formattedMessage);
-			return formattedMessage;
-		} catch (error) {
-			console.error('Error storing message:', error);
-			throw error;
+
+			return this.formatMessage(newMessage, replyToMessage);
+		} catch (err) {
+			console.error('Error storing message:', err);
 		}
 	}
 
@@ -85,50 +83,97 @@ class WebSocketChatServer {
 		try {
 			const messages = await this.retrieveMessages(chatId, page, pageSize);
 			ws.send(JSON.stringify({ type: 'getMessages', messages }));
-		} catch (error) {
-			console.error('Error retrieving messages:', error);
+		} catch (err) {
+			console.error('Error getting messages:', err);
 		}
 	}
 
 	async retrieveMessages(chatId, page, pageSize) {
-		const offset = (page - 1) * pageSize;
+		try {
+			const offset = (page - 1) * pageSize;
 
-		const result = await db.query(
-			`
-				SELECT m.*, r.id AS "replyId", r.text AS "replyText", r."senderId" AS "replySenderId", r."createdAt" AS "replyCreatedAt"
-				FROM messages m
-				LEFT JOIN messages r ON m."replyToMessageId" = r.id
-				WHERE m."chatId" = $1
-				ORDER BY m."createdAt" DESC 
-				LIMIT $2 OFFSET $3
-			`,
-			[chatId, pageSize, offset]
-		);
+			const result = await db.query(
+				`
+					SELECT m.*, r.id AS "replyId", r.text AS "replyText", r."senderId" AS "replySenderId", r."createdAt" AS "replyCreatedAt"
+					FROM messages m
+					LEFT JOIN messages r ON m."replyToMessageId" = r.id
+					WHERE m."chatId" = $1
+					ORDER BY m."createdAt" DESC 
+					LIMIT $2 OFFSET $3
+				`,
+				[chatId, pageSize, offset]
+			);
 
-		const messages = result.rows.map(row => ({
-			id: row.id,
-			chatId: row.chatId,
-			senderId: row.senderId,
-			recipientId: row.recipientId,
-			type: row.type,
-			text: row.text,
-			createdAt: new Date(row.createdAt),
-			status: row.status,
-			replyToMessageId: row.replyToMessageId,
-			replyToMessage: row.replyId ? {
+			return result.rows.map(row => this.formatMessage(row, {
 				id: row.replyId,
-				chatId: row.chatId,
-				senderId: row.replySenderId,
-				recipientId: row.recipientId,
-				type: row.type,
 				text: row.replyText,
-				status: row.status,
+				senderId: row.replySenderId,
 				createdAt: row.replyCreatedAt,
 				replyToMessageId: row.replyToMessageId
-			} : null
-		}));
+			})).reverse();
+		} catch (err) {
+			console.error('Error retrieving messages:', err);
+		}
+	}
 
-		return messages.reverse();
+	async updateMessage(message, replyToMessage) {
+		try {
+
+			const { id, text } = message.message;
+
+
+			const result = await db.query(
+				'UPDATE messages SET text = $1 WHERE id = $2 RETURNING *',
+				[text, id]
+			);
+
+			if (result.rows.length === 0) {
+				throw new Error(`Message with ID ${id} not found`);
+			} const editedMessage = result.rows[0];
+
+			return this.formatMessage(editedMessage, replyToMessage);
+		} catch (err) {
+			console.error('Error updating message:', err);
+		}
+	}
+
+	async updateMessageStatus(ws, messageId, status, replyToMessage) {
+		try {
+			const result = await db.query(
+				'UPDATE messages SET status = $1 WHERE id = $2 RETURNING *',
+				[status, messageId]
+			);
+
+			const formattedMessage = this.formatMessage(result.rows[0], replyToMessage);
+
+			ws.send(JSON.stringify({ type: 'updateMessageStatus', message: formattedMessage }));
+		} catch (err) {
+			console.error('Error updating message status:', err);
+		}
+	}
+
+
+	async editMessage(ws, message) {
+		try {
+			const editedMessage = await this.updateMessage(message, message.message.replyToMessage);
+			ws.send(JSON.stringify({ type: 'editMessage', message: editedMessage }));
+		} catch (error) {
+			console.error('Error editing message:', error);
+		}
+	}
+
+	formatMessage(message, replyToMessage) {
+		return {
+			id: message.id,
+			chatId: message.chatId,
+			senderId: message.senderId,
+			recipientId: message.recipientId,
+			type: message.type,
+			text: message.text,
+			createdAt: new Date(message.createdAt),
+			status: message.status,
+			replyToMessage: replyToMessage ? replyToMessage : null
+		};
 	}
 }
 

@@ -26,10 +26,12 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^6.1.6",
+    "axios": "^1.7.8",
     "framer-motion": "^11.11.10",
     "path": "^0.12.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-modal-sheet": "^3.3.0",
     "react-router-dom": "^6.28.0",
     "react-swipeable": "^7.0.1",
     "zustand": "^5.0.1"

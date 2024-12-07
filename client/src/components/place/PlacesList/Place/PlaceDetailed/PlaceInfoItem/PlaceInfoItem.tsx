@@ -3,7 +3,7 @@ import styles from './PlaceInfoItem.module.css';
 interface IPlaceInfoItem {
 	Icon: React.ReactElement;
 	title?: string;
-	value: string | number;
+	value: string;
 	separator?: string;
 }
 

@@ -8,7 +8,7 @@ export const MessengerPage = () => {
 	const theme = useTheme();
 
 	return (
-		<div>
+		<div className={styles.messengerPage}>
 			<h2
 				className={styles.titleWithMargin}
 				style={{ color: theme.text_color }}

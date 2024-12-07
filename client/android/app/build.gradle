@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     namespace "me.theguywhoburns.novelapp"
-    compileSdk rootProject.ext.compileSdkVersion
+    compileSdkVersion 34
     defaultConfig {
         applicationId "me.theguywhoburns.novelapp"
         minSdkVersion rootProject.ext.minSdkVersion

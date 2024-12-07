@@ -24,7 +24,6 @@ export const useScrollRef = (
 
 	const handleScroll = () => {
 		scrollRef.current?.scrollIntoView({ behavior });
-		console.log('scroll');
 	};
 
 	useLayoutEffect(() => {

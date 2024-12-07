@@ -17,10 +17,15 @@ export interface IMessageEntity
 interface IChatInput {
 	onChatInputHeightAvailable: (height: number) => void;
 	socket: WebSocket | null;
+	editMessage: (message: IMessage) => void;
+	scrollBottomRef: React.RefObject<HTMLDivElement>;
 }
 
 export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
-	({ onChatInputHeightAvailable, socket }, ref) => {
+	(
+		{ onChatInputHeightAvailable, socket, editMessage, scrollBottomRef },
+		ref
+	) => {
 		const theme = useTheme();
 
 		const inputRef = useRef<HTMLInputElement>(null);
@@ -38,6 +43,13 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 			state => state.setNewMessageText
 		);
 
+		const editedMessageText = useMessengerStore(
+			state => state.editedMessageText
+		);
+		const setEditedMessageText = useMessengerStore(
+			state => state.setEditedMessageText
+		);
+
 		const sendNewMessage = useMessengerStore(state => state.sendNewMessage);
 
 		const userId = 1;
@@ -51,14 +63,28 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 			type: 'text',
 			text: newMessageText,
 			createdAt: new Date(Date.now()),
-			status: 'read',
-			replyToMessageId: replyTo?.id ?? null,
+			status: 'sending',
+			replyToMessageId: replyTo?.id || null,
 		};
 
 		const handleSendNewMessage = () => {
 			sendNewMessage({ data: newMessage, socket });
 			setReplyTo(null);
 			setMessageToEdit(null);
+
+			scrollBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+		};
+
+		const handleEditMessage = () => {
+			console.log('edit message: ', {
+				...messageToEdit,
+				text: editedMessageText,
+			});
+			if (messageToEdit) {
+				editMessage({ ...messageToEdit, text: editedMessageText });
+				setMessageToEdit(null);
+				setEditedMessageText('');
+			}
 		};
 
 		useEffect(() => {
@@ -135,7 +161,7 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 
 				<div className={styles.chatInputContainer}>
 					<ImageUploader
-						onImageUpload={() => console.log('upload')}
+						onImageUpload={() => console.log('uploaded')}
 						selectedImage={null}
 					/>
 
@@ -149,11 +175,15 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 							ref={inputRef}
 							type='text'
 							placeholder='Сообщение'
-							value={newMessageText}
-							onChange={e => setNewMessageText(e.target.value)}
+							value={!messageToEdit ? newMessageText : editedMessageText}
+							onChange={e =>
+								!messageToEdit
+									? setNewMessageText(e.target.value)
+									: setEditedMessageText(e.target.value)
+							}
 							onKeyDown={e => {
 								if (e.key === 'Enter') {
-									handleSendNewMessage();
+									!messageToEdit ? handleSendNewMessage() : handleEditMessage();
 								}
 							}}
 						/>
@@ -176,6 +206,23 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 							onClick={handleSendNewMessage}
 						>
 							&#10148;
+						</IconButton>
+					) : editedMessageText ? (
+						<IconButton
+							sx={{
+								width: 28,
+								height: 28,
+								fontWeight: 700,
+								fontSize: 20,
+								color: theme.text_color,
+								'&:hover': {
+									backgroundColor: theme.accent_color,
+									color: theme.text_color,
+								},
+							}}
+							onClick={handleEditMessage}
+						>
+							&#10003;
 						</IconButton>
 					) : (
 						<IconMike />

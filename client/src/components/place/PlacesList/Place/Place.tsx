@@ -1,5 +1,6 @@
 import { IconGeoTag, IconStar } from '@/icons';
 import { useGeoPositionStore } from '@/store/geoPosition/useGeoPositionStore';
+import { usePlacesStore } from '@/store/places/usePlacesStore';
 import { useTheme } from '@/theme';
 import { Rating } from '@/types/types';
 import { distance } from '@/utils/distance';
@@ -15,30 +16,46 @@ export interface IPlace {
 	description?: string;
 	approximateCost?: number;
 	phoneNumber?: string;
-	address?: string; // We will use open street map to get the latitude and longitude from this address
-	coords: [number, number]; // latitude, longtitude
+	address?: string;
+	geoLat: number;
+	geoLon: number;
+	link?: string;
 }
 
-export const Place = ({ id, name, imgSrc, rating, coords }: IPlace) => {
+export const Place = ({
+	id,
+	name,
+	imgSrc,
+	rating,
+	geoLat,
+	geoLon,
+	workingHours,
+}: IPlace) => {
 	const theme = useTheme();
+
 	const navigate = useNavigate();
-	const handleClick = () => {
-		navigate(`/place/${id}`);
-	};
 
 	const position = useGeoPositionStore(state => state.position);
+
+	const setPlace = usePlacesStore(state => state.setPlace);
+
 	let distanceInKm = '';
 	if (position) {
 		distanceInKm = distance(
-			coords[0],
-			coords[1],
-			position.latitude,
-			position.longitude,
+			geoLat,
+			geoLon,
+			position?.geoLat,
+			position?.geoLon,
 			'K'
 		).toFixed(2);
 	}
 
 	const formattedRating = rating / 10;
+
+	const handleClick = () => {
+		navigate(`/place/${id}`);
+		setPlace({ id, name, imgSrc, rating, geoLat, geoLon, workingHours });
+	};
 
 	return (
 		<li className={styles.place} onClick={handleClick}>
