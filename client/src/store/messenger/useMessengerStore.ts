@@ -95,39 +95,44 @@ export const useMessengerStore = create<IMessengerStore>(set => ({
 	setChat: chat => set({ chat }),
 
 	sendNewMessage: ({ data, socket }) => {
-		if (!socket || socket.readyState !== WebSocket.OPEN) {
-			return;
-		}
+		try {
+			console.log('DATA: ', data);
+			if (!socket || socket.readyState !== WebSocket.OPEN) {
+				return;
+			}
 
-		const {
-			senderId,
-			recipientId,
-			chatId,
-			type,
-			text,
-			createdAt,
-			status,
-			replyToMessageId,
-		} = data;
+			const {
+				senderId,
+				recipientId,
+				chatId,
+				type,
+				text,
+				createdAt,
+				status,
+				replyToMessageId,
+			} = data;
 
-		const state = useMessengerStore.getState();
+			const state = useMessengerStore.getState();
 
-		const message: IMessageEntity = {
-			senderId,
-			recipientId,
-			chatId,
-			type,
-			text,
-			createdAt,
-			status,
-			replyToMessageId,
-		};
+			const message: IMessageEntity = {
+				senderId,
+				recipientId,
+				chatId,
+				type,
+				text,
+				createdAt,
+				status,
+				replyToMessageId,
+			};
 
-		if (state.newMessageText.length) {
-			state.setNewMessageText('');
-			state.setIsNewMessageSent(true);
-			setTimeout(() => state.setIsNewMessageSent(false), 100);
-			socket.send(JSON.stringify(message));
+			if (state.newMessageText.length) {
+				state.setNewMessageText('');
+				state.setIsNewMessageSent(true);
+				setTimeout(() => state.setIsNewMessageSent(false), 100);
+				socket.send(JSON.stringify(message));
+			}
+		} catch (err) {
+			console.error(err);
 		}
 	},
 

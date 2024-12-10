@@ -18,8 +18,12 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "concurrently": "^9.1.0",
+    "react": "^19.0.0",
     "react-aria": "^3.36.0",
+    "react-dom": "^19.0.0",
     "react-stately": "^3.34.0"
   }
 }

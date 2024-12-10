@@ -5,12 +5,14 @@ interface ISeparator extends React.HTMLAttributes<HTMLDivElement> {
 	marginY?: [number | string, number | string];
 	direction?: 'horizontal' | 'vertical';
 	color?: string;
+	variant?: 'default' | 'dragLine';
 }
 
 export const Separator = ({
 	marginY = [6, 6],
 	direction = 'horizontal',
 	color,
+	variant = 'default',
 	...props
 }: ISeparator) => {
 	const theme = useTheme();
@@ -21,7 +23,9 @@ export const Separator = ({
 
 	return (
 		<div
-			className={[styles.separator, styles[direction]].join(' ')}
+			className={[styles.separator, styles[direction], styles[variant]].join(
+				' '
+			)}
 			style={{
 				backgroundColor: separatorColor,
 				marginTop: marginTop !== undefined ? marginTop : marginY[0],

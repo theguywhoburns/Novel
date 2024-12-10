@@ -10,8 +10,7 @@ class WebSocketChatServer {
 	start() {
 		console.log(`WebSocket server is listenting on port ${this.wss.address().port}`);
 		this.wss.on('connection', async (ws) => {
-
-
+			console.log('WebSocket connection established');
 			ws.on('message', async (message) => {
 				const parsedMessage = JSON.parse(message);
 
@@ -118,9 +117,7 @@ class WebSocketChatServer {
 
 	async updateMessage(message, replyToMessage) {
 		try {
-
 			const { id, text } = message.message;
-
 
 			const result = await db.query(
 				'UPDATE messages SET text = $1 WHERE id = $2 RETURNING *',

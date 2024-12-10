@@ -6,6 +6,7 @@ import * as Icons from '@/icons';
 import { useThemeStore } from '@/store/theme/useThemeStore';
 import { setTheme, useTheme } from '@/theme';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const TestPlayground = () => {
 	const currentTheme = useThemeStore(state => state.theme);
@@ -14,7 +15,9 @@ const TestPlayground = () => {
 		const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 		setTheme(newTheme);
 	};
-
+	const [testValues, setTestValues] = useState([0, 100]);
+	const [test3Values, setTest3Values] = useState([0, 50, 100]);
+	const [test1Value, setTest1Value] = useState([50]);
 	const [range] = useState([0, 50]);
 	const [checked, setChecked] = useState(false);
 	const [selectedValue, setSelectedValue] = useState('aries');
@@ -62,8 +65,28 @@ const TestPlayground = () => {
 				/>
 				<RangeInput
 					label={''}
+					values={testValues}
+					setValues={v => setTestValues(v)}
 					min={range[0]}
 					max={range[1]}
+					step={1}
+					unit={'units'}
+				/>
+				<RangeInput
+					label={'тест с 1 значением'}
+					values={test1Value}
+					setValues={v => setTest1Value(v)}
+					min={0}
+					max={100}
+					step={1}
+					unit={'units'}
+				/>
+				<RangeInput
+					label={'тест с 3 значениями'}
+					values={test3Values}
+					setValues={v => setTest3Values(v)}
+					min={0}
+					max={100}
 					step={1}
 					unit={'units'}
 				/>
@@ -116,6 +139,8 @@ const TestPlayground = () => {
 			<div style={{ display: 'grid', placeItems: 'center' }}>
 				<UsersList />
 			</div>
+
+			<Link to='/login_email'>to login</Link>
 		</div>
 	);
 };

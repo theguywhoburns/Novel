@@ -1,11 +1,26 @@
 .react-modal-sheet-container {
-    min-height: 40vh !important;
-    height: fit-content !important;
-    background-color: var(--theme-background-color) !important;
+	min-height: 40vh !important;
+	height: fit-content !important;
+	background-color: var(--theme-background-color) !important;
+	padding: 0 16px 24px;
 }
 
 .react-modal-sheet-content {
-    min-height: 40vh !important;
-    height: fit-content !important;
-    background-color: var(--theme-background-color) !important;
+	min-height: 40vh !important;
+	height: fit-content !important;
+	background-color: var(--theme-background-color) !important;
+}
+
+.react-modal-sheet-header {
+	display: flex;
+	text-align: center;
+}
+
+.title {
+	display: flex;
+	justify-content: center;
+	font-size: 18px;
+	font-weight: 500;
+	line-height: 22px;
+	margin-top: 6px;
 }

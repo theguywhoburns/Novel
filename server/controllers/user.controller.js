@@ -27,6 +27,7 @@ class UserController {
 
       res.json(capitalizedUser);
     } catch (error) {
+			console.error(error);
       res.status(500).json({ error });
     }
   }
@@ -76,6 +77,7 @@ class UserController {
 
       res.json(user.rows[0]);
     } catch (error) {
+			console.error(error);
       res.status(500).json({ error });
     }
   }
@@ -99,7 +101,7 @@ class UserController {
 
       res.json(user.rows[0]);
     } catch (error) {
-
+			console.error(error);
       res.status(500).json({ error });
     }
   }
@@ -118,6 +120,7 @@ class UserController {
 
       res.json(user.rows[0]);
     } catch (error) {
+			console.error(error);
       res.status(500).json({ error });
     }
   }

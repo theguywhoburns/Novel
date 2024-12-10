@@ -32,6 +32,7 @@ class PlaceController {
 
 			res.status(201).json(newPlace.rows[0]);
 		} catch (err) {
+			console.error(error);
 			res.status(500).json({ error: err.message });
 		}
 	}
@@ -42,9 +43,7 @@ class PlaceController {
 
 			const cityId = await db.query('SELECT id FROM cities WHERE "address" ILIKE $1', ["%" + cityName + "%"]);
 
-
 			const places = await db.query('SELECT * FROM places WHERE "cityId" = $1', [cityId.rows[0].id]);
-
 
 			const categorizedPlaces = places.rows.reduce((acc, place) => {
 				switch (place.categoryId) {
@@ -72,6 +71,7 @@ class PlaceController {
 
 			res.json(categorizedPlaces);
 		} catch (error) {
+			console.error(error);
 			res.status(500).json({ error: error.message });
 		}
 	}
@@ -88,6 +88,7 @@ class PlaceController {
 
 			res.json(place.rows[0]);
 		} catch (err) {
+			console.error(error);
 			res.status(500).json({ error: err.message });
 		}
 	}

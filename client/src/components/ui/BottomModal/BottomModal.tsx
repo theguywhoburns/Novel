@@ -1,50 +1,77 @@
 import { useEffect, useRef } from 'react';
-import { useOverlayTriggerState } from 'react-stately';
 import {
-  useOverlay,
-  useModal,
-  OverlayProvider,
-  FocusScope,
-  useDialog,
+	FocusScope,
+	OverlayProvider,
+	useDialog,
+	useModal,
+	useOverlay,
 } from 'react-aria';
-import { Sheet } from "react-modal-sheet";
+import { Sheet } from 'react-modal-sheet';
+import { useOverlayTriggerState } from 'react-stately';
+import { Separator } from '../Separator/Separator';
 import './BottomModal.css';
-interface IBottomModalProps extends React.PropsWithChildren  {
+interface IBottomModalProps extends React.PropsWithChildren {
 	isOpen: boolean;
 	setIsOpen: (isOpen: boolean) => void;
 	name: string;
-};
+}
 
-export const BottomModal = ({children, isOpen, setIsOpen, name, ...props} : IBottomModalProps) => {
+export const BottomModal = ({
+	children,
+	isOpen,
+	setIsOpen,
+	name,
+	...props
+}: IBottomModalProps) => {
 	const sheetState = useOverlayTriggerState({});
+
 	useEffect(() => {
 		if (isOpen) {
 			sheetState.open();
 		}
 	}, [isOpen, sheetState]);
-	return (
-		<div onClick={(e) => e.preventDefault()}>
-			<Sheet onClick={(e) => e.preventDefault()} isOpen={sheetState.isOpen} onClose={() => {setIsOpen(false); sheetState.close();}}>
-				<OverlayProvider>
-					<FocusScope contain autoFocus restoreFocus>
-						<SheetComp name={name} sheetState={sheetState} setIsOpen={setIsOpen} {...props}>
-							{children}
-						</SheetComp>
-					</FocusScope>
-				</OverlayProvider>
-			</Sheet>
-		</div>
-	);
-}
 
-function SheetComp({ sheetState, name, setIsOpen, ...props } : IBottomModalProps | any) {
+	return (
+		<Sheet
+			onClick={e => e.preventDefault()}
+			isOpen={sheetState.isOpen}
+			onClose={() => {
+				setIsOpen(false);
+				sheetState.close();
+			}}
+		>
+			<OverlayProvider>
+				<FocusScope contain autoFocus restoreFocus>
+					<SheetComp
+						name={name}
+						sheetState={sheetState}
+						setIsOpen={setIsOpen}
+						{...props}
+					>
+						{children}
+					</SheetComp>
+				</FocusScope>
+			</OverlayProvider>
+		</Sheet>
+	);
+};
+
+function SheetComp({
+	sheetState,
+	name,
+	setIsOpen,
+	...props
+}: IBottomModalProps | any) {
 	const containerRef = useRef(null);
 	const dialog = useDialog({}, containerRef);
 	const overlay = useOverlay(
-		{	
-			onClose: () => {setIsOpen(false); sheetState.close()},
+		{
+			onClose: () => {
+				setIsOpen(false);
+				sheetState.close();
+			},
 			isOpen: true,
-			isDismissable: true
+			isDismissable: true,
 		},
 		containerRef
 	);
@@ -59,12 +86,11 @@ function SheetComp({ sheetState, name, setIsOpen, ...props } : IBottomModalProps
 				ref={containerRef}
 				{...props}
 			>
-				<Sheet.Header>
-					<span>{name}</span>
+				<Sheet.Header style={{ display: 'flex', flexDirection: 'column' }}>
+					<Separator marginY={[10, 10]} variant='dragLine' />
+					<h3 className='title'>{name}</h3>
 				</Sheet.Header>
-				<Sheet.Content>
-					{props.children}
-				</Sheet.Content>
+				<Sheet.Content>{props.children}</Sheet.Content>
 			</Sheet.Container>
 			<Sheet.Backdrop />
 		</>

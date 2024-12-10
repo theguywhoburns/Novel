@@ -1,3 +1,4 @@
+import { BackHeader } from '@/components/layout/Header/BackHeader/BackHeader';
 import { ChatHeader } from '@/components/layout/Header/ChatHeader/ChatHeader';
 import { Header as DefaultHeader } from '@/components/layout/Header/Header';
 import { PlaceHeader } from '@/components/layout/Header/PlaceHeader/PlaceHeader';
@@ -5,11 +6,19 @@ import { SettingsHeader } from '@/components/layout/Header/SettingsHeader/Settin
 import { Page404 } from '@/pages/404';
 import Home from '@/pages/Home';
 import { Settings } from '@/pages/Home/Settings/Settings';
-import { UserCardDetailedPage } from '@/pages/Home/UserCardDetailedPage/UserCardDetailedPage';
+import { LoginBirthDatePage } from '@/pages/login/LoginBirthDatePage/LoginBirthDatePage';
+import { LoginDescriptionPage } from '@/pages/login/LoginDescriptionPage/LoginDescriptionPage';
+import { LoginEmailPage } from '@/pages/login/LoginEmailPage/LoginEmailPage';
+import { LoginGenderPage } from '@/pages/login/LoginGenderPage/LoginGenderPage';
+import { LoginNamePage } from '@/pages/login/LoginNamePage/LoginNamePage';
+import { LoginPhotosPage } from '@/pages/login/LoginPhotosPage/LoginPhotosPage';
+import { LoginVerificationCodePage } from '@/pages/login/LoginVerificationCode/LoginVerificationCode';
 import { ChatPage } from '@/pages/MessengerPage/ChatPage/ChatPage';
 import { MessengerPage } from '@/pages/MessengerPage/MessengerPage';
 import { Places } from '@/pages/Places';
 import { PlaceDetailedPage } from '@/pages/Places/PlaceDetailedPage/PlaceDetailedPage';
+import { Profile } from '@/pages/Profile/Profile';
+import { ProfileHeader } from '@/pages/Profile/ProfileHeader';
 import TestPlayground from '@/pages/TestPlayground';
 
 export interface IRoute {
@@ -18,7 +27,13 @@ export interface IRoute {
 }
 
 export enum RouteBase {
-	LOGIN = '/login',
+	LOGIN_EMAIL = '/login_email',
+	LOGIN_VERIFICATION_CODE = '/login_verification_code',
+	LOGIN_NAME = '/login_name',
+	LOGIN_BIRTH_DATE = '/login_birth_date',
+	LOGIN_PHOTOS = '/login_photos',
+	LOGIN_GENDER = '/login_gender',
+	LOGIN_DESCRIPTION = '/login_description',
 	HOME = '/',
 	SETTINGS = '/settings',
 	REELS = '/reels',
@@ -31,7 +46,13 @@ export enum RouteBase {
 }
 
 export enum RouteNames {
-	LOGIN = RouteBase.LOGIN,
+	LOGIN_EMAIL = RouteBase.LOGIN_EMAIL,
+	LOGIN_VERIFICATION_CODE = RouteBase.LOGIN_VERIFICATION_CODE,
+	LOGIN_NAME = RouteBase.LOGIN_NAME,
+	LOGIN_BIRTH_DATE = RouteBase.LOGIN_BIRTH_DATE,
+	LOGIN_PHOTOS = RouteBase.LOGIN_PHOTOS,
+	LOGIN_GENDER = RouteBase.LOGIN_GENDER,
+	LOGIN_DESCRIPTION = RouteBase.LOGIN_DESCRIPTION,
 	HOME = RouteBase.HOME,
 	SETTINGS = RouteBase.SETTINGS,
 	REELS = RouteBase.REELS,
@@ -47,7 +68,13 @@ export const RouteLayouts: Record<
 	string,
 	[React.FC /*Header*/, boolean /*Show bottom nav*/]
 > = {
-	[RouteBase.LOGIN]: [DefaultHeader, true],
+	[RouteBase.LOGIN_EMAIL]: [DefaultHeader, false],
+	[RouteBase.LOGIN_VERIFICATION_CODE]: [BackHeader, false],
+	[RouteBase.LOGIN_NAME]: [BackHeader, false],
+	[RouteBase.LOGIN_BIRTH_DATE]: [BackHeader, false],
+	[RouteBase.LOGIN_PHOTOS]: [BackHeader, false],
+	[RouteBase.LOGIN_GENDER]: [BackHeader, false],
+	[RouteBase.LOGIN_DESCRIPTION]: [BackHeader, false],
 	[RouteBase.HOME]: [DefaultHeader, true],
 	[RouteBase.SETTINGS]: [SettingsHeader, true],
 	[RouteBase.REELS]: [DefaultHeader, true],
@@ -55,12 +82,21 @@ export const RouteLayouts: Record<
 	[RouteBase.PLACE]: [PlaceHeader, false],
 	[RouteBase.MESSENGER]: [DefaultHeader, true],
 	[RouteBase.CHAT]: [ChatHeader, false],
-	[RouteBase.PROFILE]: [DefaultHeader, true],
+	[RouteBase.PROFILE]: [ProfileHeader, true],
 	[RouteBase.TESTING_PLAYGROUND]: [DefaultHeader, true],
 };
 
 export const publicRoutes: IRoute[] = [
-	{ path: RouteNames.LOGIN, component: Page404 },
+	{ path: RouteNames.LOGIN_EMAIL, component: LoginEmailPage },
+	{
+		path: RouteNames.LOGIN_VERIFICATION_CODE,
+		component: LoginVerificationCodePage,
+	},
+	{ path: RouteNames.LOGIN_NAME, component: LoginNamePage },
+	{ path: RouteNames.LOGIN_BIRTH_DATE, component: LoginBirthDatePage },
+	{ path: RouteNames.LOGIN_PHOTOS, component: LoginPhotosPage },
+	{ path: RouteNames.LOGIN_GENDER, component: LoginGenderPage },
+	{ path: RouteNames.LOGIN_DESCRIPTION, component: LoginDescriptionPage },
 ];
 
 export const privateRoutes: IRoute[] = [
@@ -71,6 +107,6 @@ export const privateRoutes: IRoute[] = [
 	{ path: RouteNames.PLACE, component: PlaceDetailedPage },
 	{ path: RouteNames.MESSENGER, component: MessengerPage },
 	{ path: RouteNames.CHAT, component: ChatPage },
-	{ path: RouteNames.PROFILE, component: UserCardDetailedPage },
+	{ path: RouteNames.PROFILE, component: Profile },
 	{ path: RouteNames.TESTING_PLAYGROUND, component: TestPlayground },
 ];

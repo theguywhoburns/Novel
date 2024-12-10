@@ -1,3 +1,4 @@
+import { BottomModal } from '@/components/ui/BottomModal/BottomModal';
 import { LabeledRadioButton } from '@/components/ui/LabeledRadioButton/LabeledRadioButton';
 import { IconArrow } from '@/icons/Arrow';
 import { useTheme } from '@/theme';
@@ -66,24 +67,24 @@ export const SettingsItem = ({
 				<IconArrow color={theme.grey} direction='right' />
 			</div>
 			{isModalVisible && (
-				<div className={styles.modal}>
-					<div className={styles.modalContainer} onClick={handleModalClose}>
-						<div className={styles.modalInner}>
-							<h3>{title}</h3>
-							{options.map(option => (
-								<LabeledRadioButton
-									key={option.label}
-									label={option.label}
-									selectedValue={
-										selectedOptions.includes(option.label) ? option.label : ''
-									}
-									setSelectedValue={() => handleOptionSelection(option.label)}
-								/>
-							))}
-						</div>
-						<button className={styles.continueButton}>Продолжить</button>
-					</div>
-				</div>
+				<BottomModal
+					isOpen={isModalVisible}
+					setIsOpen={handleModalClose}
+					name={title}
+				>
+					{options.map(option => (
+						<LabeledRadioButton
+							key={option.label}
+							label={option.label}
+							selectedValue={
+								selectedOptions.includes(option.label) ? option.label : ''
+							}
+							setSelectedValue={() => handleOptionSelection(option.label)}
+						/>
+					))}
+
+					<button className={styles.continueButton}>Продолжить</button>
+				</BottomModal>
 			)}
 		</>
 	);

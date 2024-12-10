@@ -21,7 +21,7 @@ export const Content = ({ children }: IContent) => {
 			style={{
 				color: theme.text_color,
 				backgroundColor: theme.background_color,
-				padding: isChatPage ? '5px 0 0 0' : '5px 16px 16px',
+				padding: '5px 16px 16px',
 				scrollbarWidth: isChatPage ? 'none' : 'auto',
 			}}
 		>

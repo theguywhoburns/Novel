@@ -198,15 +198,17 @@ export const Places = () => {
 	}, []);
 
 	return (
-		<>
-			<div className={styles.placesHeader}>
+		<div className={styles.placesPage}>
+			<div className={styles.container}>
 				<button className={styles.filterButton}>
 					<IconFilter />
 				</button>
 				<Tabs tabs={tabs} selectedTab={placeType} onSelectTab={setPlaceType} />
 			</div>
-			<h3>Рекомендуемые места</h3>
-			<PlacesList places={placesObj[placeType]} />
-		</>
+			<div className={styles.titledPlacesList}>
+				<h3 className={styles.title}>Рекомендуемые места</h3>
+				<PlacesList places={placesObj[placeType]} />
+			</div>
+		</div>
 	);
 };

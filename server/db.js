@@ -4,7 +4,7 @@ const { Pool } = pg;
 
 const pool = new Pool({
   user: "postgres", // TODO: Env
-  password: "1111", // TODO: Env
+  password: "postgres", // TODO: Env
   host: "localhost",
   port: "5432",
   database: "novel",

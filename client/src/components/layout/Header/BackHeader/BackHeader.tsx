@@ -3,7 +3,7 @@ import { useTheme } from '@/theme';
 import styles from './BackHeader.module.css';
 
 interface IBackHeader {
-	title: string;
+	title?: string;
 }
 
 export const BackHeader = ({ title }: IBackHeader) => {

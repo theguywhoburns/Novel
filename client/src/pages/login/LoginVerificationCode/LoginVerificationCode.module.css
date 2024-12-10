@@ -1,0 +1,17 @@
+.TitleAndInputContainer {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.timer {
+	margin-bottom: 24px;
+}
+
+.buttonsContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+}

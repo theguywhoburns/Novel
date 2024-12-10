@@ -1,0 +1,27 @@
+.TitleAndInputContainer {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.buttonsContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+}
+
+.link {
+	font-size: 14px;
+	line-height: 17px;
+	font-weight: 500;
+	margin: 12px 0 0 auto;
+	text-decoration: none;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.link:hover {
+	opacity: 0.8;
+}

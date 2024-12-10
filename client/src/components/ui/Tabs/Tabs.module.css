@@ -11,6 +11,16 @@
 .tab {
 	font-size: 14px;
 	font-weight: 500;
+	line-height: 17px;
 	border-radius: 30px;
-	padding: 10px 14px;
+	padding: 7.5px 14px;
+}
+
+.tab:hover {
+	opacity: 0.8;
+}
+
+.titledPlacesList {
+	display: flex;
+	flex-direction: column;
 }

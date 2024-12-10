@@ -73,6 +73,7 @@ class ChatController {
 
 			res.json(chats.rows);
 		} catch (error) {
+			console.error(error);
 			res.status(500).json({ error });
 		}
 	}
@@ -94,6 +95,7 @@ class ChatController {
 
 			res.json(chat.rows);
 		} catch (error) {
+			console.error(error);
 			res.status(500).json({ error });
 		}
 	}
@@ -114,6 +116,7 @@ class ChatController {
 
 			res.json(chat.rows[0]);
 		} catch (error) {
+			console.error(error);
 			res.status(500).json({ error });
 		}
 	}

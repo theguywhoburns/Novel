@@ -1,3 +1,4 @@
+import { BottomButtonContainer } from '@/components/ui/BottomButtonContainer/BottomButtonContainer';
 import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
 import {
 	IconClock,
@@ -31,7 +32,7 @@ export const PlaceDetailed = ({
 }: IPlace) => {
 	const theme = useTheme();
 
-	const formattedRating = (rating / 10).toString();
+	const formattedRating = rating / 10;
 
 	const position = useGeoPositionStore(state => state.position);
 
@@ -62,53 +63,55 @@ export const PlaceDetailed = ({
 
 	return (
 		<div className={styles.placeDetailed}>
-			<div>
-				<img className={styles.img} src={imgSrc} />
-				<h3 className={styles.name} style={{ color: theme.text_color }}>
-					{name}
-				</h3>
+			<BottomButtonContainer>
+				<div>
+					<img className={styles.img} src={imgSrc} />
+					<h3 className={styles.name} style={{ color: theme.text_color }}>
+						{name}
+					</h3>
 
-				<ul className={styles.placeInfoList}>
-					<PlaceInfoItem
-						Icon={<IconStar />}
-						value={formattedRating}
-						separator=''
-					/>
-					<PlaceInfoItem
-						Icon={<IconGeoTag />}
-						value={`${address}, ${position ? distanceInKm : '???'} км от вас`}
-						separator=''
-					/>
-					<PlaceInfoItem
-						Icon={<IconClock />}
-						title='Рабочие часы'
-						value={
-							Array.isArray(workingHours) && workingHours.length === 2
-								? `${workingHours[0]} - ${workingHours[1]}`
-								: 'not found'
-						}
-					/>
-					{approximateCost && (
+					<ul className={styles.placeInfoList}>
 						<PlaceInfoItem
-							Icon={<IconDollar />}
-							title='Средний чек'
-							value={`от ${approximateCost} ₽`}
+							Icon={<IconStar />}
+							value={formattedRating}
+							separator=''
 						/>
-					)}
-
-					{phoneNumber && (
 						<PlaceInfoItem
-							Icon={<IconPhone />}
-							title='Номер телефона'
-							value={`+${phoneNumber}`}
+							Icon={<IconGeoTag />}
+							value={`${address}, ${position ? distanceInKm : '???'} км от вас`}
+							separator=''
 						/>
-					)}
-				</ul>
-			</div>
+						<PlaceInfoItem
+							Icon={<IconClock />}
+							title='Рабочие часы'
+							value={
+								Array.isArray(workingHours) && workingHours.length === 2
+									? `${workingHours[0]} - ${workingHours[1]}`
+									: 'not found'
+							}
+						/>
+						{approximateCost && (
+							<PlaceInfoItem
+								Icon={<IconDollar />}
+								title='Средний чек'
+								value={`от ${approximateCost} ₽`}
+							/>
+						)}
 
-			<RoundedButton className={styles.button} onClick={handleClick}>
-				Забронировать
-			</RoundedButton>
+						{phoneNumber && (
+							<PlaceInfoItem
+								Icon={<IconPhone />}
+								title='Номер телефона'
+								value={`+${phoneNumber}`}
+							/>
+						)}
+					</ul>
+				</div>
+
+				<RoundedButton className={styles.button} onClick={handleClick}>
+					Забронировать
+				</RoundedButton>
+			</BottomButtonContainer>
 		</div>
 	);
 };

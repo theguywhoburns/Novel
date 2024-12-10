@@ -1,0 +1,40 @@
+.labelWrapper {
+	cursor: pointer;
+}
+
+.input {
+	display: none;
+}
+
+.imagePreview {
+	display: flex;
+	width: 134px;
+	height: 175px;
+	object-fit: cover;
+	border-radius: 12px;
+	margin-bottom: 12px;
+}
+
+.uploadButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 134px;
+	height: 175px;
+	border-radius: 26px;
+	cursor: pointer;
+}
+
+.uploadButton:hover {
+	transition: 0.3s;
+	opacity: 0.7;
+}
+
+.plusIconWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 35px;
+	height: 35px;
+	border-radius: 17.5px;
+}

@@ -1,5 +1,6 @@
 import { Separator } from '@/components/ui/Separator/Separator';
 import {
+	IconAlcohol,
 	IconChat,
 	IconLike,
 	IconMagnifyingGlass,
@@ -11,14 +12,14 @@ import { useTheme } from '@/theme';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './BottomNav.module.css';
-interface IBottomNavProps {
+
+interface IBottomNav {
 	show: boolean;
 }
-export const BottomNav = ({ show }: IBottomNavProps) => {
+export const BottomNav = ({ show }: IBottomNav) => {
 	const theme = useTheme();
 
 	const { pathname } = useLocation();
-
 
 	return (
 		<>
@@ -67,6 +68,13 @@ export const BottomNav = ({ show }: IBottomNavProps) => {
 							component={Link}
 							to={RouteNames.TESTING_PLAYGROUND}
 							icon={<IconLike />}
+							sx={{ color: theme.text_color }}
+						/>
+						<BottomNavigationAction
+							label='Profile'
+							component={Link}
+							to={RouteNames.PROFILE}
+							icon={<IconAlcohol />}
 							sx={{ color: theme.text_color }}
 						/>
 					</BottomNavigation>
