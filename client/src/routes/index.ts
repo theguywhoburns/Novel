@@ -6,13 +6,14 @@ import { SettingsHeader } from '@/components/layout/Header/SettingsHeader/Settin
 import { Page404 } from '@/pages/404';
 import Home from '@/pages/Home';
 import { Settings } from '@/pages/Home/Settings/Settings';
-import { LoginBirthDatePage } from '@/pages/login/LoginBirthDatePage/LoginBirthDatePage';
-import { LoginDescriptionPage } from '@/pages/login/LoginDescriptionPage/LoginDescriptionPage';
-import { LoginEmailPage } from '@/pages/login/LoginEmailPage/LoginEmailPage';
-import { LoginGenderPage } from '@/pages/login/LoginGenderPage/LoginGenderPage';
-import { LoginNamePage } from '@/pages/login/LoginNamePage/LoginNamePage';
-import { LoginPhotosPage } from '@/pages/login/LoginPhotosPage/LoginPhotosPage';
-import { LoginVerificationCodePage } from '@/pages/login/LoginVerificationCode/LoginVerificationCode';
+import { LoginBirthDatePage } from '@/pages/Login/LoginBirthDatePage/LoginBirthDatePage';
+import { LoginDescriptionPage } from '@/pages/Login/LoginDescriptionPage/LoginDescriptionPage';
+import { LoginEmailPage } from '@/pages/Login/LoginEmailPage/LoginEmailPage';
+import { LoginGenderPage } from '@/pages/Login/LoginGenderPage/LoginGenderPage';
+import { LoginNamePage } from '@/pages/Login/LoginNamePage/LoginNamePage';
+import { LoginPhotosPage } from '@/pages/Login/LoginPhotosPage/LoginPhotosPage';
+import { LoginUserInfoPage } from '@/pages/Login/LoginUserInfoPage/LoginUserInfoPage';
+import { LoginVerificationCodePage } from '@/pages/Login/LoginVerificationCode/LoginVerificationCode';
 import { ChatPage } from '@/pages/MessengerPage/ChatPage/ChatPage';
 import { MessengerPage } from '@/pages/MessengerPage/MessengerPage';
 import { Places } from '@/pages/Places';
@@ -34,6 +35,7 @@ export enum RouteBase {
 	LOGIN_PHOTOS = '/login_photos',
 	LOGIN_GENDER = '/login_gender',
 	LOGIN_DESCRIPTION = '/login_description',
+	LOGIN_USER_INFO = '/login_user_info',
 	HOME = '/',
 	SETTINGS = '/settings',
 	REELS = '/reels',
@@ -53,6 +55,7 @@ export enum RouteNames {
 	LOGIN_PHOTOS = RouteBase.LOGIN_PHOTOS,
 	LOGIN_GENDER = RouteBase.LOGIN_GENDER,
 	LOGIN_DESCRIPTION = RouteBase.LOGIN_DESCRIPTION,
+	LOGIN_USER_INFO = RouteBase.LOGIN_USER_INFO,
 	HOME = RouteBase.HOME,
 	SETTINGS = RouteBase.SETTINGS,
 	REELS = RouteBase.REELS,
@@ -75,6 +78,7 @@ export const RouteLayouts: Record<
 	[RouteBase.LOGIN_PHOTOS]: [BackHeader, false],
 	[RouteBase.LOGIN_GENDER]: [BackHeader, false],
 	[RouteBase.LOGIN_DESCRIPTION]: [BackHeader, false],
+	[RouteBase.LOGIN_USER_INFO]: [BackHeader, false],
 	[RouteBase.HOME]: [DefaultHeader, true],
 	[RouteBase.SETTINGS]: [SettingsHeader, true],
 	[RouteBase.REELS]: [DefaultHeader, true],
@@ -97,6 +101,7 @@ export const publicRoutes: IRoute[] = [
 	{ path: RouteNames.LOGIN_PHOTOS, component: LoginPhotosPage },
 	{ path: RouteNames.LOGIN_GENDER, component: LoginGenderPage },
 	{ path: RouteNames.LOGIN_DESCRIPTION, component: LoginDescriptionPage },
+	{ path: RouteNames.LOGIN_USER_INFO, component: LoginUserInfoPage },
 ];
 
 export const privateRoutes: IRoute[] = [

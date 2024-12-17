@@ -1,11 +1,15 @@
 import { useTheme } from '@/theme';
+import { Keyboard } from '@capacitor/keyboard';
 import { TextField } from '@mui/material';
+import { useRef } from 'react';
 
 interface ITextInput {
 	value: string;
 	onChange: (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => void;
+	onFocus?: () => void;
+	onBlur?: () => void;
 	placeholder?: string;
 	textBelow?: string;
 	type?: 'text' | 'email' | 'password';
@@ -26,13 +30,30 @@ export const TextInput = ({
 }: ITextInput) => {
 	const theme = useTheme();
 
+	const inputRef = useRef<HTMLDivElement | null>(null);
+
+	const showKeyboard = async () => {
+		console.log('showKeyboard called');
+		try {
+			await Keyboard.show();
+			if (inputRef.current) {
+				inputRef.current.focus();
+			}
+			console.log('Keyboard.show() completed');
+		} catch (error) {
+			console.error('Error showing keyboard:', error);
+		}
+	};
+
 	return (
 		<div
 			style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
 		>
 			<TextField
-				onChange={onChange}
+				ref={inputRef}
 				value={value}
+				onChange={onChange}
+				onFocus={showKeyboard}
 				placeholder={placeholder}
 				type={type}
 				variant={variant}

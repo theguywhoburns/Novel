@@ -9,6 +9,7 @@ import { Timer } from '@/components/ui/Timer/Timer';
 import { RouteNames } from '@/routes';
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { useTheme } from '@/theme';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginVerificationCode.module.css';
 
@@ -23,6 +24,16 @@ export const LoginVerificationCodePage = () => {
 
 	const verificationCode = useLoginStore(state => state.verificationCode);
 	const setVerificationCode = useLoginStore(state => state.setVerificationCode);
+
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+	useEffect(() => {
+		setIsButtonDisabled(verificationCode.length !== 4);
+	}, [verificationCode]);
+
+	useEffect(() => {
+		setIsButtonDisabled(false);
+	}, []);
 
 	const handleClick = () => {
 		navigate(RouteNames.LOGIN_NAME);
@@ -41,7 +52,7 @@ export const LoginVerificationCodePage = () => {
 					<div className={styles.TitleAndInputContainer}>
 						<Title>Введите ваш проверочный код</Title>
 						<Explanation marginY={[0, 24]}>
-							На указанный E-mail {email} поступит письмо с кодом. Укажите
+							На указанный E-mail {email} поступит письмо с кодом. Укажите
 							данные кода.
 						</Explanation>
 						<Timer
@@ -67,7 +78,9 @@ export const LoginVerificationCodePage = () => {
 						>
 							Отправить повторно
 						</RoundedButton>
-						<RoundedButton onClick={handleClick}>Продолжить</RoundedButton>
+						<RoundedButton onClick={handleClick} disabled={isButtonDisabled}>
+							Продолжить
+						</RoundedButton>
 					</div>
 				</BottomButtonContainer>
 			</Form>

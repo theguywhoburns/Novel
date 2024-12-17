@@ -1,0 +1,8 @@
+{
+	"plugins": {
+		"Keyboard": {
+			"resize": "body",
+			"style": "dark"
+		}
+	}
+}

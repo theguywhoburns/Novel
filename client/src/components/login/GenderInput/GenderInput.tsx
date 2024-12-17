@@ -1,17 +1,18 @@
 import { IconMale } from '@/icons';
-import { useLoginStore } from '@/store/login/useLoginStore';
+import { Gender } from '@/store/login/useLoginStore';
 import { useTheme } from '@/theme';
-import { Keyboard } from '@capacitor/keyboard';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import { useEffect, useRef } from 'react';
 
-const GenderInput = () => {
-	const theme = useTheme();
+interface IGenderInput {
+	gender: Gender;
+	setGender: (gender: Gender) => void;
+}
 
-	const gender = useLoginStore(state => state.gender);
-	const setGender = useLoginStore(state => state.setGender);
+const GenderInput = ({ gender, setGender }: IGenderInput) => {
+	const theme = useTheme();
 
 	const maleInputWrapperRef = useRef<HTMLInputElement>(null);
 	const femaleInputWrapperRef = useRef<HTMLInputElement>(null);
@@ -42,7 +43,7 @@ const GenderInput = () => {
 		if (gender !== 'male') {
 			setGender('male');
 			maleInput?.focus();
-			await Keyboard.hide();
+			// await Keyboard.hide();
 		}
 	};
 
@@ -50,19 +51,18 @@ const GenderInput = () => {
 		if (gender !== 'female') {
 			setGender('female');
 			femaleInput?.focus();
-			await Keyboard.hide();
+			// await Keyboard.hide();
 		}
 	};
 
-	const hideKeyboard = async () => {
-		await Keyboard.hide();
-	};
+	// const hideKeyboard = async () => {
+	// 	await Keyboard.hide();
+	// };
 
 	return (
 		<Box sx={{ display: 'flex', gap: 2 }}>
 			<TextField
 				ref={maleInputWrapperRef}
-				onBlur={hideKeyboard}
 				value={gender === 'male' ? 'Я мужчина' : ''}
 				onClick={handleSelectMale}
 				slotProps={{

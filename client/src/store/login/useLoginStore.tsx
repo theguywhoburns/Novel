@@ -1,8 +1,11 @@
 import { create } from 'zustand';
 
-type Gender = 'male' | 'female' | null;
+export type Gender = 'male' | 'female' | null;
 
 interface IUseLoginStore {
+	isAuth: boolean;
+	setIsAuth: (isAuth: boolean) => void;
+
 	email: string;
 	setEmail: (email: string) => void;
 
@@ -31,6 +34,9 @@ interface IUseLoginStore {
 }
 
 export const useLoginStore = create<IUseLoginStore>(set => ({
+	isAuth: true,
+	setIsAuth: isAuth => set({ isAuth }),
+
 	email: '',
 	setEmail: email => set({ email }),
 

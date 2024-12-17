@@ -1,5 +1,6 @@
 import { Explanation } from '@/components/login/Explanation/Explanation';
 import { Form } from '@/components/login/Form/Form';
+import { LoginPageContainer } from '@/components/login/LoginPageContainer/LoginPageContainer';
 import { Title } from '@/components/login/Title/Title';
 import { BottomButtonContainer } from '@/components/ui/BottomButtonContainer/BottomButtonContainer';
 import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
@@ -8,22 +9,29 @@ import { IconGoogle } from '@/icons';
 import { RouteNames } from '@/routes';
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { useTheme } from '@/theme';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './LoginEmailPage.module.css';
-import { LoginPageContainer } from '@/components/login/LoginPageContainer/LoginPageContainer';
 
 export const LoginEmailPage = () => {
 	const theme = useTheme();
-
 	const navigate = useNavigate();
 
 	const email = useLoginStore(state => state.email);
 	const setEmail = useLoginStore(state => state.setEmail);
 
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
 	const handleEmailChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		setEmail(event.target.value);
+
+		if (event.target.value.trim() === '') {
+			setIsButtonDisabled(true);
+		} else {
+			setIsButtonDisabled(false);
+		}
 	};
 
 	const handleClick = () => {
@@ -50,18 +58,20 @@ export const LoginEmailPage = () => {
 							Проблемы со входом?
 						</Link>
 						<Explanation marginY={[12, 0]}>
-							Укажите email, на который зарегистрирован ваш аккаунт.
+							Укажите email, на который зарегистрирован ваш аккаунт.
 						</Explanation>
 					</div>
 
 					<div className={styles.buttonsContainer}>
-						<RoundedButton onClick={handleClick}>Продолжить</RoundedButton>
+						<RoundedButton onClick={handleClick} disabled={isButtonDisabled}>
+							Продолжить
+						</RoundedButton>
 						<RoundedButton
 							variant='outlined'
 							startIcon={<IconGoogle />}
 							onClick={() => {}}
 						>
-							Войти через Google
+							Войти через Google
 						</RoundedButton>
 					</div>
 				</BottomButtonContainer>

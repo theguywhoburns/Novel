@@ -1,3 +1,4 @@
+import { IconPlusOutlined } from '@/icons';
 import { useTheme } from '@/theme';
 import { useEffect, useState } from 'react';
 import styles from './ProfileImageUploader.module.css';
@@ -55,18 +56,13 @@ export const ProfileImageUploader = ({
 				className={styles.input}
 			/>
 			{previewUrl ? (
-				<img src={previewUrl} alt='Preview' className={styles.imagePreview} />
+				<img className={styles.imagePreview} src={previewUrl} alt='Preview' />
 			) : (
 				<div
 					className={styles.uploadButton}
 					style={{ border: `1px dashed ${theme.grey}` }}
 				>
-					<div
-						className={styles.plusIconWrapper}
-						style={{ backgroundColor: theme.accent_color }}
-					>
-						&#43; {/*TODO: add plus icon */}
-					</div>
+					<IconPlusOutlined />
 				</div>
 			)}
 		</label>

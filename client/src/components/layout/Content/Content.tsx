@@ -9,7 +9,6 @@ interface IContent {
 
 export const Content = ({ children }: IContent) => {
 	const theme = useTheme();
-
 	const { pathname } = useLocation();
 
 	const chatPathWithoutId = RouteNames.CHAT.slice(0, 6);
@@ -21,11 +20,15 @@ export const Content = ({ children }: IContent) => {
 			style={{
 				color: theme.text_color,
 				backgroundColor: theme.background_color,
-				padding: '5px 16px 16px',
+				padding: isChatPage ? '5px 0 64px 0' : '5px 16px 16px',
 				scrollbarWidth: isChatPage ? 'none' : 'auto',
 			}}
 		>
-			{children}
+			{isChatPage ? (
+				<>{children}</>
+			) : (
+				<div className={styles.contentInner}>{children}</div>
+			)}
 		</main>
 	);
 };

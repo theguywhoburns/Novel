@@ -1,9 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
 export type GeoCoords = {
 	geoLat: number;
 	geoLon: number;
 };
+
 export interface IUseGeoPositionStore {
 	position?: GeoCoords;
 	city?: string;

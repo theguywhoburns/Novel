@@ -123,10 +123,8 @@ button {
 	font-size: 1em;
 	border: none;
 	font-family: inherit;
-	background-color: var(--theme-button-background-color);
 	cursor: pointer;
 	transition: 0.25s;
-	color: var(--theme-button-text-color);
 }
 
 button:hover {
@@ -165,4 +163,11 @@ ul {
 	box-shadow: 0 0 34px 0 rgba(0, 0, 0, 0.24);
 	overflow-y: auto;
 	position: relative;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none !important;
+	appearance: none !important;
+	margin: 0 !important;
 }

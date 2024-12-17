@@ -1,15 +1,14 @@
 import { useCallback, useState } from 'react';
-import { ISettingsItem, SettingsItem } from './SettingsItem/SettingsItem';
-import styles from './SettingsList.module.css';
+
+import {
+	ILabeledRadioButtonsList,
+	LabeledRadioButtonsList,
+} from '@/components/ui/LabeledRadioButtonsList/LabeledRadioButtonsList';
 import { IconCrystal } from '@/icons/Crystal';
-/*
-interface ISettingsList {
-	settingsArray: ISettingsItem[];
-}
-*/
+import styles from './SettingsList.module.css';
 
 export const SettingsList = () => {
-	const [settings, setSettings] = useState<ISettingsItem[]>([
+	const [settings, setSettings] = useState<ILabeledRadioButtonsList[]>([
 		{
 			Icon: IconCrystal,
 			title: 'Профиль',
@@ -53,7 +52,7 @@ export const SettingsList = () => {
 	return (
 		<div className={styles.list}>
 			{settings.map((item, index) => (
-				<SettingsItem
+				<LabeledRadioButtonsList
 					key={index}
 					Icon={item.Icon}
 					title={item.title}

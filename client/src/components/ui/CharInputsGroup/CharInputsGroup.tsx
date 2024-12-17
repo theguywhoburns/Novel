@@ -1,4 +1,5 @@
 import { useTheme } from '@/theme';
+import { Keyboard } from '@capacitor/keyboard';
 import { TextField } from '@mui/material';
 import React, { useRef } from 'react';
 
@@ -6,6 +7,7 @@ interface CharInputsGroup {
 	length: number;
 	value: string;
 	setValue: (value: string) => void;
+
 	placeholder?: string;
 	inputWidth?: string | number;
 	textColor?: string;
@@ -19,6 +21,7 @@ export const CharInputsGroup = ({
 	length,
 	value,
 	setValue,
+
 	placeholder,
 	inputWidth = 40,
 	textColor,
@@ -39,7 +42,7 @@ export const CharInputsGroup = ({
 	) => {
 		const newValue = event.target.value;
 
-		if (newValue.length > 0) {
+		if (/^[0-9]$/.test(newValue)) {
 			const newChar = newValue[0];
 			const updatedValue = value.split('');
 			updatedValue[index] = newChar;
@@ -63,11 +66,14 @@ export const CharInputsGroup = ({
 			} else {
 				const updatedValue = value.split('');
 				updatedValue[index] = '';
-				setValue(updatedValue.join(''));
-
 				inputRefs.current[index - 1]?.focus();
+				setValue(updatedValue.join(''));
 			}
 		}
+	};
+
+	const hideKeyboard = async () => {
+		await Keyboard.hide();
 	};
 
 	return (
@@ -84,10 +90,12 @@ export const CharInputsGroup = ({
 					<TextField
 						inputRef={el => (inputRefs.current[index] = el)}
 						value={value[index] || ''}
-						placeholder={placeholder && placeholder[index]}
+						placeholder={placeholder ? placeholder[index] : ''}
+						onFocus={hideKeyboard}
 						onChange={event => handleChange(index, event)}
 						onKeyDown={event => handleKeyDown(index, event)}
 						variant='standard'
+						type='number'
 						sx={{
 							'.MuiInputBase-root': {
 								fontSize: '16px',

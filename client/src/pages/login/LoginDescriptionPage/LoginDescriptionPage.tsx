@@ -7,6 +7,7 @@ import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
 import { TextInput } from '@/components/ui/TextInput/TextInput';
 import { RouteNames } from '@/routes';
 import { useLoginStore } from '@/store/login/useLoginStore';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginDescriptionPage.module.css';
 
@@ -16,16 +17,19 @@ export const LoginDescriptionPage = () => {
 	const description = useLoginStore(state => state.description);
 	const setDescription = useLoginStore(state => state.setDescription);
 
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
 	const handleDescriptionChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		if (event.target.value.length <= 55) {
 			setDescription(event.target.value);
+			setIsButtonDisabled(!event.target.value);
 		}
 	};
 
 	const handleClick = () => {
-		navigate(RouteNames.LOGIN_DESCRIPTION);
+		navigate(RouteNames.LOGIN_USER_INFO);
 	};
 
 	return (
@@ -47,7 +51,9 @@ export const LoginDescriptionPage = () => {
 						</Explanation>
 					</div>
 
-					<RoundedButton onClick={handleClick}>Продолжить</RoundedButton>
+					<RoundedButton onClick={handleClick} disabled={isButtonDisabled}>
+						Продолжить
+					</RoundedButton>
 				</BottomButtonContainer>
 			</Form>
 		</LoginPageContainer>

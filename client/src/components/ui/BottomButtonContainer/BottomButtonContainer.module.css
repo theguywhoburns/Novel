@@ -3,7 +3,7 @@
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	gap: 120px;
+	flex: 1;
 	min-height: 100%;
 	width: 100%;
 }

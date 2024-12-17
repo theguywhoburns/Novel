@@ -1,6 +1,5 @@
 import { Separator } from '@/components/ui/Separator/Separator';
 import {
-	IconAlcohol,
 	IconChat,
 	IconLike,
 	IconMagnifyingGlass,
@@ -18,7 +17,6 @@ interface IBottomNav {
 }
 export const BottomNav = ({ show }: IBottomNav) => {
 	const theme = useTheme();
-
 	const { pathname } = useLocation();
 
 	return (
@@ -68,13 +66,6 @@ export const BottomNav = ({ show }: IBottomNav) => {
 							component={Link}
 							to={RouteNames.TESTING_PLAYGROUND}
 							icon={<IconLike />}
-							sx={{ color: theme.text_color }}
-						/>
-						<BottomNavigationAction
-							label='Profile'
-							component={Link}
-							to={RouteNames.PROFILE}
-							icon={<IconAlcohol />}
 							sx={{ color: theme.text_color }}
 						/>
 					</BottomNavigation>

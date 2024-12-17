@@ -8,6 +8,7 @@ import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
 import { RouteNames } from '@/routes';
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { useTheme } from '@/theme';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginPhotosPage.module.css';
 
@@ -15,17 +16,28 @@ export const LoginPhotosPage = () => {
 	const theme = useTheme();
 	const navigate = useNavigate();
 
-	const handleClick = () => {
-		navigate(RouteNames.LOGIN_GENDER);
-	};
-
 	const uploadedImages = useLoginStore(state => state.uploadedImages);
 	const setUploadedImages = useLoginStore(state => state.setUploadedImages);
+
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+	useEffect(() => {
+		const validImagesCount = uploadedImages.filter(Boolean).length;
+		setIsButtonDisabled(validImagesCount < 4);
+	}, [uploadedImages]);
+
+	useEffect(() => {
+		setIsButtonDisabled(false);
+	}, []);
 
 	const handleImageUpload = (index: number, image: File | null) => {
 		setUploadedImages(prevImages =>
 			prevImages.map((img, i) => (i === index ? image : img))
 		);
+	};
+
+	const handleClick = () => {
+		navigate(RouteNames.LOGIN_GENDER);
 	};
 
 	return (
@@ -55,7 +67,9 @@ export const LoginPhotosPage = () => {
 						</Explanation>
 					</div>
 
-					<RoundedButton onClick={handleClick}>Продолжить</RoundedButton>
+					<RoundedButton onClick={handleClick} disabled={isButtonDisabled}>
+						Продолжить
+					</RoundedButton>
 				</BottomButtonContainer>
 			</Form>
 		</LoginPageContainer>

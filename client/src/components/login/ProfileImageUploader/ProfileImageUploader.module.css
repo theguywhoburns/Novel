@@ -1,5 +1,8 @@
 .labelWrapper {
+	display: flex;
 	cursor: pointer;
+	width: 134px;
+	height: 175px;
 }
 
 .input {
@@ -8,6 +11,10 @@
 
 .imagePreview {
 	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 134px;
+	min-height: 175px;
 	width: 134px;
 	height: 175px;
 	object-fit: cover;
@@ -28,13 +35,4 @@
 .uploadButton:hover {
 	transition: 0.3s;
 	opacity: 0.7;
-}
-
-.plusIconWrapper {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 35px;
-	height: 35px;
-	border-radius: 17.5px;
 }

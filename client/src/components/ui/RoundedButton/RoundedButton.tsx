@@ -15,6 +15,7 @@ export const RoundedButton = ({
 	variant = 'contained',
 	startIcon,
 	endIcon,
+	disabled,
 	sx,
 	...props
 }: IRoundedButton) => {
@@ -26,6 +27,7 @@ export const RoundedButton = ({
 			onClick={onClick}
 			startIcon={startIcon}
 			endIcon={endIcon}
+			disabled={disabled}
 			sx={{
 				maxWidth: '400px',
 				width: '100%',
@@ -34,6 +36,7 @@ export const RoundedButton = ({
 				fontSize: '16px',
 				fontWeight: 500,
 				textTransform: 'none',
+				trasition: '0.5s',
 
 				background:
 					variant === 'contained'
@@ -59,7 +62,16 @@ export const RoundedButton = ({
 							: 'transparent',
 					color: variant !== 'contained' ? theme.accent_color : theme.white,
 				},
-				...sx
+
+				'&.Mui-disabled': {
+					background: theme.separator_color,
+					backgroundColor: theme.separator_color,
+					color: theme.white,
+					cursor: 'not-allowed',
+					pointerEvents: 'auto',
+				},
+
+				...sx,
 			}}
 			{...props}
 		>

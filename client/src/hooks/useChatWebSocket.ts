@@ -21,6 +21,8 @@ export const useChatWebSocket = () => {
 		pageSize - 1
 	);
 
+	useEffect(() => console.log(hasMoreMessages), [hasMoreMessages]);
+
 	const wsPort = 4200;
 	const wsUrl = `ws://localhost:${wsPort}/api/ws`;
 

@@ -3,6 +3,7 @@ import './App.css';
 import { AppRouter } from './components/AppRouter/AppRouter';
 import { Layout } from './components/layout/Layout';
 import { useScrollRef } from './hooks/useScrollRef';
+import { useLoginStore } from './store/login/useLoginStore';
 import { useThemeStore } from './store/theme/useThemeStore';
 import { updateCssVariables } from './theme';
 import { themes } from './theme/themes';
@@ -10,22 +11,28 @@ import { updateCity, updateGeoPosition } from './utils/updateGeoPosition';
 
 function App() {
 	const currentTheme = useThemeStore(state => state.theme);
-	const scrollRef = useScrollRef({ behavior: 'auto', includePathname: true });
-	const isAuth = true;
+	const scrollRef = useScrollRef({
+		behavior: 'instant',
+		includePathname: true,
+	});
+
+	const isAuth = useLoginStore(state => state.isAuth);
 
 	useEffect(() => {
 		updateCssVariables(themes[currentTheme]);
 	}, [currentTheme]);
 
 	useEffect(() => {
-		updateGeoPosition();
-		updateCity();
+		if (isAuth) {
+			updateGeoPosition();
+			updateCity();
+		}
 	}, []);
 
 	return (
 		<Layout>
 			<div ref={scrollRef} />
-			<AppRouter isAuth={isAuth} />
+			<AppRouter />
 			<style>
 				{`
         :root {

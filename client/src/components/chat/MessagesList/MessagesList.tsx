@@ -117,6 +117,7 @@ export const MessagesList = ({
 	const scrollRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
+		console.log('scrollRef.current', scrollRef.current);
 		scrollRef.current?.addEventListener('scroll', handleScroll);
 
 		return () => scrollRef.current?.removeEventListener('scroll', handleScroll);
@@ -125,8 +126,18 @@ export const MessagesList = ({
 	const handleScroll = (e: any) => {
 		const isTop = e.target.scrollTop === 0;
 
+		console.log('scroll', e.target.scrollTop);
+
 		if (isTop && hasMoreMessages) {
+			console.log('TOP');
+
 			loadMoreMessages();
+		}
+		if (!isTop) {
+			console.log('NOT TOP');
+		}
+		if (!hasMoreMessages) {
+			console.log('NO MORE MESSAGES');
 		}
 	};
 
@@ -151,7 +162,7 @@ export const MessagesList = ({
 		<div
 			ref={scrollRef}
 			style={{
-				maxHeight: 'calc(100% - 62.33px)',
+				maxHeight: '100%',
 				height: '100%',
 				overflowY: 'auto',
 				scrollbarWidth: 'none',
@@ -161,8 +172,7 @@ export const MessagesList = ({
 				<ul
 					className={styles.messagesList}
 					style={{
-						paddingBottom:
-							6 + (replyTo || messageToEdit ? chatInputHeight - 60 : 0),
+						paddingBottom: replyTo || messageToEdit ? chatInputHeight - 60 : 0,
 					}}
 				>
 					{memoizedMessages.map((message, index) => {

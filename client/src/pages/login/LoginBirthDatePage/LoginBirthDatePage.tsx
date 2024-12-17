@@ -5,8 +5,8 @@ import { Title } from '@/components/login/Title/Title';
 import { BottomButtonContainer } from '@/components/ui/BottomButtonContainer/BottomButtonContainer';
 import { CharInputsGroup } from '@/components/ui/CharInputsGroup/CharInputsGroup';
 import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
-import { RouteNames } from '@/routes';
 import { useLoginStore } from '@/store/login/useLoginStore';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginBirthDatePage.module.css';
 
@@ -16,8 +16,18 @@ export const LoginBirthDatePage = () => {
 	const birthDate = useLoginStore(state => state.birthDate);
 	const setBirthDate = useLoginStore(state => state.setBirthDate);
 
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+	useEffect(() => {
+		setIsButtonDisabled(birthDate.length !== 8);
+	}, [birthDate]);
+
+	useEffect(() => {
+		setIsButtonDisabled(false);
+	}, []);
+
 	const handleClick = () => {
-		navigate(RouteNames.LOGIN_PHOTOS);
+		navigate('/login_photos');
 	};
 
 	return (
@@ -42,7 +52,9 @@ export const LoginBirthDatePage = () => {
 						</Explanation>
 					</div>
 
-					<RoundedButton onClick={handleClick}>Продолжить</RoundedButton>
+					<RoundedButton onClick={handleClick} disabled={isButtonDisabled}>
+						Продолжить
+					</RoundedButton>
 				</BottomButtonContainer>
 			</Form>
 		</LoginPageContainer>

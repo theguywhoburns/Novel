@@ -7,6 +7,7 @@ import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
 import { TextInput } from '@/components/ui/TextInput/TextInput';
 import { RouteNames } from '@/routes';
 import { useLoginStore } from '@/store/login/useLoginStore';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginNamePage.module.css';
 
@@ -16,10 +17,18 @@ export const LoginNamePage = () => {
 	const name = useLoginStore(state => state.name);
 	const setName = useLoginStore(state => state.setName);
 
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
 	const handleNameChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		setName(event.target.value);
+
+		if (event.target.value.trim() === '') {
+			setIsButtonDisabled(true);
+		} else {
+			setIsButtonDisabled(false);
+		}
 	};
 
 	const handleClick = () => {
@@ -44,7 +53,9 @@ export const LoginNamePage = () => {
 						</Explanation>
 					</div>
 
-					<RoundedButton onClick={handleClick}>Продолжить</RoundedButton>
+					<RoundedButton onClick={handleClick} disabled={isButtonDisabled}>
+						Продолжить
+					</RoundedButton>
 				</BottomButtonContainer>
 			</Form>
 		</LoginPageContainer>
