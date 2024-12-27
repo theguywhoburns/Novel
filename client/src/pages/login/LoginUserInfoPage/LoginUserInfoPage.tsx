@@ -17,15 +17,40 @@ import {
 	IconSports,
 	IconVortex,
 } from '@/icons';
+import { RouteNames } from '@/routes';
+import { useLoginStore } from '@/store/login/useLoginStore';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginUserInfoPage.module.css';
 
 export const LoginUserInfoPage = () => {
 	const navigate = useNavigate();
 
-	const handleClick = () => {
-		navigate('/');
-	};
+	const signUp = useLoginStore(state => state.signUp);
+	const signIn = useLoginStore(state => state.signIn);
+
+	const interests = useLoginStore(state => state.interests);
+	const setInterests = useLoginStore(state => state.setInterests);
+
+	const zodiacSign = useLoginStore(state => state.zodiacSign);
+	const setZodiacSign = useLoginStore(state => state.setZodiacSign);
+
+	const searchGoal = useLoginStore(state => state.searchGoal);
+	const setSearchGoal = useLoginStore(state => state.setSearchGoal);
+
+	const education = useLoginStore(state => state.education);
+	const setEducation = useLoginStore(state => state.setEducation);
+
+	const familyPlans = useLoginStore(state => state.familyPlans);
+	const setFamilyPlans = useLoginStore(state => state.setFamilyPlans);
+
+	const sport = useLoginStore(state => state.sport);
+	const setSport = useLoginStore(state => state.setSport);
+
+	const alcohol = useLoginStore(state => state.alcohol);
+	const setAlcohol = useLoginStore(state => state.setAlcohol);
+
+	const smoking = useLoginStore(state => state.smoking);
+	const setSmoking = useLoginStore(state => state.setSmoking);
 
 	const RadioModalTriggers: IRadioModalTrigger[] = [
 		{
@@ -38,6 +63,8 @@ export const LoginUserInfoPage = () => {
 				'Вкусная еда',
 				'Счастливые часы',
 			],
+			selectedOption: interests,
+			setSelectedOption: setInterests,
 		},
 		{
 			Icon: IconVortex,
@@ -56,6 +83,8 @@ export const LoginUserInfoPage = () => {
 				'Рыбы',
 				'Козерог',
 			],
+			selectedOption: zodiacSign,
+			setSelectedOption: setZodiacSign,
 		},
 		{
 			Icon: IconFingersCross,
@@ -67,21 +96,29 @@ export const LoginUserInfoPage = () => {
 				'Найти друзей',
 				'Не определился (-ась)',
 			],
+			selectedOption: searchGoal,
+			setSelectedOption: setSearchGoal,
 		},
 		{
 			Icon: IconSchoolHat,
 			title: 'Образование',
-			options: [],
+			options: ['Среднее', 'Среднее специальное', 'Высшее'],
+			selectedOption: education,
+			setSelectedOption: setEducation,
 		},
 		{
 			Icon: IconFamily,
 			title: 'Планы на семью',
-			options: [],
+			options: ['Хочу детей', 'Не хочу детей'],
+			selectedOption: familyPlans,
+			setSelectedOption: setFamilyPlans,
 		},
 		{
 			Icon: IconSports,
 			title: 'Спорт',
-			options: [],
+			options: ['Регулярно', 'Часто', 'Редко', 'Никогда'],
+			selectedOption: sport,
+			setSelectedOption: setSport,
 		},
 		{
 			Icon: IconAlcohol,
@@ -92,13 +129,25 @@ export const LoginUserInfoPage = () => {
 				'Только по выходным',
 				'Редко',
 			],
+			selectedOption: alcohol,
+			setSelectedOption: setAlcohol,
 		},
 		{
 			Icon: IconSmoke,
 			title: 'Как часто ты куришь?',
-			options: [],
+			options: ['Не курю', 'Редко', 'Часто'],
+			selectedOption: smoking,
+			setSelectedOption: setSmoking,
 		},
 	];
+
+	const handleClick = async () => {
+		await signUp();
+		await signIn();
+		setTimeout(() => {
+			navigate(RouteNames.HOME);
+		}, 0);
+	};
 
 	return (
 		<LoginPageContainer>

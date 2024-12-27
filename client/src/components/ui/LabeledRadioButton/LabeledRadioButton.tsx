@@ -1,13 +1,12 @@
 import { useTheme } from '@/theme';
 import styled from '@emotion/styled';
 import { Radio } from '@mui/material';
-import React from 'react';
 import styles from './LabeledRadioButton.module.css';
 
 export interface ILabledRadioButton {
 	option: string;
-	selectedValue: string;
-	setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+	selectedOption: string;
+	setSelectedOption: (option: string) => void;
 }
 
 const BpIcon = styled('span')(() => {
@@ -38,13 +37,13 @@ const BpCheckedIcon = styled(BpIcon)(() => {
 
 export const LabeledRadioButton = ({
 	option,
-	selectedValue,
-	setSelectedValue,
+	selectedOption,
+	setSelectedOption,
 }: ILabledRadioButton) => {
 	const theme = useTheme();
 
 	const handleChange = () => {
-		setSelectedValue(option);
+		setSelectedOption(option);
 	};
 
 	return (
@@ -53,13 +52,13 @@ export const LabeledRadioButton = ({
 				className={styles.label}
 				style={{
 					color:
-						selectedValue === option ? theme.accent_color : theme.text_color,
+						selectedOption === option ? theme.accent_color : theme.text_color,
 				}}
 			>
 				{option}
 			</label>
 			<Radio
-				checked={selectedValue === option}
+				checked={selectedOption === option}
 				sx={{
 					padding: 0,
 					height: 20,

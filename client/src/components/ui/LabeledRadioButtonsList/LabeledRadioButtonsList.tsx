@@ -4,25 +4,32 @@ import { LabeledRadioButton } from '@/components/ui/LabeledRadioButton/LabeledRa
 import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
 import { IconArrow } from '@/icons/Arrow';
 import { useTheme } from '@/theme';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Separator } from '../Separator/Separator';
 import styles from './LabeledRadioButtonsList.module.css';
 
 export interface ILabeledRadioButtonsList {
-	Icon: React.FC | null;
+	Icon: React.FC;
 	title: string;
 	options: string[];
+	selectedOption: string;
+	setSelectedOption: (option: string) => void;
 }
 
 export const LabeledRadioButtonsList = ({
 	Icon,
 	title,
 	options,
+	selectedOption,
+	setSelectedOption,
 }: ILabeledRadioButtonsList) => {
 	const theme = useTheme();
 
-	const [selectedOption, setSelectedOption] = useState(options[0]);
 	const [isModalVisible, setIsModalVisible] = useState(false);
+
+	useEffect(() => {
+		setSelectedOption(options[0]);
+	}, []);
 
 	const handleModalClose = useCallback(() => {
 		setIsModalVisible(false);
@@ -48,6 +55,7 @@ export const LabeledRadioButtonsList = ({
 				</div>
 				<IconArrow color={theme.grey} direction='right' />
 			</div>
+
 			{isModalVisible && (
 				<BottomModal
 					isOpen={isModalVisible}
@@ -60,14 +68,13 @@ export const LabeledRadioButtonsList = ({
 								<div key={option}>
 									<LabeledRadioButton
 										option={option}
-										selectedValue={selectedOption}
-										setSelectedValue={setSelectedOption}
+										selectedOption={selectedOption}
+										setSelectedOption={setSelectedOption}
 									/>
 									<Separator marginY={[2, 8]} />
 								</div>
 							))}
 						</ul>
-
 						<RoundedButton onClick={() => setIsModalVisible(false)}>
 							Продолжить
 						</RoundedButton>

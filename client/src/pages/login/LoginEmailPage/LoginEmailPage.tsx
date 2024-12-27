@@ -20,6 +20,10 @@ export const LoginEmailPage = () => {
 	const email = useLoginStore(state => state.email);
 	const setEmail = useLoginStore(state => state.setEmail);
 
+	const sendVerificationCode = useLoginStore(
+		state => state.sendVerificationCode
+	);
+
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
 	const handleEmailChange = (
@@ -36,6 +40,7 @@ export const LoginEmailPage = () => {
 
 	const handleClick = () => {
 		navigate(RouteNames.LOGIN_VERIFICATION_CODE);
+		sendVerificationCode();
 	};
 
 	return (

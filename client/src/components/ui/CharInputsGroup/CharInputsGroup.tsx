@@ -7,7 +7,6 @@ interface CharInputsGroup {
 	length: number;
 	value: string;
 	setValue: (value: string) => void;
-
 	placeholder?: string;
 	inputWidth?: string | number;
 	textColor?: string;
@@ -21,7 +20,6 @@ export const CharInputsGroup = ({
 	length,
 	value,
 	setValue,
-
 	placeholder,
 	inputWidth = 40,
 	textColor,
@@ -32,7 +30,7 @@ export const CharInputsGroup = ({
 }: CharInputsGroup) => {
 	const theme = useTheme();
 
-	const inputRefs = useRef<(HTMLInputElement | null)[]>(
+	const inputsRef = useRef<(HTMLInputElement | null)[]>(
 		Array(length).fill(null)
 	);
 
@@ -47,10 +45,6 @@ export const CharInputsGroup = ({
 			const updatedValue = value.split('');
 			updatedValue[index] = newChar;
 			setValue(updatedValue.join(''));
-
-			if (index < length - 1) {
-				inputRefs.current[index + 1]?.focus();
-			}
 		}
 	};
 
@@ -58,20 +52,29 @@ export const CharInputsGroup = ({
 		index: number,
 		event: React.KeyboardEvent<HTMLDivElement>
 	) => {
-		if (event.key === 'Backspace') {
-			if (value[index] === '') {
-				if (index > 0) {
-					inputRefs.current[index - 1]?.focus();
-				}
-			} else {
+		switch (event.key) {
+			case 'Backspace':
 				const updatedValue = value.split('');
-				updatedValue[index] = '';
-				inputRefs.current[index - 1]?.focus();
-				setValue(updatedValue.join(''));
-			}
+
+				if (updatedValue[index] !== '') {
+					updatedValue[index] = '';
+					setValue(updatedValue.join(''));
+
+					if (index > 0) {
+						inputsRef.current[index - 1]?.focus();
+						console.log('focus on index', index - 1);
+					}
+				} else if (index > 0) {
+					inputsRef.current[index - 1]?.focus();
+					console.log('focus on index', index - 1);
+				}
+				break;
+
+			default:
+				inputsRef.current[index + 1]?.focus();
+				console.log('focus on index', index + 1);
 		}
 	};
-
 	const hideKeyboard = async () => {
 		await Keyboard.hide();
 	};
@@ -88,7 +91,7 @@ export const CharInputsGroup = ({
 			{Array.from({ length }).map((_, index) => (
 				<div key={index}>
 					<TextField
-						inputRef={el => (inputRefs.current[index] = el)}
+						inputRef={el => (inputsRef.current[index] = el)}
 						value={value[index] || ''}
 						placeholder={placeholder ? placeholder[index] : ''}
 						onFocus={hideKeyboard}

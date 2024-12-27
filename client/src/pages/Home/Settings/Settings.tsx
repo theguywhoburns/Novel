@@ -56,6 +56,56 @@ export const Settings = () => {
 	const distanceRange = useSettingsStore(state => state.distanceRange);
 	const setDistanceRange = useSettingsStore(state => state.setDistanceRange);
 
+	const interests = useSettingsStore(state => state.interests);
+	const setInterests = useSettingsStore(state => state.setInterests);
+
+	const zodiacSign = useSettingsStore(state => state.zodiacSign);
+	const setZodiacSign = useSettingsStore(state => state.setZodiacSign);
+
+	const searchGoal = useSettingsStore(state => state.searchGoal);
+	const setSearchGoal = useSettingsStore(state => state.setSearchGoal);
+
+	const education = useSettingsStore(state => state.education);
+	const setEducation = useSettingsStore(state => state.setEducation);
+
+	const familyPlans = useSettingsStore(state => state.familyPlans);
+	const setFamilyPlans = useSettingsStore(state => state.setFamilyPlans);
+
+	const sport = useSettingsStore(state => state.sport);
+	const setSport = useSettingsStore(state => state.setSport);
+
+	const alcohol = useSettingsStore(state => state.alcohol);
+	const setAlcohol = useSettingsStore(state => state.setAlcohol);
+
+	const smoking = useSettingsStore(state => state.smoking);
+	const setSmoking = useSettingsStore(state => state.setSmoking);
+
+	const personalityType = useSettingsStore(state => state.personalityType);
+	const setPersonalityType = useSettingsStore(
+		state => state.setPersonalityType
+	);
+
+	const foodPreferences = useSettingsStore(state => state.foodPreferences);
+	const setFoodPreferences = useSettingsStore(
+		state => state.setFoodPreferences
+	);
+
+	const pets = useSettingsStore(state => state.pets);
+	const setPets = useSettingsStore(state => state.setPets);
+
+	const communicationStyle = useSettingsStore(
+		state => state.communicationStyle
+	);
+	const setCommunicationStyle = useSettingsStore(
+		state => state.setCommunicationStyle
+	);
+
+	const socialNetworks = useSettingsStore(state => state.socialNetworks);
+	const setSocialNetworks = useSettingsStore(state => state.setSocialNetworks);
+
+	const loveLanguage = useSettingsStore(state => state.loveLanguage);
+	const setLoveLanguage = useSettingsStore(state => state.setLoveLanguage);
+
 	const RadioModalTriggers: IRadioModalTrigger[] = [
 		{
 			Icon: IconPuzzle,
@@ -67,6 +117,8 @@ export const Settings = () => {
 				'Вкусная еда',
 				'Счастливые часы',
 			],
+			selectedOption: interests,
+			setSelectedOption: setInterests,
 		},
 		{
 			Icon: IconVortex,
@@ -85,6 +137,8 @@ export const Settings = () => {
 				'Рыбы',
 				'Козерог',
 			],
+			selectedOption: zodiacSign,
+			setSelectedOption: setZodiacSign,
 		},
 		{
 			Icon: IconFingersCross,
@@ -96,21 +150,29 @@ export const Settings = () => {
 				'Найти друзей',
 				'Не определился (-ась)',
 			],
+			selectedOption: searchGoal,
+			setSelectedOption: setSearchGoal,
 		},
 		{
 			Icon: IconSchoolHat,
 			title: 'Образование',
 			options: [],
+			selectedOption: education,
+			setSelectedOption: setEducation,
 		},
 		{
 			Icon: IconFamily,
 			title: 'Планы на семью',
 			options: [],
+			selectedOption: familyPlans,
+			setSelectedOption: setFamilyPlans,
 		},
 		{
 			Icon: IconSports,
 			title: 'Спорт',
 			options: [],
+			selectedOption: sport,
+			setSelectedOption: setSport,
 		},
 		{
 			Icon: IconAlcohol,
@@ -121,41 +183,57 @@ export const Settings = () => {
 				'Только по выходным',
 				'Редко',
 			],
+			selectedOption: alcohol,
+			setSelectedOption: setAlcohol,
 		},
 		{
 			Icon: IconSmoke,
 			title: 'Как часто ты куришь?',
 			options: [],
+			selectedOption: smoking,
+			setSelectedOption: setSmoking,
 		},
 		{
 			Icon: IconHead,
 			title: 'Тип личности',
 			options: [],
+			selectedOption: personalityType,
+			setSelectedOption: setPersonalityType,
 		},
 		{
 			Icon: IconFood,
 			title: 'Предпочтения в еде',
 			options: [],
+			selectedOption: foodPreferences,
+			setSelectedOption: setFoodPreferences,
 		},
 		{
 			Icon: IconPaw,
 			title: 'Питомцы',
 			options: [],
+			selectedOption: pets,
+			setSelectedOption: setPets,
 		},
 		{
 			Icon: IconCommunicationStyle,
 			title: 'Стиль общения',
 			options: [],
+			selectedOption: communicationStyle,
+			setSelectedOption: setCommunicationStyle,
 		},
 		{
 			Icon: IconSocial,
 			title: 'Соцсети',
 			options: [],
+			selectedOption: socialNetworks,
+			setSelectedOption: setSocialNetworks,
 		},
 		{
 			Icon: IconLips,
 			title: 'Язык любви',
 			options: [],
+			selectedOption: loveLanguage,
+			setSelectedOption: setLoveLanguage,
 		},
 	];
 

@@ -21,7 +21,7 @@ const TestPlayground = () => {
 	const [range] = useState([0, 50]);
 	const [checked, setChecked] = useState(false);
 
-	const [selectedValue, setSelectedValue] = useState('');
+	const [selectedOption, setSelectedOption] = useState('');
 	const theme = useTheme();
 
 	return (
@@ -107,14 +107,14 @@ const TestPlayground = () => {
 				/>
 				<div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
 					<LabeledRadioButton
-						option={selectedValue}
-						selectedValue={selectedValue}
-						setSelectedValue={setSelectedValue}
+						option={selectedOption}
+						selectedOption={selectedOption}
+						setSelectedOption={setSelectedOption}
 					/>
 					<LabeledRadioButton
-						option={selectedValue}
-						selectedValue={selectedValue}
-						setSelectedValue={setSelectedValue}
+						option={selectedOption}
+						selectedOption={selectedOption}
+						setSelectedOption={setSelectedOption}
 					/>
 				</div>
 				<div style={{ color: theme.accent_color }}>Rounded button</div>

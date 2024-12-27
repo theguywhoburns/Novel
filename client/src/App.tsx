@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 import { AppRouter } from './components/AppRouter/AppRouter';
 import { Layout } from './components/layout/Layout';
 import { useScrollRef } from './hooks/useScrollRef';
+import { RouteNames } from './routes';
 import { useLoginStore } from './store/login/useLoginStore';
 import { useThemeStore } from './store/theme/useThemeStore';
 import { updateCssVariables } from './theme';
@@ -17,6 +19,14 @@ function App() {
 	});
 
 	const isAuth = useLoginStore(state => state.isAuth);
+
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!isAuth) {
+			navigate(RouteNames.LOGIN_EMAIL);
+		}
+	}, [isAuth]);
 
 	useEffect(() => {
 		updateCssVariables(themes[currentTheme]);

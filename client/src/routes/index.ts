@@ -18,8 +18,8 @@ import { ChatPage } from '@/pages/MessengerPage/ChatPage/ChatPage';
 import { MessengerPage } from '@/pages/MessengerPage/MessengerPage';
 import { Places } from '@/pages/Places';
 import { PlaceDetailedPage } from '@/pages/Places/PlaceDetailedPage/PlaceDetailedPage';
-import { Profile } from '@/pages/Profile/Profile';
 import { ProfileHeader } from '@/pages/Profile/ProfileHeader';
+import { Profile } from '@/pages/Profile/ProfilePage';
 import TestPlayground from '@/pages/TestPlayground';
 
 export interface IRoute {

@@ -6,7 +6,6 @@ import { BottomButtonContainer } from '@/components/ui/BottomButtonContainer/Bot
 import { CharInputsGroup } from '@/components/ui/CharInputsGroup/CharInputsGroup';
 import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
 import { Timer } from '@/components/ui/Timer/Timer';
-import { RouteNames } from '@/routes';
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { useTheme } from '@/theme';
 import { useEffect, useState } from 'react';
@@ -25,6 +24,10 @@ export const LoginVerificationCodePage = () => {
 	const verificationCode = useLoginStore(state => state.verificationCode);
 	const setVerificationCode = useLoginStore(state => state.setVerificationCode);
 
+	const checkVerificationCode = useLoginStore(
+		state => state.checkVerificationCode
+	);
+
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
 	useEffect(() => {
@@ -36,7 +39,7 @@ export const LoginVerificationCodePage = () => {
 	}, []);
 
 	const handleClick = () => {
-		navigate(RouteNames.LOGIN_NAME);
+		checkVerificationCode(navigate);
 	};
 
 	const handleSendVerificationCodeAgain = () => {
