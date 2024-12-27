@@ -1,0 +1,57 @@
+version: "3.7"
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/client/
+      - /client/node_modules
+    depends_on:
+      - server
+    environment:
+      - NODE_ENV=development
+
+  postgresdb:
+    image: postgres:latest
+    restart: unless-stopped
+    env_file: ./server/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./server:/initdb.d
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=novel
+
+  server:
+    depends_on:
+      - postgresdb
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    ports:
+      - "4000:4000"
+      - "4200:4200"
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_HOST=postgresdb
+      - DATABASE_PORT=5432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=postgres
+
+volumes:
+  postgres_data:

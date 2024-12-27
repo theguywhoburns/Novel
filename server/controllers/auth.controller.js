@@ -1,9 +1,12 @@
+import { config as dotenvConfig } from 'dotenv-esm';
 import jwt from "jsonwebtoken";
-import { db } from "../db.js";
 import nodemailer from "nodemailer";
+import { db } from "../db.js";
+
+dotenvConfig();
 
 class AuthController {
-  async signUp(req, res) {
+  async sendVerificationCode(req, res) {
     try {
       const { email } = req.body;
 
@@ -11,53 +14,62 @@ class AuthController {
         return res.status(400).json({ error: "Email is required" });
       }
 
-      // Check if the email exists in the credentials table
-      const userResult = await db.query(
-        "SELECT user_id FROM credentials WHERE email = $1",
+      const userIdResult = await db.query(
+        'SELECT "userId" FROM credentials WHERE email = $1',
         [email]
       );
 
-      if (userResult.rows.length === 0) {
-        return res.status(404).json({ error: "User not found" });
+      let userId;
+
+      if (userIdResult.rowCount) {
+        userId = userIdResult.rows[0].userId;
+      } else {
+        const newUserIdResult = await db.query(
+          'INSERT INTO users (name) VALUES ($1) RETURNING "userId"',
+          [null]
+        );
+
+        userId = newUserIdResult.rows[0].userId;
+
+        console.log(userId);
+
+        const newCredentialsResult = await db.query(
+          'INSERT INTO credentials (email, "userId") VALUES ($1, $2) RETURNING "userId"',
+          [email, userId]
+        );
       }
 
-      const userId = userResult.rows[0].user_id;
+      const verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
 
-      // Generate a 6-digit random code
-      const verificationCode = Math.floor(
-        100000 + Math.random() * 900000
-      ).toString();
-
-      // Store the code in the database
       await db.query(
-        "UPDATE credentials SET verification_code = $1 WHERE user_id = $2",
+        'UPDATE credentials SET "verificationCode" = $1 WHERE "userId" = $2',
         [verificationCode, userId]
       );
 
-      // Send the verification code via email
       const transporter = nodemailer.createTransport({
-        service: "gmail", // or your email provider
+        host: 'smtp.yandex.ru',
+        port: 465,
+        secure: true,
         auth: {
-          user: process.env.EMAIL_USERNAME,
+          user: process.env.EMAIL,
           pass: process.env.EMAIL_PASSWORD,
         },
       });
 
       await transporter.sendMail({
-        from: process.env.EMAIL_USERNAME,
+        from: `"Novel Team" <${process.env.EMAIL}>`,
         to: email,
-        subject: "Your Verification Code",
-        text: `Your verification code is: ${verificationCode}`,
+        subject: "Novel auth",
+        text: `Добро пожаловать в Novel! Ваш код верификации: ${verificationCode}`,
       });
 
       res.json({ message: "Verification code sent to email" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal server error" });
+    } catch (err) {
+      res.status(500).json({ err });
     }
   }
 
-  async verifyCode(req, res) {
+  async checkVerificationCode(req, res) {
     try {
       const { email, verificationCode } = req.body;
 
@@ -67,32 +79,30 @@ class AuthController {
           .json({ error: "Email and verification code are required" });
       }
 
-      // Validate the code
-      const result = await db.query(
-        "SELECT user_id FROM credentials WHERE email = $1 AND verification_code = $2",
+      const userIdResult = await db.query(
+        'SELECT "userId" FROM credentials WHERE email = $1 AND "verificationCode" = $2',
         [email, verificationCode]
       );
 
-      if (result.rows.length === 0) {
-        return res.status(401).json({ error: "Invalid verification code" });
+      const userId = userIdResult.rows[0].userId;
+
+      if (!userId) {
+        return res.status(404).json({ error: "User ID not found" });
       }
 
-      const userId = result.rows[0].user_id;
-
-      // Generate a permanent token
-      const secretKey = process.env.JWT_SECRET;
-      const token = jwt.sign({ user_id: userId }, secretKey);
-
-      // Clear the verification code
       await db.query(
-        "UPDATE credentials SET verification_code = NULL WHERE user_id = $1",
+        'UPDATE credentials SET "verificationCode" = NULL WHERE "userId" = $1',
         [userId]
       );
 
-      res.json({ token });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal server error" });
+      res
+        .status(200)
+        .json({
+          message: "Verification code is valid",
+          isNewUser: userIdResult.rowCount
+        });
+    } catch (err) {
+      res.status(500).json({ err });
     }
   }
 
@@ -104,51 +114,50 @@ class AuthController {
         return res.status(400).json({ error: "Email is required" });
       }
 
-      // Check if the user exists
-      const userResult = await db.query(
-        "SELECT user_id FROM credentials WHERE email = $1",
+      const secretKey = process.env.SECRET_KEY;
+
+      const userIdResult = await db.query('SELECT "userId" FROM credentials WHERE email = $1',
         [email]
       );
 
-      if (userResult.rows.length === 0) {
+      const userId = userIdResult.rows[0].userId;
+
+      if (!userId) {
+        return res.status(404).json({ error: "User's id not found" });
+      }
+
+      const userResult = await db.query(
+        "SELECT * FROM users WHERE id = $1",
+        [userId]
+      );
+
+      const user = userResult.rows[0];
+
+      if (!user.id) {
         return res.status(404).json({ error: "User not found" });
       }
 
-      const userId = userResult.rows[0].user_id;
+      const token = jwt.sign({ userId: user.id }, secretKey);
 
-      // Generate a 6-digit random code
-      const verificationCode = Math.floor(
-        100000 + Math.random() * 900000
-      ).toString();
+      if (!token) {
+        return res.status(500).json({ error: "Token not generated" });
+      }
 
-      // Store the code in the database
-      await db.query(
-        "UPDATE credentials SET verification_code = $1 WHERE user_id = $2",
-        [verificationCode, userId]
-      );
+      const decodedToken = jwt.verify(token, secretKey);
 
-      // Send the verification code via email
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.EMAIL_USERNAME,
-          pass: process.env.EMAIL_PASSWORD,
-        },
-      });
-
-      await transporter.sendMail({
-        from: process.env.EMAIL_USERNAME,
-        to: email,
-        subject: "Your Verification Code",
-        text: `Your verification code is: ${verificationCode}`,
-      });
-
-      res.json({ message: "Verification code sent to email" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal server error" });
+      res.json({ userId: decodedToken.userId });
+    } catch (err) {
+      res.status(500).json({ err });
     }
   }
-}
+
+  async signUp(req, res) {
+    try {
+      const { email, name } = req.body;
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  }
+};
 
 export default new AuthController();

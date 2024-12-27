@@ -2,15 +2,15 @@
   "name": "novel",
   "version": "1.0.0",
   "scripts": {
-    "initialize": "cd client && yarn initialize && cd .. && cd server && yarn initialize && cd ..",
-    "front": "cd client && yarn dev",
-    "back": "cd server && yarn dev",
-    "web": "concurrently \"cd client && yarn dev\" \"cd server && yarn dev\"",
+    "initialize": "cd client && npm run initialize && cd .. && cd server && npm run initialize && cd ..",
+    "front": "cd client && npm run dev",
+    "back": "cd server && npm run dev",
+    "web": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\"",
     "android": "",
     "ios": "",
-    "build": "cd client && yarn build && cd .. && cd server && yarn build",
-    "build-front": "cd client && yarn build",
-    "build-back": "cd server && yarn build"
+    "build": "cd client && npm run build && cd .. && cd server && npm run build",
+    "build-front": "cd client && npm run build",
+    "build-back": "cd server && npm run build"
   },
   "keywords": [],
   "author": "",

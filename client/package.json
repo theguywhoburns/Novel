@@ -4,17 +4,17 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsc -b && vite build && vite",
+    "dev": "tsc -b && vite build && vite --host --port 5173",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "sync": "yarn build && npx cap sync",
-    "android": "yarn sync && npx cap run android",
-    "ios": "yarn sync && npx cap run ios",
-    "ios-web": "yarn ios && yarn dev",
-    "open-android": "yarn sync && npx cap open android",
-    "open-ios": "yarn sync && npx cap open ios",
-    "initialize": "yarn"
+    "sync": "npm run build && npx cap sync",
+    "android": "npm run sync && npx cap run android",
+    "ios": "npm run sync && npx cap run ios",
+    "ios-web": "npm run ios && npm run dev",
+    "open-android": "npm run sync && npx cap open android",
+    "open-ios": "npm run sync && npx cap open ios",
+    "initialize": "npm install"
   },
   "dependencies": {
     "@capacitor-community/safe-area": "^6.0.0-alpha.8",

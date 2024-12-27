@@ -161,14 +161,14 @@ class WebSocketChatServer {
 
 	formatMessage(message, replyToMessage) {
 		return {
-			id: message.id,
-			chatId: message.chatId,
-			senderId: message.senderId,
-			recipientId: message.recipientId,
-			type: message.type,
-			text: message.text,
-			createdAt: new Date(message.createdAt),
-			status: message.status,
+			id: message?.id,
+			chatId: message?.chatId,
+			senderId: message?.senderId,
+			recipientId: message?.recipientId,
+			type: message?.type,
+			text: message?.text,
+			createdAt: new Date(message?.createdAt),
+			status: message?.status,
 			replyToMessage: replyToMessage ? replyToMessage : null
 		};
 	}
