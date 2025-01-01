@@ -193,9 +193,7 @@ export const UsersList = () => {
 		setCurrentIndex(prevIndex =>
 			prevIndex < users.length - 1 ? prevIndex + 1 : prevIndex
 		);
-
 		setNextIndex(currentIndex + 2);
-
 		setDirection('left');
 	};
 
@@ -203,9 +201,7 @@ export const UsersList = () => {
 		setCurrentIndex(prevIndex =>
 			prevIndex < users.length - 1 ? prevIndex + 1 : prevIndex
 		);
-
 		setNextIndex(currentIndex + 2);
-
 		setDirection('right');
 	};
 
@@ -214,7 +210,6 @@ export const UsersList = () => {
 			setSelectedUserId(null);
 		} else {
 			setSelectedUserId(id);
-
 			navigate(`/profile/${id}`);
 		}
 	};
@@ -255,7 +250,6 @@ export const UsersList = () => {
 					job={users[nextIndex]?.job ?? ''}
 					distance={users[nextIndex]?.distance ?? ''}
 					isDraggable={false}
-					onClick={() => {}}
 				/>
 				<UserCard
 					imgSrc={imgSrc}

@@ -1,37 +1,28 @@
-import { UserCardDetailed } from '@/components/user/UsersList/UserCard/UserCardDetailed/UserCardDetailed';
+import { UserCardDetailed } from '@/components/user/UserCardDetailed/UserCardDetailed';
 import { IUser, users } from '@/components/user/UsersList/UsersList';
+import { useUsersStore } from '@/store/users/useUsersStore';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './UserCardDetailedPage.module.css';
 
 export const UserCardDetailedPage = () => {
+	const getUserById = useUsersStore(state => state.getUserById);
+
 	const { id } = useParams();
+
+	useEffect(() => {
+		getUserById(Number(id));
+	}, []);
+
 	const user: IUser | undefined = users.find(
 		(user: IUser) => user.id === parseInt(id ?? '')
 	);
 
+	// const User = useUsersStore(state => state.user);
+
 	return (
 		<div className={styles.page}>
-			{user?.id ? (
-				<UserCardDetailed
-					id={user.id}
-					imgSrc={user.imgSrc}
-					isPopular={user.isPopular}
-					name={user.name}
-					age={user.age}
-					search={user.search}
-					job={user.job}
-					distance={user.distance}
-					about={user.about}
-					main={user.main}
-					languages={user.languages}
-					interests={user.interests}
-					isVerified={user.isVerified}
-					gender={user.gender}
-					city={user.city}
-				/>
-			) : (
-				<p>User not found</p>
-			)}
+			{user?.id ? <UserCardDetailed {...user} /> : <p>User not found</p>}
 		</div>
 	);
 };

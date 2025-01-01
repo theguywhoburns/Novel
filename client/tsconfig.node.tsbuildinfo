@@ -1,1 +1,11 @@
-{"root":["./vite.config.ts"],"version":"5.7.2"}
+import { CapacitorConfig } from "@capacitor/cli";
+
+export const config: CapacitorConfig = {
+	appId: "me.theguywhoburns.novelapp",
+	appName: "NovelApp",
+	webDir: "dist",
+	bundledWebRuntime: false,
+	loggingBehavior: "debug"
+};
+
+export default config;

@@ -2,6 +2,7 @@ import { IMessageEntity } from '@/components/chat/ActiveChat/ChatInput/ChatInput
 import { IChat, IMessage } from '@/components/chat/ChatsList/Chat/Chat';
 import axios from 'axios';
 import { create } from 'zustand';
+import { userId } from '../login/useLoginStore';
 
 export const baseUrl = 'http://localhost:4000/api';
 
@@ -51,7 +52,7 @@ interface IMessengerStore {
 		socket: WebSocket | null;
 	}) => void;
 
-	getChatsByUser: (userId: number) => void;
+	getChatsByUser: (userId: userId) => void;
 }
 
 export const useMessengerStore = create<IMessengerStore>(set => ({

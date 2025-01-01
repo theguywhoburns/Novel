@@ -258,11 +258,10 @@ export const Settings = () => {
 				unit='км'
 			/>
 			<LabeledSwitch
-				label='Показывать людей в радиусе'
+				label='Показывать людей в диапозоне'
 				value={showPeopleInDistance}
 				onChange={setShowPeopleInDistance}
 			/>
-			<div className={styles.separator} />
 
 			<RangeInput
 				values={ageRange}
@@ -273,7 +272,7 @@ export const Settings = () => {
 				unit='лет'
 			/>
 			<LabeledSwitch
-				label='Показывать людей в радиусе'
+				label='Показывать людей в диапозоне'
 				value={showPeopleInAge}
 				onChange={setShowPeopleInAge}
 			/>

@@ -1,129 +1,281 @@
+
 import { db } from "../db.js";
-import { capitalize } from "../utils/utils.js";
 
 class UserController {
-  async getUser(req, res) {
+  // dev util method
+  getUsers = async (req, res) => {
+    try {
+      const usersResult = await db.query('SELECT * FROM users');
+      res.json(usersResult.rows);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error });
+    }
+  };
+
+  getFilteredUsers = async (req, res) => {
+    try {
+      const {
+        distance,
+        showPeopleInDistanse,
+        age,
+        showPeopleInAge,
+        isVerified
+      } = req.body;
+
+      if (
+        distance.length !== 2 ||
+        typeof showPeopleInDistanse === 'undefined' ||
+        age.length !== 2 ||
+        typeof showPeopleInAge === 'undefined' ||
+        typeof isVerified === 'undefined'
+      ) {
+        return res.status(400).json({ err: "Missing required fields" });
+      }
+
+      const minAge = showPeopleInAge ? age[0] : 18;
+      const maxAge = showPeopleInAge ? age[1] : 100;
+
+      const minDistance = showPeopleInDistanse ? distance[0] : 0;
+      const maxDistance = showPeopleInDistanse ? distance[1] : 100;
+
+      const usersResult = await db.query(
+        `SELECT * FROM users WHERE 
+          (age >= $1 AND age <= $2) AND 
+          (distance >= $3 AND distance <= $4) 
+          ${isVerified ? 'AND (isVerified = TRUE)' : ''}`,
+        [minAge, maxAge, minDistance, maxDistance]
+      );
+
+      const users = usersResult.rows;
+
+      res.json(users);
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  };
+
+  getUserById = async (req, res) => {
     try {
       const id = req.params.id;
 
       if (!id) {
-        return res.status(400).json({ error: "Missing id" });
+        return res.status(400).json({ err: "Missing id" });
       }
-      const user = await db.query("SELECT * FROM person WHERE id = $1", [id]);
+
+      const userResult = await db.query('SELECT * FROM users WHERE id = $1', [id]);
+
+      const user = userResult.rows[0];
 
       if (!user) {
-        return res.status(400).json({ error: "No user found" });
+        return res.status(404).json({ err: "User not found" });
       }
 
-      const { name, surname, city, country } = user.rows[0];
-
-      const capitalizedUser = {
-        ...user.rows[0],
-        name: capitalize(name),
-        city: capitalize(city),
-        country: capitalize(country),
-        surname: capitalize(surname),
-      };
-
-      res.json(capitalizedUser);
-    } catch (error) {
-			console.error(error);
-      res.status(500).json({ error });
+      res.json(user);
+    } catch (err) {
+      res.status(500).json({ err });
     }
-  }
+  };
 
-  async updateUser(req, res) {
+  updateUser = async (req, res) => {
     try {
+      const id = req.params.id;
+
+      if (!id) {
+        return res.status(400).json({ err: "Missing id" });
+      }
+
       const {
-        id,
-        login,
-        name,
-        surname,
-        age,
-        city,
-        country,
-        hobby,
-        friendsAmount,
-        followersAmount,
-        musicAmount,
-        postsAmount,
+        uploadedImages,
+        description,
+        growth,
+        intersets,
+        searchGoal,
+        languages,
+        lifeStyle,
+        jobPosition,
+        company,
+        gender,
+        orientation
       } = req.body;
 
-      if (!Object.entries(req.body).one(([_, value]) => value)) {
-        return res.status(400).json({ error: "Missing fields" });
-      }
-
-      const user = await db.query(
-        'UPDATE person SET login = $1, name = $2, surname = $3, age = $4, city = $5, country = $6, hobby = $7, "friendsAmount" = $8, "followersAmount" = $9, "musicAmount" = $10, "postsAmount" = $11 WHERE id = $12 RETURNING *',
+      const updatedUserResult = await db.query(
+        `UPDATE users SET 
+          "uploadedImages" = $1, 
+          "description" = $2, 
+          "growth" = $3, 
+          "intersets" = $4, 
+          "searchGoal" = $5, 
+          "languages" = $6, 
+          "lifeStyle" = $7, 
+          "jobPosition" = $8, 
+          "company" = $9, 
+          "gender" = $10, 
+          "orientation" = $11 
+        WHERE id = $12`,
         [
-          login,
-          name,
-          surname,
-          age,
-          city,
-          country,
-          hobby,
-          friendsAmount,
-          followersAmount,
-          musicAmount,
-          postsAmount,
-          id,
+          uploadedImages,
+          description,
+          growth,
+          intersets,
+          searchGoal,
+          languages,
+          lifeStyle,
+          jobPosition,
+          company,
+          gender,
+          orientation,
+          id
         ]
       );
 
-      if (!user) {
-        return res.status(400).json({ error: "No user updated" });
-      }
+      const updatedUser = updatedUserResult.rows[0];
 
-      res.json(user.rows[0]);
-    } catch (error) {
-			console.error(error);
-      res.status(500).json({ error });
+      res.json(updatedUser);
+    } catch (err) {
+      res.status(500).json({ err });
     }
-  }
+  };
 
-  async patchUser(req, res) {
+  likeUser = async (req, res) => {
     try {
-      const { id, name, surname, age, city, country, hobby } = req.body;
+      const { raterId, ratedId } = req.body;
 
-      if (!Object.entries(req.body).some(([_, value]) => value)) {
-        return res.status(400).json({ error: "Missing fields" });
-      }
-
-      const user = await db.query(
-        "UPDATE person SET name = $1, surname = $2, age = $3, city = $4, country = $5, hobby = $6 WHERE id = $7 RETURNING *",
-        [name, surname, age, city, country, hobby, id]
-      );
-
-      if (!user) {
-        return res.status(400).json({ error });
-      }
-
-      res.json(user.rows[0]);
-    } catch (error) {
-			console.error(error);
-      res.status(500).json({ error });
-    }
-  }
-
-  async deleteUser(req, res) {
-    try {
-      const id = req.params.id;
-
-      if (!id) {
+      if (!raterId || !ratedId) {
         return res.status(400).json({ error: "Missing id" });
       }
 
-      await db.query('DELETE FROM post WHERE "userId" = $1', [id]);
+      if (raterId === ratedId) {
+        return res.status(400).json({ error: "Cannot like yourself" });
+      }
 
-      const user = await db.query("DELETE FROM person WHERE id = $1", [id]);
+      const usersExist = await this.checkUsersExist([raterId, ratedId]);
+      if (!usersExist) {
+        return res.status(404).json({ error: "User or users not found" });
+      }
 
-      res.json(user.rows[0]);
-    } catch (error) {
-			console.error(error);
-      res.status(500).json({ error });
+      const isLikeAlreadyAdded =
+        await this.checkIfRateAlreadyAdded('likes', raterId, ratedId);
+      if (isLikeAlreadyAdded) {
+        return res.status(400).json({ message: "Like already added" });
+      }
+
+      const isDislikeAdded = await this.checkPreviosRate('dislikes', raterId, ratedId);
+      if (isDislikeAdded) {
+        await this.deletePreviosRate('dislikes', raterId, ratedId);
+      }
+
+      await this.addRate('likes', raterId, ratedId);
+      const isMutualLike = await this.checkMutualRate('likes', raterId, ratedId);
+
+      let isNewChatCreated = false;
+      if (isMutualLike) {
+        isNewChatCreated = await this.createChatIfNotExists(raterId, ratedId);
+      }
+
+      res.json({ message: "Liked successfully", isMutualLike, isNewChatCreated });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
     }
-  }
+  };
+
+  disLikeUser = async (req, res) => {
+    try {
+      const { raterId, ratedId } = req.body;
+
+      if (!raterId || !ratedId) {
+        return res.status(400).json({ error: "Missing id" });
+      }
+
+      if (raterId === ratedId) {
+        return res.status(400).json({ error: "Cannot dislike yourself" });
+      }
+
+      const usersExist = await this.checkUsersExist([raterId, ratedId]);
+      if (!usersExist) {
+        return res.status(404).json({ error: "User or users not found" });
+      }
+
+      const isDislikeAlreadyAdded = await this.checkIfRateAlreadyAdded('dislikes', raterId, ratedId);
+      if (isDislikeAlreadyAdded) {
+        return res.status(400).json({ message: "Dislike already added" });
+      }
+
+      const isLikeAdded = await this.checkPreviosRate('likes', raterId, ratedId);
+      if (isLikeAdded) {
+        await this.deletePreviosRate('likes', raterId, ratedId);
+      }
+
+      await this.addRate('dislikes', raterId, ratedId);
+
+      res.json({ message: "Disliked successfully" });
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  };
+
+
+  checkUsersExist = async (userIds) => {
+    const result = await db.query('SELECT * FROM users WHERE id IN ($1, $2)', userIds);
+    return result.rowCount === userIds.length;
+  };
+
+
+  checkIfRateAlreadyAdded = async (tableName, raterId, ratedId) => {
+    const result = await db.query(
+      `SELECT * FROM ${tableName} WHERE "raterId" = $1 AND "ratedId" = $2`,
+      [raterId, ratedId]
+    );
+    return result.rowCount > 0;
+  };
+
+  addRate = async (tableName, raterId, ratedId) => {
+    await db.query(
+      `INSERT INTO ${tableName} ("raterId", "ratedId") VALUES ($1, $2)`,
+      [raterId, ratedId]
+    );
+  };
+
+  checkMutualRate = async (tableName, raterId, ratedId) => {
+    const result = await db.query(
+      `SELECT * FROM ${tableName} WHERE "raterId" = $1 AND "ratedId" = $2`,
+      [ratedId, raterId]
+    );
+    return result.rowCount > 0;
+  };
+
+  checkPreviosRate = async (tableName, raterId, ratedId) => {
+    const result = await db.query(
+      `SELECT * FROM ${tableName} WHERE "raterId" = $1 AND "ratedId" = $2`,
+      [raterId, ratedId]
+    );
+    return result.rowCount > 0;
+  };
+
+  deletePreviosRate = async (tableName, raterId, ratedId) => {
+    await db.query(
+      `DELETE FROM ${tableName} WHERE "raterId" = $1 AND "ratedId" = $2`,
+      [raterId, ratedId]
+    );
+  };
+
+  createChatIfNotExists = async (userOneId, userTwoId) => {
+    const existingChatResult = await db.query(
+      'SELECT * FROM chats WHERE ("userOneId" = $1 AND "userTwoId" = $2) OR ("userOneId" = $2 AND "userTwoId" = $1)',
+      [userOneId, userTwoId]
+    );
+
+    if (existingChatResult.rowCount) {
+      return false;
+    }
+
+    const newChatResult = await db.query(
+      'INSERT INTO chats ("userOneId", "userTwoId") VALUES ($1, $2) RETURNING *',
+      [userOneId, userTwoId]
+    );
+
+    return newChatResult.rowCount > 0;
+  };
 }
 
 export default new UserController();

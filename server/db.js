@@ -1,13 +1,29 @@
-import pg from "pg";
+import cors from "cors";
+import express from "express";
+import helmet from "helmet";
+import { router as authRouter } from "./routes/auth.routes.js";
+import { router as chatRouter } from "./routes/chat.routes.js";
+import { router as PlaceRouter } from "./routes/place.routes.js";
+import { router as userRouter } from "./routes/user.routes.js";
+import WebSocketChatServer from './sockets/websocket.js';
 
-const { Pool } = pg;
+const PORT = 4000;
 
-const pool = new Pool({
-  user: "postgres", // TODO: Env
-  password: "1111", // TODO: Env
-  host: "localhost",
-  port: "5432",
-  database: "novel",
+const app = express();
+
+app.use(helmet());
+app.use(express.json());
+app.use(cors());
+
+app.use("/api", userRouter);
+app.use("/api", authRouter);
+app.use("/api", chatRouter);
+app.use("/api", PlaceRouter);
+
+const wss = new WebSocketChatServer(app);
+
+wss.start();
+
+app.listen(PORT, () => {
+	console.log(`Main server is listening on port ${PORT}`);
 });
-
-export { pool as db };

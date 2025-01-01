@@ -67,12 +67,6 @@ export const UserCard = ({
 		const velocity = x.getVelocity();
 		setVelocity(velocity);
 		setDirection(getDirection());
-
-		// if (x.get() < -150) {
-		// 	x.set(-150);
-		// } else if (x.get() > 150) {
-		// 	x.set(150);
-		// }
 	};
 
 	const flyAway = (min: number) => {
@@ -173,47 +167,26 @@ export const UserCard = ({
 			onDragEnd={() => flyAway(500)}
 		>
 			<div
+				className={styles.cardMask}
 				style={{
-					position: 'absolute',
-					top: 0,
-					left: 0,
-					width: '100%',
-					height: '100%',
-					zIndex: 10,
 					background,
-					transition: 'none',
-					borderRadius: 22,
 				}}
 			/>
 
 			<div
+				className={styles.maskInner}
 				style={{
-					display: x.get() < 0 ? 'block' : 'none',
-					position: 'absolute',
-					top: 0,
-					left: 0,
-					width: '100%',
-					height: '100%',
-					zIndex: 100,
-					transition: 'none',
-					borderRadius: 22,
+					display: x.get() < 0 ? 'flex' : 'none',
 				}}
 			>
 				<MarkSvg mark='dislike' x={x.get()} />
 			</div>
 
 			<div
+				className={styles.maskInner}
 				style={{
 					display: x.get() > 0 ? 'flex' : 'none',
 					justifyContent: 'flex-end',
-					position: 'absolute',
-					top: 0,
-					right: 0,
-					width: '100%',
-					height: '100%',
-					zIndex: 100,
-					transition: 'none',
-					borderRadius: 22,
 				}}
 			>
 				<MarkSvg mark='like' x={x.get()} />

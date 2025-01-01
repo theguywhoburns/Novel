@@ -1,3 +1,4 @@
+import { BottomButtonContainer } from '@/components/ui/BottomButtonContainer/BottomButtonContainer';
 import { Modal } from '@/components/ui/Modal/Modal';
 import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
 import { IconClip } from '@/icons/Clip';
@@ -59,14 +60,16 @@ export const ImageUploader = ({
 			/>
 			{imagePreview && (
 				<Modal isOpen={isModalOpen} setIsOpen={() => setIsModalOpen(false)}>
-					<img
-						src={imagePreview}
-						alt='Preview'
-						className={styles.imagePreview}
-					/>
-					<RoundedButton onClick={() => setIsModalOpen(false)}>
-						Отправить
-					</RoundedButton>
+					<BottomButtonContainer gap={10}>
+						<img
+							src={imagePreview}
+							alt='Preview'
+							className={styles.imagePreview}
+						/>
+						<RoundedButton onClick={() => setIsModalOpen(false)}>
+							Отправить
+						</RoundedButton>
+					</BottomButtonContainer>
 				</Modal>
 			)}
 			<div className={styles.uploadButton}>

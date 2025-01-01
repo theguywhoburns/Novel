@@ -1,6 +1,6 @@
 .tabs {
 	display: flex;
-	gap: 10px;
+	gap: 7px;
 	list-style-type: none;
 	max-width: 570px;
 	width: 100%;

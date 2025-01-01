@@ -7,16 +7,20 @@ import { useLoginStore } from '@/store/login/useLoginStore';
 import { useProfileStore } from '@/store/profile/useProfileStore';
 import { useThemeStore } from '@/store/theme/useThemeStore';
 import { setTheme } from '@/theme';
-import { ThemeType } from '@/theme/themes';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { UserCardDetailedPage } from '../Home/UserCardDetailedPage/UserCardDetailedPage';
 import styles from './ProfilePage.module.css';
 
 export const Profile = () => {
-	const [editMode, setEditMode] = useState(true);
+	const [editMode, setEditMode] = useState(false);
 	const [height, setHeight] = useState(187);
 	const [gender, setGender] = useState('male');
-	const [orientatsiya, setOrientatsiya] = useState('heterosexual');
+	const [orientation, setOrientation] = useState('heterosexual');
+
+	const userId = useLoginStore(state => state.userId)?.toString();
+	const visitedUserId = useParams().id;
+
 	const currentTheme = useThemeStore(state => state.theme);
 
 	const uploadedImages = useLoginStore(state => state.uploadedImages);
@@ -34,114 +38,120 @@ export const Profile = () => {
 		);
 	};
 
+	const isCurrentUserProfile = userId === visitedUserId;
+
 	return (
 		<div className={styles.profilePage}>
-			<SwitchModeButtonGroup
-				className={styles.switchModeButtonGroup}
-				values={['redact', 'preview']}
-				displayValues={['Редактировать', 'Предпросмотр']}
-				value={editMode ? 'redact' : 'preview'}
-				setValue={v => setEditMode(v === 'redact' ? true : false)}
-			/>
+			{isCurrentUserProfile && (
+				<SwitchModeButtonGroup
+					className={styles.switchModeButtonGroup}
+					values={['edit', 'preview']}
+					displayValues={['Редактировать', 'Предпросмотр']}
+					value={editMode ? 'edit' : 'preview'}
+					setValue={v => setEditMode(v === 'edit' ? true : false)}
+				/>
+			)}
 
 			{!editMode ? (
 				<UserCardDetailedPage />
 			) : (
-				<div className={styles.editProfileContainer}>
-					<label>Медиафайлы</label>
-					<div className={styles.profileImageUploadersContainer}>
-						{uploadedImages.map((image, index) => (
-							<ProfileImageUploader
-								key={index}
-								onImageUpload={newImage => handleImageUpload(index, newImage)}
-								selectedImage={image}
-							/>
-						))}
-					</div>
+				isCurrentUserProfile && (
+					<div className={styles.editProfileContainer}>
+						<label>Медиафайлы</label>
+						<div className={styles.profileImageUploadersContainer}>
+							{uploadedImages.map((image, index) => (
+								<ProfileImageUploader
+									key={index}
+									onImageUpload={newImage => handleImageUpload(index, newImage)}
+									selectedImage={image}
+								/>
+							))}
+						</div>
 
-					<TextInput
-						value={description}
-						onChange={e => setDescription(e.target.value)}
-						placeholder='Обо мне'
-					/>
+						<TextInput
+							value={description}
+							onChange={e => setDescription(e.target.value)}
+							placeholder='Обо мне'
+						/>
 
-					<RangeInput
-						label='Рост'
-						values={[height]}
-						setValues={v => setHeight(v[0])}
-						min={0}
-						max={200}
-						unit='см'
-					/>
+						<RangeInput
+							label='Рост'
+							values={[height]}
+							setValues={v => setHeight(v[0])}
+							min={0}
+							max={200}
+							unit='см'
+						/>
 
-					<p>Цели в отношениях</p>
-					<input type='text' />
+						<p>Цели в отношениях</p>
+						<input type='text' />
 
-					<Separator />
+						<Separator />
 
-					<p>Языки</p>
-					<input type='text' />
+						<p>Языки</p>
+						<input type='text' />
 
-					<Separator />
+						<Separator />
 
-					<p>Основное(TODO: USE BOTTOM MODAL HERE)</p>
-					<Separator />
-					<p>Стиль жизни (TODO: USE BOTTOM MODAL HERE)</p>
-					<Separator />
+						<p>Основное(TODO: USE BOTTOM MODAL HERE)</p>
+						<Separator />
+						<p>Стиль жизни (TODO: USE BOTTOM MODAL HERE)</p>
+						<Separator />
 
-					{/* <LabeledRadioButtonsList
+						{/* <LabeledRadioButtonsList
 						Icon={IconSchoolHat}
 						title='Образование'
 						options={['Высшее', 'Среднее специальное', 'Среднее общее']}
 					/> */}
 
-					<Separator />
+						<Separator />
 
-					<TextInput
-						value={position}
-						onChange={e => setPosition(e.target.value)}
-						placeholder='Должность'
-					/>
+						<TextInput
+							value={position}
+							onChange={e => setPosition(e.target.value)}
+							placeholder='Должность'
+						/>
 
-					<Separator />
+						<Separator />
 
-					<p>Компания</p>
-					<input type='text' />
+						<p>Компания</p>
+						<input type='text' />
 
-					<Separator />
+						<Separator />
 
-					<label>Пол</label>
-					<SwitchModeButtonGroup
-						values={['male', 'female']}
-						displayValues={['Мужской', 'Женский']}
-						value={gender}
-						setValue={setGender}
-					/>
+						<label>Пол</label>
+						<SwitchModeButtonGroup
+							values={['male', 'female']}
+							displayValues={['Мужской', 'Женский']}
+							value={gender}
+							setValue={setGender}
+						/>
 
-					<Separator />
+						<Separator />
 
-					<label>Ориентация</label>
-					<SwitchModeButtonGroup
-						values={['heterosexual', 'homosexual', 'bisexual']}
-						displayValues={['Хетеросексуал', 'Гомосексуал', 'Бисексуал']}
-						value={orientatsiya}
-						setValue={setOrientatsiya}
-					/>
+						<label>Ориентация</label>
+						<SwitchModeButtonGroup
+							values={['heterosexual', 'homosexual', 'bisexual']}
+							displayValues={['Хетеросексуал', 'Гомосексуал', 'Бисексуал']}
+							value={orientation}
+							setValue={setOrientation}
+						/>
 
-					<Separator />
+						<Separator />
 
-					<p>Настройки аккаунта(TODO: чёто)</p>
+						<p>Настройки аккаунта(TODO: чёто)</p>
 
-					<Separator />
+						<Separator />
 
-					<label>Тема</label>
-					<SwitchModeButtonGroup
-						values={['light', 'dark']}
-						displayValues={['Светлая', 'Темная']}
-						value={currentTheme}
-						setValue={v => setTheme(v as ThemeType)}
-					/>
-				</div>
+						<label>Тема</label>
+						<SwitchModeButtonGroup
+							values={['light', 'dark']}
+							displayValues={['Светлая', 'Темная']}
+							value={currentTheme}
+							setValue={v => setTheme(v)}
+						/>
+					</div>
+				)
 			)}
 		</div>
 	);

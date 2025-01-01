@@ -1,0 +1,47 @@
+.img {
+	max-width: 500px;
+	width: 100%;
+	max-height: 800px;
+	height: 100%;
+	aspect-ratio: 3 / 4;
+	object-fit: cover;
+	margin: 0 auto 10px;
+}
+
+.infoContainer {
+	padding: 0 16px;
+}
+
+.nameAndAgeContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 5px;
+}
+
+.name,
+.age {
+	font-size: 24px;
+	font-weight: 600;
+	line-height: 29px;
+}
+
+.mainInfoContainer {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 10px;
+}
+
+.mainInfoContainer p {
+	font-size: 16px;
+	line-height: 19px;
+}
+
+.about {
+	margin-bottom: 10px;
+}
+
+h3 {
+	font-size: 16px;
+	font-weight: 500;
+}

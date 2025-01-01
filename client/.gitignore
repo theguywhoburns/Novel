@@ -1,24 +1,58 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+{
+	"name": "novel-frontend",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "tsc -b && vite build && vite",
+		"build": "tsc -b && vite build",
+		"lint": "eslint .",
+		"preview": "vite preview",
+		"sync": "yarn build && npx cap sync",
+		"android": "yarn sync && npx cap run android",
+		"ios": "yarn sync && npx cap run ios",
+		"ios-web": "yarn ios && yarn dev",
+		"open-android": "yarn sync && npx cap open android",
+		"open-ios": "yarn sync && npx cap open ios",
+		"initialize": "yarn"
+	},
+	"dependencies": {
+		"@capacitor-community/safe-area": "^6.0.0-alpha.8",
+		"@capacitor/android": "^6.1.2",
+		"@capacitor/cli": "^6.1.2",
+		"@capacitor/core": "^6.1.2",
+		"@capacitor/geolocation": "^6.0.1",
+		"@capacitor/ios": "^6.1.2",
+		"@capacitor/keyboard": "^6.0.3",
+		"@emotion/react": "^11.13.3",
+		"@emotion/styled": "^11.13.0",
+		"@mui/material": "^6.1.10",
+		"add": "^2.0.6",
+		"axios": "^1.7.9",
+		"framer-motion": "^11.11.10",
+		"jsonwebtoken": "8.5.1",
+		"path": "^0.12.7",
+		"react": "^18.3.1",
+		"react-aria": "^3.36.0",
+		"react-dom": "^18.3.1",
+		"react-modal-sheet": "^3.3.0",
+		"react-router-dom": "^6.28.0",
+		"react-stately": "^3.34.0",
+		"react-swipeable": "^7.0.1",
+		"zustand": "^5.0.1"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.9.0",
+		"@types/jsonwebtoken": "^9.0.7",
+		"@types/react": "^18.3.3",
+		"@types/react-dom": "^18.3.0",
+		"@vitejs/plugin-react": "^4.3.1",
+		"eslint": "^9.9.0",
+		"eslint-plugin-react-hooks": "^5.1.0-rc.0",
+		"eslint-plugin-react-refresh": "^0.4.9",
+		"globals": "^15.9.0",
+		"typescript": "^5.5.3",
+		"typescript-eslint": "^8.0.1",
+		"vite": "^5.4.1"
+	}
+}

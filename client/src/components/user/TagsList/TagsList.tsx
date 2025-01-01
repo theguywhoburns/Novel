@@ -9,7 +9,7 @@ interface ITagsList {
 export const TagsList = ({ tags }: ITagsList) => {
 	return (
 		<ul className={styles.list}>
-			{tags.map(tag => (
+			{tags?.map(tag => (
 				<UserTag
 					key={tag.id}
 					id={tag.id}

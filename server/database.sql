@@ -1,125 +1,125 @@
--- create database novel
--- LC_COLLATE 'ru_RU.UTF-8'
--- LC_CTYPE 'ru_RU.UTF-8'
--- TEMPLATE template0;
+import { db } from "../db.js";
 
-CREATE TABLE "cards" (
-  "id" SERIAL PRIMARY KEY,
-  "personalId" VARCHAR(255) NOT NULL,
-  "number" VARCHAR(16) NOT NULL,
-  "expiryDate" DATE NOT NULL,
-  "cvv" CHAR(3) NOT NULL
-);
+class ChatController {
+	async getChatsByUser(req, res) {
+		try {
+			const userId = req.params.id;
 
-CREATE TABLE "cities" (
-  "id" SERIAL PRIMARY KEY,
-  "address" VARCHAR(255) NOT NULL,
-  "postalCode" VARCHAR(255) NOT NULL,
-  "cityName" VARCHAR(255) NOT NULL,
-  "geoLat" FLOAT NOT NULL,
-  "geoLon" FLOAT NOT NULL
-);
+			if (!userId) {
+				return res.status(400).json({ error: "Missing id" });
+			}
 
-CREATE TABLE "places" (
-  "id" SERIAL PRIMARY KEY,
-  "categoryId" INT NOT NULL,
-  "cityId" INT NOT NULL,
-  "name" VARCHAR(255) NOT NULL,
-  "description" TEXT,
-  "image" TEXT,
-  "address" VARCHAR(255),
-  "link" VARCHAR(255),
-  "geoLat" FLOAT NOT NULL,
-  "geoLon" FLOAT NOT NULL,
-  FOREIGN KEY ("cityId") REFERENCES "cities"("id")
-);
+			const chats = await db.query(
+				`
+				SELECT
+				c.id,
+				c."userOneId",
+				c."userTwoId",
+				c."isMuted",
+				(
+						SELECT json_build_object(
+								'id', m.id,
+								'senderId', m."senderId",
+								'recipientId', m."recipientId",
+								'type', m.type,
+								'text', m.text
+						)
+						FROM messages m
+						WHERE m."chatId" = c.id
+						ORDER BY m."createdAt" DESC
+						LIMIT 1
+				) AS "lastMessage",
+				(
+						SELECT COUNT(*)
+						FROM messages
+						WHERE "chatId" = c.id
+						AND "recipientId" = $1
+						AND status = 'sent'
+				)::int AS "newMessagesAmount",
+				CASE
+						WHEN c."userOneId" = $1 THEN
+								json_build_object(
+										'id', u2.id,
+										'name', u2.name,
+										'age', EXTRACT(YEAR FROM AGE(u2."bDate"))::INTEGER,
+										'imgSrc', u2."imgSrc",
+										'gender', u2.gender,
+										'isOnline', u2."isOnline"
+								)
+						ELSE
+								json_build_object(
+										'id', u1.id,
+										'name', u1.name,
+										'age', EXTRACT(YEAR FROM AGE(u1."bDate"))::INTEGER,
+										'imgSrc', u1."imgSrc",
+										'gender', u1.gender,
+										'isOnline', u1."isOnline"
+								)
+						END AS "interlocutor"
+				FROM
+						chats c
+				JOIN
+						users u1 ON c."userOneId" = u1.id
+				JOIN
+						users u2 ON c."userTwoId" = u2.id
+				WHERE
+						c."userOneId" = $1 OR c."userTwoId" = $1
+				ORDER BY
+						(SELECT MAX(m."createdAt") FROM messages m WHERE m."chatId" = c.id) DESC NULLS LAST;
+      `,
+				[userId],
+			);
 
-CREATE TABLE "matches" (
-  "id" SERIAL PRIMARY KEY,
-  "userOne" INT NOT NULL,
-  "userTwo" INT NOT NULL,
-  FOREIGN KEY ("userOne") REFERENCES "users"("id"),
-  FOREIGN KEY ("userTwo") REFERENCES "users"("id")
-);
 
-CREATE TABLE "chats" (
-  "id" SERIAL PRIMARY KEY,
-  "userOneId" INT NOT NULL,
-  "userTwoId" INT NOT NULL,
-  "isMuted" BOOLEAN NOT NULL DEFAULT FALSE,
-  FOREIGN KEY ("userOneId") REFERENCES "users"("id") ON DELETE CASCADE,
-  FOREIGN KEY ("userTwoId") REFERENCES "users"("id") ON DELETE CASCADE
-);
+			res.json(chats.rows);
+		} catch (error) {
+			console.error(error);
+			res.status(500).json({ error });
+		}
+	}
 
-CREATE TABLE "messages" (
-  "id" SERIAL PRIMARY KEY,
-  "chatId" INTEGER NOT NULL,
-  "senderId" INTEGER NOT NULL,
-  "recipientId" INTEGER NOT NULL,
-  "type" VARCHAR(50) NOT NULL,
-  "text" TEXT,
-  "createdAt" TIMESTAMP NOT NULL,
-  "status" VARCHAR(50) NOT NULL,
-  "replyToMessageId" INTEGER,
-  FOREIGN KEY ("replyToMessageId") REFERENCES "messages"("id") ON DELETE SET NULL,
-  FOREIGN KEY ("chatId") REFERENCES "chats"("id") ON DELETE CASCADE,
-  FOREIGN KEY ("senderId") REFERENCES "users"("id") ON DELETE CASCADE,
-  FOREIGN KEY ("recipientId") REFERENCES "users"("id") ON DELETE CASCADE
-);
+	async getChatByUsers(req, res) {
+		try {
+			const fromId = req.query.fromId;
+			const toId = req.query.toId;
 
-CREATE TABLE "transactions" (
-  "id" SERIAL PRIMARY KEY,
-  "fromUserId" INT NOT NULL,
-  "toUserId" INT NOT NULL,
-  "amount" DECIMAL(10, 2) NOT NULL,
-  "item" VARCHAR(255),
-  "transactionDate" TIMESTAMP NOT NULL,
-  FOREIGN KEY ("fromUserId") REFERENCES "users"("id"),
-  FOREIGN KEY ("toUserId") REFERENCES "users"("id")
-);
+			if (!fromId || !toId) {
+				return res.status(400).json({ error: "Missing id" });
+			}
 
-CREATE TABLE "credentials" (
-  "id" SERIAL PRIMARY KEY,
-  "userId" INT NOT NULL,
-  "email" VARCHAR(255) UNIQUE,
-  "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  "verificationCode" VARCHAR(4),
-  "lastLogin" TIMESTAMP NULL,
-  FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE
-);
+			const chat = await db.query('SELECT * FROM chat WHERE ("fromId" = $1 AND "toId" = $2) OR ("fromId" = $2 AND "toId" = $1)', [fromId, toId]);
 
-CREATE TABLE "users" (
-  "id" SERIAL PRIMARY KEY,
-  "name" VARCHAR(255),
-  "bDate" DATE,
-  "imgSrc" TEXT,
-  "gender" VARCHAR(20),
-  "about" TEXT,
-  "city" VARCHAR(255),
-  "company" VARCHAR(255),
-  "education" VARCHAR(255),
-  "growth" TEXT,
-  "interests" TEXT,
-  "job" VARCHAR(255),
-  "languages" VARCHAR(255),
-  "mediaLinks" TEXT,
-  "familyPlans" TEXT,
-  "relationshipGoals" TEXT,
-  "sport" TEXT,
-  "alcohol" TEXT,
-  "smoke" TEXT,
-  "personalityType" TEXT,
-  "socialMediaLinks" TEXT,
-  "status" VARCHAR(50),
-  "subscriptionType" VARCHAR(50),
-  "zodiacSign" VARCHAR(50),
-  "searchGoal" TEXT,
-  "playlist" TEXT,
-  "location" TEXT,
-  "talkStyle" TEXT,
-  "loveLang" TEXT,
-  "pets" TEXT,
-  "food" TEXT,
-  "isOnline" BOOLEAN NOT NULL DEFAULT FALSE,
-  "balance" DECIMAL(10, 2) DEFAULT 0.00
-);
+			if (!chat) {
+				return res.status(400).json({ error: "No chat found" });
+			}
+
+			res.json(chat.rows);
+		} catch (error) {
+			console.error(error);
+			res.status(500).json({ error });
+		}
+	}
+
+	async createChat(req, res) {
+		try {
+			const { fromId, toId } = req.body;
+
+			if (!fromId || !toId) {
+				return res.status(400).json({ error: "Missing id" });
+			}
+
+			const chat = await db.query('INSERT INTO chat ("fromId", "toId") VALUES ($1, $2) RETURNING *', [fromId, toId]);
+
+			if (!chat) {
+				return res.status(400).json({ error: "No chat found" });
+			}
+
+			res.json(chat.rows[0]);
+		} catch (error) {
+			console.error(error);
+			res.status(500).json({ error });
+		}
+	}
+}
+
+export default new ChatController();

@@ -2,21 +2,22 @@ import { useTheme } from '@/theme';
 import { ToggleButtonGroup, ToggleButtonGroupProps } from '@mui/material';
 import { RoundedButton } from '../RoundedButton/RoundedButton';
 
-interface ISwitchModeButtonGroupProps extends ToggleButtonGroupProps {
-	values: string[];
+interface ISwitchModeButtonGroupProps<T extends string>
+	extends ToggleButtonGroupProps {
+	values: T[];
 	displayValues?: string[];
-	value?: string;
-	setValue: (value: string) => void;
+	value?: T;
+	setValue: (value: T) => void;
 }
 
-export const SwitchModeButtonGroup = ({
+export const SwitchModeButtonGroup = <T extends string>({
 	values,
 	displayValues,
 	value,
 	setValue,
 	sx,
 	...props
-}: ISwitchModeButtonGroupProps) => {
+}: ISwitchModeButtonGroupProps<T>) => {
 	const theme = useTheme();
 
 	return (
