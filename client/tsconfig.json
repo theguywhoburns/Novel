@@ -1,8 +1,7 @@
 {
-	"plugins": {
-		"Keyboard": {
-			"resize": "body",
-			"style": "dark"
-		}
-	}
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }
