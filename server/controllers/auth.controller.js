@@ -35,8 +35,6 @@ class AuthController {
           return res.status(404).json({ error: "User ID not found" });
         }
 
-        console.log(userId);
-
         const newCredentialsResult = await db.query(
           'INSERT INTO credentials (email, "userId") VALUES ($1, $2)',
           [email, userId]
@@ -89,7 +87,14 @@ class AuthController {
         [email, verificationCode]
       );
 
-      const userId = userIdResult.rows[0].userId;
+      const userId = userIdResult.rows[0]?.userId;
+
+      const userNameResult = await db.query(
+        'SELECT name FROM users WHERE id = $1',
+        [userId]
+      );
+
+      const userName = userNameResult.rows[0]?.name;
 
       if (!userId) {
         return res.status(404).json({ error: "User ID not found" });
@@ -104,11 +109,11 @@ class AuthController {
         .status(200)
         .json({
           message: "Verification code is valid",
-          isNewUser: userId ? false : true,
+          isNewUser: userName ? false : true,
         });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ err });
+      res.status(500).json({ error: err.message });
     }
   }
 
@@ -154,7 +159,7 @@ class AuthController {
 
       res.json({ userId: decodedToken.userId });
     } catch (err) {
-      res.status(500).json({ err });
+      res.status(500).json({ error: err.message });
     }
   }
 
@@ -167,7 +172,7 @@ class AuthController {
         uploadedImages,
         gender,
         description,
-        intersets,
+        interests,
         zodiacSign,
         searchGoal,
         education,
@@ -188,6 +193,8 @@ class AuthController {
 
       const userId = userIdResult.rows[0].userId;
 
+      console.log("userId: ", userId);
+
       if (!userId) {
         return res.status(404).json({ error: "User's id not found" });
       }
@@ -197,9 +204,9 @@ class AuthController {
           SET
             name = $1,
             "bDate" = $2,
-            "imgSrc" = $3,
+            "uploadedImages" = $3,
             "gender" = $4,
-            "about" = $5,
+            "description" = $5,
             "interests" = $6,
             "zodiacSign" = $7,
             "searchGoal" = $8,
@@ -216,7 +223,7 @@ class AuthController {
           uploadedImages,
           gender,
           description,
-          intersets,
+          interests,
           zodiacSign,
           searchGoal,
           education,
@@ -230,10 +237,20 @@ class AuthController {
 
       const user = userResult.rows[0];
 
-      res.json({ userId: user.id });
+      const settingsResult = await db.query(
+        'INSERT INTO settings ("userId") VALUES ($1) RETURNING *',
+        [userId]
+      );
+
+      const settings = settingsResult.rows[0];
+
+      if (!settings) {
+        return res.status(404).json({ error: "Settings was not created" });
+      }
+
+      res.json({ userId: user?.id });
     } catch (err) {
-      console.error(err);
-      res.status(500).json({ err });
+      res.status(500).json({ error: err.message });
     }
   }
 };

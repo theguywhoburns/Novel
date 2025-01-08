@@ -1,11 +1,11 @@
-
 import { db } from "../db.js";
+import { getDistanceFromCoordinatesInKm } from "../utils/utils.js";
 
 class UserController {
   // dev util method
   getUsers = async (req, res) => {
     try {
-      const usersResult = await db.query('SELECT * FROM users');
+      const usersResult = await db.query("SELECT * FROM users");
       res.json(usersResult.rows);
     } catch (error) {
       console.error(error);
@@ -15,43 +15,93 @@ class UserController {
 
   getFilteredUsers = async (req, res) => {
     try {
+      const currUserId = req.params.id;
+
       const {
-        distance,
+        distanceRange,
         showPeopleInDistanse,
-        age,
+        ageRange,
         showPeopleInAge,
-        isVerified
+        showVerifiedOnly,
+        hideRatedUsersDays = 3,
       } = req.body;
 
       if (
-        distance.length !== 2 ||
-        typeof showPeopleInDistanse === 'undefined' ||
-        age.length !== 2 ||
-        typeof showPeopleInAge === 'undefined' ||
-        typeof isVerified === 'undefined'
+        !distanceRange ||
+        typeof showPeopleInDistanse !== "boolean" ||
+        !ageRange ||
+        typeof showPeopleInAge !== "boolean" ||
+        typeof showVerifiedOnly !== "boolean"
       ) {
         return res.status(400).json({ err: "Missing required fields" });
       }
 
-      const minAge = showPeopleInAge ? age[0] : 18;
-      const maxAge = showPeopleInAge ? age[1] : 100;
-
-      const minDistance = showPeopleInDistanse ? distance[0] : 0;
-      const maxDistance = showPeopleInDistanse ? distance[1] : 100;
-
-      const usersResult = await db.query(
-        `SELECT * FROM users WHERE 
-          (age >= $1 AND age <= $2) AND 
-          (distance >= $3 AND distance <= $4) 
-          ${isVerified ? 'AND (isVerified = TRUE)' : ''}`,
-        [minAge, maxAge, minDistance, maxDistance]
+      const currUserCoordinatesResult = await db.query(
+        "SELECT lon, lat FROM users WHERE id = $1",
+        [currUserId]
       );
 
+      const currUserLat = currUserCoordinatesResult.rows[0].lat;
+      const currUserLon = currUserCoordinatesResult.rows[0].lon;
+
+      const minAge = showPeopleInAge ? ageRange[0] : 18;
+      const maxAge = showPeopleInAge ? ageRange[1] : 100;
+
+      const minDistance = showPeopleInDistanse ? distanceRange[0] : 0;
+      const maxDistance = showPeopleInDistanse ? distanceRange[1] : 10000000;
+
+      const usersResult = await db.query(
+        `SELECT *, 
+          DATE_PART('year', AGE("bDate")) AS "calculatedAge"
+          FROM users
+          WHERE DATE_PART('year', AGE("bDate")) BETWEEN $1 AND $2
+          AND ${showVerifiedOnly ? '("isVerified" = TRUE)' : "TRUE"}`,
+        [minAge, maxAge]
+      );
       const users = usersResult.rows;
 
-      res.json(users);
+      const ratedUserIdsResult = await db.query(
+        `SELECT "ratedId" FROM (
+          SELECT "ratedId", "createdAt" FROM likes WHERE "raterId" = $1
+          UNION ALL
+          SELECT "ratedId", "createdAt" FROM dislikes WHERE "raterId" = $1
+        ) as "ratedUsers"
+        WHERE  "createdAt" >= NOW() - INTERVAL '${hideRatedUsersDays} days'`,
+        [currUserId]
+      );
+      const ratedUserIds = ratedUserIdsResult.rows.map((row) => row.ratedId);
+
+      const chatUserIdsResult = await db.query(
+        `SELECT "userTwoId" FROM chats WHERE "userOneId" = $1
+          UNION
+        SELECT "userOneId" FROM chats WHERE "userTwoId" = $1`,
+        [currUserId]
+      );
+      const chatUserIds = chatUserIdsResult.rows.map(
+        (row) => row.userTwoId || row.userOneId
+      );
+
+      const filteredUsers = users.filter((user) => {
+        if (ratedUserIds.includes(user.id) || chatUserIds.includes(user.id))
+          return false;
+
+        const distanceToUser = getDistanceFromCoordinatesInKm(
+          currUserLat,
+          currUserLon,
+          user.lat,
+          user.lon
+        );
+
+        return (
+          distanceToUser >= minDistance &&
+          distanceToUser <= maxDistance &&
+          user.id != currUserId
+        );
+      });
+
+      res.json(filteredUsers);
     } catch (err) {
-      res.status(500).json({ err });
+      res.status(500).json({ error: err.message });
     }
   };
 
@@ -63,7 +113,9 @@ class UserController {
         return res.status(400).json({ err: "Missing id" });
       }
 
-      const userResult = await db.query('SELECT * FROM users WHERE id = $1', [id]);
+      const userResult = await db.query("SELECT * FROM users WHERE id = $1", [
+        id,
+      ]);
 
       const user = userResult.rows[0];
 
@@ -73,7 +125,7 @@ class UserController {
 
       res.json(user);
     } catch (err) {
-      res.status(500).json({ err });
+      res.status(500).json({ error: err.message });
     }
   };
 
@@ -85,55 +137,49 @@ class UserController {
         return res.status(400).json({ err: "Missing id" });
       }
 
-      const {
-        uploadedImages,
-        description,
-        growth,
-        intersets,
-        searchGoal,
-        languages,
-        lifeStyle,
-        jobPosition,
-        company,
-        gender,
-        orientation
-      } = req.body;
+      // Fetch the current data for the user from the database
+      const userResult = await db.query("SELECT * FROM users WHERE id = $1", [
+        id,
+      ]);
 
-      const updatedUserResult = await db.query(
-        `UPDATE users SET 
-          "uploadedImages" = $1, 
-          "description" = $2, 
-          "growth" = $3, 
-          "intersets" = $4, 
-          "searchGoal" = $5, 
-          "languages" = $6, 
-          "lifeStyle" = $7, 
-          "jobPosition" = $8, 
-          "company" = $9, 
-          "gender" = $10, 
-          "orientation" = $11 
-        WHERE id = $12`,
-        [
-          uploadedImages,
-          description,
-          growth,
-          intersets,
-          searchGoal,
-          languages,
-          lifeStyle,
-          jobPosition,
-          company,
-          gender,
-          orientation,
-          id
-        ]
-      );
+      if (userResult.rows.length === 0) {
+        return res.status(404).json({ err: "User not found" });
+      }
 
+      const currentUserData = userResult.rows[0];
+
+      // Prepare dynamic update query parts
+      const fieldsToUpdate = [];
+      const values = [id /* 1st arg, gpt4o messed up here lol */];
+      let index = 2; // Start at 2 because $1 is used for the id
+
+      for (const [key, value] of Object.entries(req.body)) {
+        if (currentUserData.hasOwnProperty(key)) {
+          fieldsToUpdate.push(`"${key}" = $${index}`);
+          values.push(value);
+          index++;
+        }
+      }
+
+      // If there are no fields to update, return early
+      if (fieldsToUpdate.length === 0) {
+        return res.status(400).json({ err: "No valid fields to update" });
+      }
+
+      const updateQuery = `
+        UPDATE users SET 
+        ${fieldsToUpdate.join(", ")} 
+        WHERE id = $1
+        RETURNING *;
+      `;
+
+      const updatedUserResult = await db.query(updateQuery, values);
       const updatedUser = updatedUserResult.rows[0];
 
       res.json(updatedUser);
     } catch (err) {
-      res.status(500).json({ err });
+      console.error(err);
+      res.status(500).json({ err: "Internal Server Error" });
     }
   };
 
@@ -154,32 +200,47 @@ class UserController {
         return res.status(404).json({ error: "User or users not found" });
       }
 
-      const isLikeAlreadyAdded =
-        await this.checkIfRateAlreadyAdded('likes', raterId, ratedId);
+      const isLikeAlreadyAdded = await this.checkIfRateAlreadyAdded(
+        "likes",
+        raterId,
+        ratedId
+      );
       if (isLikeAlreadyAdded) {
         return res.status(400).json({ message: "Like already added" });
       }
 
-      const isDislikeAdded = await this.checkPreviosRate('dislikes', raterId, ratedId);
+      const isDislikeAdded = await this.checkPreviosRate(
+        "dislikes",
+        raterId,
+        ratedId
+      );
       if (isDislikeAdded) {
-        await this.deletePreviosRate('dislikes', raterId, ratedId);
+        await this.deletePreviosRate("dislikes", raterId, ratedId);
       }
 
-      await this.addRate('likes', raterId, ratedId);
-      const isMutualLike = await this.checkMutualRate('likes', raterId, ratedId);
+      await this.addRate("likes", raterId, ratedId);
+      const isMutualLike = await this.checkMutualRate(
+        "likes",
+        raterId,
+        ratedId
+      );
 
       let isNewChatCreated = false;
       if (isMutualLike) {
         isNewChatCreated = await this.createChatIfNotExists(raterId, ratedId);
       }
 
-      res.json({ message: "Liked successfully", isMutualLike, isNewChatCreated });
+      res.json({
+        message: "Liked successfully",
+        isMutualLike,
+        isNewChatCreated,
+      });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
   };
 
-  disLikeUser = async (req, res) => {
+  dislikeUser = async (req, res) => {
     try {
       const { raterId, ratedId } = req.body;
 
@@ -196,36 +257,47 @@ class UserController {
         return res.status(404).json({ error: "User or users not found" });
       }
 
-      const isDislikeAlreadyAdded = await this.checkIfRateAlreadyAdded('dislikes', raterId, ratedId);
+      const isDislikeAlreadyAdded = await this.checkIfRateAlreadyAdded(
+        "dislikes",
+        raterId,
+        ratedId
+      );
       if (isDislikeAlreadyAdded) {
         return res.status(400).json({ message: "Dislike already added" });
       }
 
-      const isLikeAdded = await this.checkPreviosRate('likes', raterId, ratedId);
+      const isLikeAdded = await this.checkPreviosRate(
+        "likes",
+        raterId,
+        ratedId
+      );
       if (isLikeAdded) {
-        await this.deletePreviosRate('likes', raterId, ratedId);
+        await this.deletePreviosRate("likes", raterId, ratedId);
       }
 
-      await this.addRate('dislikes', raterId, ratedId);
+      await this.addRate("dislikes", raterId, ratedId);
 
       res.json({ message: "Disliked successfully" });
     } catch (err) {
-      res.status(500).json({ err });
+      res.status(500).json({ error: err.message });
     }
   };
 
-
   checkUsersExist = async (userIds) => {
-    const result = await db.query('SELECT * FROM users WHERE id IN ($1, $2)', userIds);
+    const result = await db.query(
+      "SELECT * FROM users WHERE id IN ($1, $2)",
+      userIds
+    );
+
     return result.rowCount === userIds.length;
   };
-
 
   checkIfRateAlreadyAdded = async (tableName, raterId, ratedId) => {
     const result = await db.query(
       `SELECT * FROM ${tableName} WHERE "raterId" = $1 AND "ratedId" = $2`,
       [raterId, ratedId]
     );
+
     return result.rowCount > 0;
   };
 
@@ -241,6 +313,7 @@ class UserController {
       `SELECT * FROM ${tableName} WHERE "raterId" = $1 AND "ratedId" = $2`,
       [ratedId, raterId]
     );
+
     return result.rowCount > 0;
   };
 
@@ -249,6 +322,7 @@ class UserController {
       `SELECT * FROM ${tableName} WHERE "raterId" = $1 AND "ratedId" = $2`,
       [raterId, ratedId]
     );
+
     return result.rowCount > 0;
   };
 

@@ -163,6 +163,9 @@ export const useLoginStore = create<IUseLoginStore>(set => ({
 				verificationCode: useLoginStore.getState().verificationCode,
 			});
 
+			console.log(response);
+			console.log(response.data.isNewUser);
+
 			switch (response.status) {
 				case 200:
 					if (response.data.isNewUser) {

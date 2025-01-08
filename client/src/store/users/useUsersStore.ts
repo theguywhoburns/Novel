@@ -4,6 +4,13 @@ import { create } from 'zustand';
 import { userId } from '../login/useLoginStore';
 import { baseUrl } from '../messenger/useMessengerStore';
 
+export type Filter = {
+	gender: string;
+	zodiacSign: string;
+};
+
+type RateFunction = (raterId: userId, ratedId: userId) => Promise<void>;
+
 interface IUseUsersStore {
 	user: IUser | null;
 	setUser: (user: IUser | null) => void;
@@ -12,11 +19,11 @@ interface IUseUsersStore {
 	setUsers: (users: IUser[]) => void;
 
 	getAllUsers: () => Promise<void>;
-	getFilterdUsers: () => Promise<void>;
+	getFilterdUsers: (filter: Filter) => Promise<void>;
 	getUserById: (userId: userId) => Promise<void>;
 
-	likeUser: (likerId: userId, likedId: userId) => Promise<void>;
-	dislikeUser: (likerId: userId, likedId: userId) => Promise<void>;
+	likeUser: RateFunction;
+	dislikeUser: RateFunction;
 }
 
 export const useUsersStore = create<IUseUsersStore>(set => ({
@@ -40,9 +47,11 @@ export const useUsersStore = create<IUseUsersStore>(set => ({
 		}
 	},
 
-	getFilterdUsers: async () => {
+	getFilterdUsers: async filter => {
 		try {
-			const response = await axios.get(`${baseUrl}/users`);
+			const response = await axios.post(`${baseUrl}/filtered_users`, {
+				...filter,
+			});
 
 			if (response.status !== 200) {
 				throw new Error(response.statusText);

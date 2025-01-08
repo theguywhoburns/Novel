@@ -1,6 +1,7 @@
 import { useTheme } from '@/theme';
 import styled from '@emotion/styled';
 import { Radio } from '@mui/material';
+import { useEffect } from 'react';
 import styles from './LabeledRadioButton.module.css';
 
 export interface ILabledRadioButton {
@@ -45,6 +46,14 @@ export const LabeledRadioButton = ({
 	const handleChange = () => {
 		setSelectedOption(option);
 	};
+
+	useEffect(() => console.log(selectedOption), [selectedOption]);
+
+	useEffect(() => {
+		if (selectedOption === option) {
+			console.log('selected');
+		}
+	}, [selectedOption, option]);
 
 	return (
 		<div className={styles.container} onClick={handleChange}>

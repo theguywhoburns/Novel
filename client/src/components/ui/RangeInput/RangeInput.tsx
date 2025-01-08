@@ -3,50 +3,53 @@ import { Slider } from '@mui/material';
 import { Fragment } from 'react/jsx-runtime';
 import styles from './RangeInput.module.css';
 
-export interface IRangeInput {
+export interface IRangeInput<T extends Array<number>> {
 	label: string;
-	values: number[];
+	values: T;
+	setValues: (value: T) => void;
 	min: number;
 	max: number;
-	setValues: (value: number[]) => void;
 	step?: number;
 	unit: string;
 	width?: number | string;
 }
 
-export const RangeInput = ({
+export const RangeInput = <T extends Array<number>>({
 	label,
 	values,
+	setValues,
 	min,
 	max,
-	setValues,
 	step = 1,
 	unit,
 	width = '100%',
-}: IRangeInput) => {
+}: IRangeInput<T>) => {
+	const theme = useTheme();
+
 	const handleValuesChange = (
 		_event: Event,
 		newValues: number | number[],
 		_activeThumb: number
 	) => {
-		const updatedValues =
-			typeof newValues === 'number' ? [newValues] : newValues;
-		setValues(updatedValues);
-	};
+		const typedNewValue = Array.isArray(newValues)
+			? (newValues as T)
+			: ([newValues] as T);
 
-	const theme = useTheme();
+		setValues(typedNewValue);
+	};
 
 	return (
 		<div className={styles.container} style={{ width }}>
 			<div className={styles.labelAndValue}>
 				<span className={styles.label}>{label}</span>
 				<span className={styles.value}>
-					{values.map((val, index) => (
-						<Fragment key={index}>
-							{index > 0 && ' - '}
-							{val} {unit}
-						</Fragment>
-					))}
+					{Array.isArray(values) &&
+						values?.map((val, index) => (
+							<Fragment key={index}>
+								{index > 0 && ' - '}
+								{val} {unit}
+							</Fragment>
+						))}
 				</span>
 			</div>
 
@@ -54,6 +57,10 @@ export const RangeInput = ({
 				<Slider
 					value={values.length === 1 ? values[0] : values}
 					onChange={handleValuesChange}
+					min={min}
+					max={max}
+					step={step}
+					style={{ width }}
 					sx={{
 						'& .MuiSlider-rail': {
 							color: theme.accent_color,
@@ -65,10 +72,12 @@ export const RangeInput = ({
 							width: 25,
 							height: 25,
 							color: theme.white,
+
 							'&::after': {
 								width: 25,
 								height: 25,
 							},
+
 							'&:focus, &:hover, &.Mui-active': {
 								boxShadow: 'none',
 								'@media (hover: none)': {
@@ -77,10 +86,6 @@ export const RangeInput = ({
 							},
 						},
 					}}
-					min={min}
-					max={max}
-					step={step}
-					style={{ width }}
 				/>
 			</div>
 		</div>

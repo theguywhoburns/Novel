@@ -1,117 +1,135 @@
-import { ThemeType } from '@/theme/themes';
+import { NumericTuple } from '@/types/types';
+import axios from 'axios';
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { useLoginStore } from '../login/useLoginStore';
+import { baseUrl } from '../messenger/useMessengerStore';
 
-export interface IUseSettingsStore {
-	// Local settings
-	theme: ThemeType;
-	setTheme: (theme: ThemeType) => void;
-	geolocationAllowed: boolean;
-	setGeolocationAllowed: (geolocationAllowed: boolean) => void;
-
+export interface ISettingsState {
 	// Home settings
+	distanceRange: NumericTuple<2>;
 	showPeopleInDistance: boolean;
-	setShowPeopleInDistance: (showPeopleInDistance: boolean) => void;
+	ageRange: NumericTuple<2>;
 	showPeopleInAge: boolean;
-	setShowPeopleInAge: (showPeopleInAge: boolean) => void;
 	showMeToMen: boolean;
-	setShowMeToMen: (showMeToMen: boolean) => void;
 	showMeToWomen: boolean;
-	setShowMeToWomen: (showMeToWomen: boolean) => void;
-	isUserVerified: boolean;
-	setIsUserVerified: (isUserVerified: boolean) => void;
+	showVerifiedOnly: boolean;
 
 	interests: string;
-	setInterests: (interests: string) => void;
 	zodiacSign: string;
-	setZodiacSign: (zodiacSign: string) => void;
 	searchGoal: string;
-	setSearchGoal: (searchGoal: string) => void;
 	education: string;
-	setEducation: (education: string) => void;
 	familyPlans: string;
-	setFamilyPlans: (familyPlans: string) => void;
 	sport: string;
-	setSport: (sport: string) => void;
 	alcohol: string;
-	setAlcohol: (alcohol: string) => void;
 	smoking: string;
-	setSmoking: (smoking: string) => void;
 	personalityType: string;
-	setPersonalityType: (personalityType: string) => void;
 	foodPreferences: string;
-	setFoodPreferences: (foodPreferences: string) => void;
 	pets: string;
-	setPets: (pets: string) => void;
 	communicationStyle: string;
-	setCommunicationStyle: (communicatonStyle: string) => void;
 	socialNetworks: string;
-	setSocialNetworks: (socialNetworks: string) => void;
 	loveLanguage: string;
-	setLoveLanguage: (loveLanguage: string) => void;
-
-	ageRange: number[];
-	setAgeRange: (ageRange: number[]) => void;
-	distanceRange: number[];
-	setDistanceRange: (distanceRange: number[]) => void;
 }
 
-export const useSettingsStore = create<IUseSettingsStore>()(
-	persist(
-		set => ({
-			theme: 'light',
-			setTheme: theme => set({ theme }),
-			geolocationAllowed: true, // If it's true, the app will request permissions for the user's geolocation
-			setGeolocationAllowed: geolocationAllowed => set({ geolocationAllowed }),
-			showPeopleInDistance: false,
-			setShowPeopleInDistance: showPeopleInDistance =>
-				set({ showPeopleInDistance }),
-			showPeopleInAge: false,
-			setShowPeopleInAge: showPeopleInAge => set({ showPeopleInAge }),
-			showMeToMen: false,
-			setShowMeToMen: showMeToMen => set({ showMeToMen }),
-			showMeToWomen: false,
-			setShowMeToWomen: showMeToWomen => set({ showMeToWomen }),
-			isUserVerified: false,
-			setIsUserVerified: isUserVerified => set({ isUserVerified }),
+interface IFormattedSettings
+	extends Omit<ISettingsState, 'distanceRange' | 'ageRange'> {
+	distanceRange: string;
+	ageRange: string;
+}
 
-			interests: '',
-			setInterests: interests => set({ interests }),
-			zodiacSign: '',
-			setZodiacSign: zodiacSign => set({ zodiacSign }),
-			searchGoal: '',
-			setSearchGoal: searchGoal => set({ searchGoal }),
-			education: '',
-			setEducation: education => set({ education }),
-			familyPlans: '',
-			setFamilyPlans: familyPlans => set({ familyPlans }),
-			sport: '',
-			setSport: sport => set({ sport }),
-			alcohol: '',
-			setAlcohol: alcohol => set({ alcohol }),
-			smoking: '',
-			setSmoking: smoking => set({ smoking }),
-			personalityType: '',
-			setPersonalityType: personalityType => set({ personalityType }),
-			foodPreferences: '',
-			setFoodPreferences: foodPreferences => set({ foodPreferences }),
-			pets: '',
-			setPets: pets => set({ pets }),
-			communicationStyle: '',
-			setCommunicationStyle: communicationStyle => set({ communicationStyle }),
-			socialNetworks: '',
-			setSocialNetworks: socialNetworks => set({ socialNetworks }),
-			loveLanguage: '',
-			setLoveLanguage: loveLanguage => set({ loveLanguage }),
+export interface IUseSettingsStore {
+	settings: ISettingsState;
+	setSettings: (newState: Partial<ISettingsState>) => void;
 
-			ageRange: [18, 100],
-			setAgeRange: ageRange => set({ ageRange }),
-			distanceRange: [0, 100],
-			setDistanceRange: distanceRange => set({ distanceRange }),
-		}),
-		{
-			name: 'settings',
-			storage: createJSONStorage(() => localStorage),
+	getSettingsByUser: () => Promise<void>;
+	updateSettings: (newSettings: Partial<ISettingsState>) => Promise<void>;
+}
+
+const defaultSettingsState: ISettingsState = {
+	ageRange: [18, 100],
+	showPeopleInDistance: false,
+	distanceRange: [0, 100],
+	showPeopleInAge: false,
+	showMeToMen: true,
+	showMeToWomen: true,
+	showVerifiedOnly: false,
+	interests: '',
+	zodiacSign: '',
+	searchGoal: '',
+	education: '',
+	familyPlans: '',
+	sport: '',
+	alcohol: '',
+	smoking: '',
+	personalityType: '',
+	foodPreferences: '',
+	pets: '',
+	communicationStyle: '',
+	socialNetworks: '',
+	loveLanguage: '',
+};
+
+export const useSettingsStore = create<IUseSettingsStore>(set => ({
+	settings: defaultSettingsState,
+	setSettings: newState =>
+		set(state => ({
+			settings: { ...state.settings, ...newState },
+		})),
+
+	getSettingsByUser: async () => {
+		try {
+			const userId = useLoginStore.getState().userId;
+
+			const response = await axios.get(`${baseUrl}/settings/${userId}`);
+
+			if (response.status !== 200) {
+				throw new Error(response.statusText);
+			}
+
+			console.log(response);
+
+			const settingsData = response.data;
+
+			settingsData.ageRange = JSON.parse(settingsData.ageRange);
+			settingsData.distanceRange = JSON.parse(settingsData.distanceRange);
+
+			console.log(settingsData);
+
+			useSettingsStore.getState().setSettings(settingsData);
+		} catch (err) {
+			console.error(err);
 		}
-	)
-);
+	},
+
+	updateSettings: async newSettings => {
+		try {
+			const userId = useLoginStore.getState().userId;
+
+			if (!userId) {
+				throw new Error('User ID is not found');
+			}
+
+			const formattedSettings: Partial<IFormattedSettings> = {
+				...newSettings,
+				ageRange: JSON.stringify(newSettings.ageRange),
+				distanceRange: JSON.stringify(newSettings.distanceRange),
+			};
+
+			const response = await axios.patch(`${baseUrl}/settings/${userId}`, {
+				...formattedSettings,
+			});
+
+			if (response.status !== 200) {
+				throw new Error(response.statusText);
+			}
+
+			const settingsData = response.data;
+
+			settingsData.ageRange = JSON.parse(settingsData.ageRange);
+			settingsData.distanceRange = JSON.parse(settingsData.distanceRange);
+
+			useSettingsStore.getState().setSettings(settingsData);
+		} catch (err) {
+			console.error(err);
+		}
+	},
+}));

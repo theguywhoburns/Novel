@@ -58,6 +58,7 @@ export const LoginPhotosPage = () => {
 									key={index}
 									onImageUpload={newImage => handleImageUpload(index, newImage)}
 									selectedImage={image}
+									tabIndex={index}
 								/>
 							))}
 						</div>

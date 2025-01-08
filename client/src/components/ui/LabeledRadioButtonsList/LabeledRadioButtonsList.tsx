@@ -4,7 +4,7 @@ import { LabeledRadioButton } from '@/components/ui/LabeledRadioButton/LabeledRa
 import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
 import { IconArrow } from '@/icons/Arrow';
 import { useTheme } from '@/theme';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Separator } from '../Separator/Separator';
 import styles from './LabeledRadioButtonsList.module.css';
 
@@ -26,10 +26,6 @@ export const LabeledRadioButtonsList = ({
 	const theme = useTheme();
 
 	const [isModalVisible, setIsModalVisible] = useState(false);
-
-	useEffect(() => {
-		setSelectedOption(options[0]);
-	}, []);
 
 	const handleModalClose = useCallback(() => {
 		setIsModalVisible(false);

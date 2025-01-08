@@ -7,11 +7,13 @@ export interface ITextSwitch {
 	onChange: (checked: boolean) => void;
 }
 
-export const LabeledSwitch = ({ label, value, onChange }: ITextSwitch) => (
-	<div className={styles.container}>
-		<span className={styles.label}>{label}</span>
-		<div className={styles.switchContainer}>
-			<IOSSwitch value={value} onChange={e => onChange(e.target.checked)} />
+export const LabeledSwitch = ({ label, value, onChange }: ITextSwitch) => {
+	return (
+		<div className={styles.container}>
+			<span className={styles.label}>{label}</span>
+			<div className={styles.switchContainer}>
+				<IOSSwitch checked={value} onChange={e => onChange(e.target.checked)} />
+			</div>
 		</div>
-	</div>
-);
+	);
+};

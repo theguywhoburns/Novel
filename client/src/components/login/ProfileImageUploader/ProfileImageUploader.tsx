@@ -3,7 +3,7 @@ import { useTheme } from '@/theme';
 import { useEffect, useState } from 'react';
 import styles from './ProfileImageUploader.module.css';
 
-interface IProfileImageUploader {
+interface IProfileImageUploader extends React.HTMLAttributes<HTMLLabelElement> {
 	onImageUpload: (file: File | null, imagePreview: string | null) => void;
 	selectedImage: File | string | null;
 }
@@ -11,6 +11,7 @@ interface IProfileImageUploader {
 export const ProfileImageUploader = ({
 	onImageUpload,
 	selectedImage,
+	...props
 }: IProfileImageUploader) => {
 	const theme = useTheme();
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -48,7 +49,7 @@ export const ProfileImageUploader = ({
 	}, [selectedImage]);
 
 	return (
-		<label className={styles.labelWrapper}>
+		<label className={styles.labelWrapper} {...props}>
 			<input
 				type='file'
 				accept='image/*'

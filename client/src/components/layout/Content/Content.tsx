@@ -15,12 +15,7 @@ export const Content = ({ children }: IContent) => {
 	const isChatPage = pathname.includes(chatPathWithoutId);
 
 	const profilePathWithoutId = RouteNames.PROFILE.slice(0, 8);
-
-	console.log(profilePathWithoutId);
-
 	const isProfilePage = pathname.includes(profilePathWithoutId);
-
-	console.log(isProfilePage, pathname, profilePathWithoutId);
 
 	return (
 		<main
@@ -29,9 +24,9 @@ export const Content = ({ children }: IContent) => {
 				color: theme.text_color,
 				backgroundColor: theme.background_color,
 				padding: isChatPage
-					? '5px 0 64px 0'
+					? '5px 0 64px'
 					: isProfilePage
-					? '5px 0'
+					? '5px 0 16px'
 					: '5px 16px 16px',
 				scrollbarWidth: isChatPage ? 'none' : 'auto',
 			}}

@@ -1,11 +1,10 @@
-import { useSettingsStore } from '@/store/settings/useSettingsStore';
+import { useGeoPositionStore } from '@/store/geoPosition/useGeoPositionStore';
 import { Capacitor } from '@capacitor/core';
-import { Geolocation } from '@capacitor/geolocation';
+import { Geolocation as geo } from '@capacitor/geolocation';
 import { useEffect, useState } from 'react';
 
 export const useGeolocation = () => {
-	const geo = Geolocation;
-	const geoAllowed = useSettingsStore.getState().geolocationAllowed;
+	const geoAllowed = useGeoPositionStore(state => state.geoAllowed);
 
 	const [hasPermission, setHasPermission] = useState(false);
 	const [error, setError] = useState<unknown>(null);
@@ -34,7 +33,7 @@ export const useGeolocation = () => {
 				const { location } = await geo.requestPermissions();
 				granted = location === 'granted';
 			} else {
-				granted = await Geolocation.getCurrentPosition().then(
+				granted = await geo.getCurrentPosition().then(
 					() => true,
 					() => false
 				);

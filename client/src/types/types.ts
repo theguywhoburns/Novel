@@ -11,3 +11,10 @@ type IntRange<F extends number, T extends number> = Exclude<
 >;
 
 export type Rating = IntRange<0, 51>;
+
+export type NumericTuple<
+	Length extends number,
+	Result extends number[] = []
+> = Result['length'] extends Length
+	? Result
+	: NumericTuple<Length, [...Result, number]>;

@@ -2,7 +2,12 @@ import { useTheme } from '@/theme';
 import { styled, Switch, SwitchProps } from '@mui/material';
 
 export const IOSSwitch = styled((props: SwitchProps) => (
-	<Switch focusVisibleClassName='.Mui-focusVisible' disableRipple {...props} />
+	<Switch
+		checked={props.checked}
+		focusVisibleClassName='.Mui-focusVisible'
+		disableRipple
+		{...props}
+	/>
 ))(({ theme }) => {
 	const customTheme = useTheme();
 	return {

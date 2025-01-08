@@ -9,6 +9,7 @@ export type GeoCoords = {
 export interface IUseGeoPositionStore {
 	position?: GeoCoords;
 	city?: string;
+	geoAllowed: boolean;
 	setPosition: (position: GeoCoords) => void;
 	setCity: (city: string) => void;
 }
@@ -18,6 +19,7 @@ export const useGeoPositionStore = create<IUseGeoPositionStore>()(
 		set => ({
 			position: undefined,
 			city: undefined,
+			geoAllowed: true,
 			setPosition: (position?: GeoCoords) => set({ position }),
 			setCity: (city?: string) => set({ city }),
 		}),

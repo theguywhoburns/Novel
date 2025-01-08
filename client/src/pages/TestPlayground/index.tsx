@@ -5,6 +5,7 @@ import { UsersList } from '@/components/user/UsersList/UsersList';
 import * as Icons from '@/icons';
 import { useThemeStore } from '@/store/theme/useThemeStore';
 import { setTheme, useTheme } from '@/theme';
+import { NumericTuple } from '@/types/types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -15,9 +16,9 @@ const TestPlayground = () => {
 		const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 		setTheme(newTheme);
 	};
-	const [testValues, setTestValues] = useState([0, 100]);
-	const [test3Values, setTest3Values] = useState([0, 50, 100]);
-	const [test1Value, setTest1Value] = useState([50]);
+	const [testValues, setTestValues] = useState<NumericTuple<2>>([0, 100]);
+	const [test3Values, setTest3Values] = useState<NumericTuple<3>>([0, 50, 100]);
+	const [test1Value, setTest1Value] = useState<NumericTuple<1>>([50]);
 	const [range] = useState([0, 50]);
 	const [checked, setChecked] = useState(false);
 
