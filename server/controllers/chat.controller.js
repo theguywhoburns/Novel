@@ -87,7 +87,12 @@ class ChatController {
 				return res.status(400).json({ error: "Missing id" });
 			}
 
-			const chat = await db.query('SELECT * FROM chats WHERE ("fromId" = $1 AND "toId" = $2) OR ("fromId" = $2 AND "toId" = $1)', [fromId, toId]);
+			const chat = await db.query(
+				`SELECT * FROM chats 
+				WHERE ("fromId" = $1 AND "toId" = $2) OR 
+					("fromId" = $2 AND "toId" = $1)`,
+				[fromId, toId])
+				;
 
 			if (!chat) {
 				return res.status(400).json({ error: "No chat found" });
@@ -108,7 +113,10 @@ class ChatController {
 				return res.status(400).json({ error: "Missing id" });
 			}
 
-			const chat = await db.query('INSERT INTO chat ("fromId", "toId") VALUES ($1, $2) RETURNING *', [fromId, toId]);
+			const chat = await db.query(
+				'INSERT INTO chat ("fromId", "toId") VALUES ($1, $2) RETURNING *',
+				[fromId, toId]
+			);
 
 			if (!chat) {
 				return res.status(400).json({ error: "No chat found" });
@@ -117,6 +125,25 @@ class ChatController {
 			res.json(chat.rows[0]);
 		} catch (err) {
 			console.error(err);
+			res.status(500).json({ error: err.message });
+		}
+	}
+
+	async deleteChat(req, res) {
+		try {
+			const chatId = req.params.id;
+
+			if (!chatId) {
+				res.status(404).json({ error: 'Chat ID not found' });
+			}
+
+			await db.query(
+				'DELETE from chats where id = $1',
+				[chatId]
+			);
+
+			res.json({ message: 'Chat deleted successfully' });
+		} catch (err) {
 			res.status(500).json({ error: err.message });
 		}
 	}

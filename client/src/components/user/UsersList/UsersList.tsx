@@ -1,8 +1,12 @@
+import { RouteBase } from '@/routes';
+import { Gender } from '@/store/login/useLoginStore';
+import { useSettingsStore } from '@/store/settings/useSettingsStore';
+import { useUsersStore } from '@/store/users/useUsersStore';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
-import { UserCard } from './UserCard/UserCard';
+import { Direction, UserCard } from './UserCard/UserCard';
 import { ITag } from './UserCard/UserCardTag/UserCardTag';
 import styles from './UsersList.module.css';
 
@@ -16,7 +20,7 @@ export interface IUser {
 	job: string;
 	distance: string;
 	isVerified: boolean;
-	gender: 'male' | 'female';
+	gender: Gender;
 	city: string;
 	about: string;
 	main: ITag[];
@@ -24,7 +28,7 @@ export interface IUser {
 	interests: ITag[];
 }
 
-export const users: IUser[] = [
+export const mockUsers: IUser[] = [
 	{
 		id: 1,
 		imgSrc:
@@ -178,31 +182,38 @@ export const users: IUser[] = [
 ];
 
 export const UsersList = () => {
-	const [direction, setDirection] = useState<'left' | 'right' | ''>('');
+	const users = useUsersStore(state => state.users);
+
+	const getFilteredUsers = useUsersStore(state => state.getFilteredUsers);
+	const likeUser = useUsersStore(state => state.likeUser);
+	const dislikeUser = useUsersStore(state => state.dislikeUser);
+
+	const settings = useSettingsStore(state => state.settings);
+
+	const [direction, setDirection] = useState<Direction>(null);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 	const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
-	const { id, imgSrc, isPopular, name, age, search, job, distance } = users[
-		currentIndex
-	];
-
 	const navigate = useNavigate();
 
-	const handleDislike = () => {
+	const handleRate = () => {
 		setCurrentIndex(prevIndex =>
 			prevIndex < users.length - 1 ? prevIndex + 1 : prevIndex
 		);
 		setNextIndex(currentIndex + 2);
-		setDirection('left');
 	};
 
 	const handleLike = () => {
-		setCurrentIndex(prevIndex =>
-			prevIndex < users.length - 1 ? prevIndex + 1 : prevIndex
-		);
-		setNextIndex(currentIndex + 2);
+		likeUser(users[currentIndex].id);
+		handleRate();
 		setDirection('right');
+	};
+
+	const handleDislike = () => {
+		dislikeUser(users[currentIndex].id);
+		handleRate();
+		setDirection('left');
 	};
 
 	const handleClick = () => {
@@ -210,7 +221,7 @@ export const UsersList = () => {
 			setSelectedUserId(null);
 		} else {
 			setSelectedUserId(id);
-			navigate(`/profile/${id}`);
+			navigate(`${RouteBase.PROFILE}/${id}`);
 		}
 	};
 
@@ -221,11 +232,35 @@ export const UsersList = () => {
 		trackMouse: true,
 	});
 
+	const {
+		distanceRange,
+		showPeopleInDistance,
+		ageRange,
+		showPeopleInAge,
+		showVerifiedOnly,
+	} = settings;
+
+	const filter = {
+		distanceRange,
+		showPeopleInDistance,
+		ageRange,
+		showPeopleInAge,
+		showVerifiedOnly,
+	};
+
+	useEffect(() => {
+		getFilteredUsers(filter);
+		console.log(users);
+	}, []);
+
+	const { id, imgSrc, isPopular, name, age, search, job, distance } =
+		users?.[currentIndex] ?? {};
+
 	return (
 		<div className={styles.usersList} {...handlers}>
 			<motion.div
 				style={{ borderRadius: 22 }}
-				key={users[currentIndex].id}
+				key={users[currentIndex]?.id}
 				initial={{
 					opacity: 1,
 					x: direction === 'right' ? '-100%' : '100%',

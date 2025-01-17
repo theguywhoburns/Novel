@@ -1,7 +1,8 @@
-import { config as dotenvConfig } from 'dotenv-esm';
+import { config as dotenvConfig } from "dotenv-esm";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import { db } from "../db.js";
+import { generateVerificationCode } from "../utils/utils.js";
 
 dotenvConfig();
 
@@ -41,15 +42,20 @@ class AuthController {
         );
       }
 
-      const verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
+      const verificationCode = generateVerificationCode();
 
       await db.query(
         'UPDATE credentials SET "verificationCode" = $1 WHERE "userId" = $2',
         [verificationCode, userId]
       );
-
+      console.log(
+        "Sengidng verefication code: ",
+        verificationCode,
+        " to email: ",
+        email
+      );
       const transporter = nodemailer.createTransport({
-        host: 'smtp.yandex.ru',
+        host: "smtp.yandex.ru",
         port: 465,
         secure: true,
         auth: {
@@ -68,7 +74,7 @@ class AuthController {
       res.json({ message: "Verification code sent to email" });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ err });
+      res.status(500).json({ error: err.message });
     }
   }
 
@@ -90,7 +96,7 @@ class AuthController {
       const userId = userIdResult.rows[0]?.userId;
 
       const userNameResult = await db.query(
-        'SELECT name FROM users WHERE id = $1',
+        "SELECT name FROM users WHERE id = $1",
         [userId]
       );
 
@@ -105,12 +111,10 @@ class AuthController {
         [userId]
       );
 
-      res
-        .status(200)
-        .json({
-          message: "Verification code is valid",
-          isNewUser: userName ? false : true,
-        });
+      res.status(200).json({
+        message: "Verification code is valid",
+        isNewUser: userName ? false : true,
+      });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: err.message });
@@ -138,10 +142,9 @@ class AuthController {
         return res.status(404).json({ error: "User's id not found" });
       }
 
-      const userResult = await db.query(
-        "SELECT * FROM users WHERE id = $1",
-        [userId]
-      );
+      const userResult = await db.query("SELECT * FROM users WHERE id = $1", [
+        userId,
+      ]);
 
       const user = userResult.rows[0];
 
@@ -179,7 +182,7 @@ class AuthController {
         familyPlans,
         sport,
         alcohol,
-        smoking
+        smoking,
       } = req.body;
 
       if (!email) {
@@ -231,7 +234,7 @@ class AuthController {
           sport,
           alcohol,
           smoking,
-          userId
+          userId,
         ]
       );
 
@@ -253,6 +256,6 @@ class AuthController {
       res.status(500).json({ error: err.message });
     }
   }
-};
+}
 
 export default new AuthController();

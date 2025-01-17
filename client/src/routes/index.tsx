@@ -2,9 +2,8 @@ import { BackHeader } from '@/components/layout/Header/BackHeader/BackHeader';
 import { ChatHeader } from '@/components/layout/Header/ChatHeader/ChatHeader';
 import { Header as DefaultHeader } from '@/components/layout/Header/Header';
 import { PlaceHeader } from '@/components/layout/Header/PlaceHeader/PlaceHeader';
-import { SettingsHeader } from '@/components/layout/Header/SettingsHeader/SettingsHeader';
 import { Page404 } from '@/pages/404';
-import Home from '@/pages/Home';
+import { HomePage } from '@/pages/Home/HomePage';
 import { Settings } from '@/pages/Home/Settings/Settings';
 import { LoginBirthDatePage } from '@/pages/Login/LoginBirthDatePage/LoginBirthDatePage';
 import { LoginDescriptionPage } from '@/pages/Login/LoginDescriptionPage/LoginDescriptionPage';
@@ -14,11 +13,11 @@ import { LoginNamePage } from '@/pages/Login/LoginNamePage/LoginNamePage';
 import { LoginPhotosPage } from '@/pages/Login/LoginPhotosPage/LoginPhotosPage';
 import { LoginUserInfoPage } from '@/pages/Login/LoginUserInfoPage/LoginUserInfoPage';
 import { LoginVerificationCodePage } from '@/pages/Login/LoginVerificationCode/LoginVerificationCode';
-import { ChatPage } from '@/pages/MessengerPage/ChatPage/ChatPage';
-import { MessengerPage } from '@/pages/MessengerPage/MessengerPage';
+import { ChatPage } from '@/pages/Messenger/ChatPage/ChatPage';
+import { LikesPage } from '@/pages/Messenger/LikesPage/LikesPage';
+import { MessengerPage } from '@/pages/Messenger/MessengerPage';
 import { Places } from '@/pages/Places';
 import { PlaceDetailedPage } from '@/pages/Places/PlaceDetailedPage/PlaceDetailedPage';
-import { ProfileHeader } from '@/pages/Profile/ProfileHeader';
 import { Profile } from '@/pages/Profile/ProfilePage';
 import TestPlayground from '@/pages/TestPlayground';
 
@@ -43,6 +42,7 @@ export enum RouteBase {
 	PLACE = '/place',
 	MESSENGER = '/messenger',
 	CHAT = '/chat',
+	LIKES = '/likes',
 	PROFILE = '/profile',
 	TESTING_PLAYGROUND = '/testing-playground',
 }
@@ -62,32 +62,34 @@ export enum RouteNames {
 	PLACES = RouteBase.PLACES,
 	PLACE = RouteBase.PLACE + '/:id',
 	MESSENGER = RouteBase.MESSENGER,
-	CHAT = RouteBase.CHAT + '/:id',
+	CHAT = RouteBase.CHAT,
+	LIKES = RouteBase.LIKES,
 	PROFILE = RouteBase.PROFILE + '/:id',
 	TESTING_PLAYGROUND = RouteBase.TESTING_PLAYGROUND,
 }
 
 export const RouteLayouts: Record<
 	string,
-	[React.FC /*Header*/, boolean /*Show bottom nav*/]
+	[React.ReactNode /*Header*/, boolean /*Show bottom nav*/]
 > = {
-	[RouteBase.LOGIN_EMAIL]: [DefaultHeader, false],
-	[RouteBase.LOGIN_VERIFICATION_CODE]: [BackHeader, false],
-	[RouteBase.LOGIN_NAME]: [BackHeader, false],
-	[RouteBase.LOGIN_BIRTH_DATE]: [BackHeader, false],
-	[RouteBase.LOGIN_PHOTOS]: [BackHeader, false],
-	[RouteBase.LOGIN_GENDER]: [BackHeader, false],
-	[RouteBase.LOGIN_DESCRIPTION]: [BackHeader, false],
-	[RouteBase.LOGIN_USER_INFO]: [BackHeader, false],
-	[RouteBase.HOME]: [DefaultHeader, true],
-	[RouteBase.SETTINGS]: [SettingsHeader, true],
-	[RouteBase.REELS]: [DefaultHeader, true],
-	[RouteBase.PLACES]: [DefaultHeader, true],
-	[RouteBase.PLACE]: [PlaceHeader, false],
-	[RouteBase.MESSENGER]: [DefaultHeader, true],
-	[RouteBase.CHAT]: [ChatHeader, false],
-	[RouteBase.PROFILE]: [ProfileHeader, true],
-	[RouteBase.TESTING_PLAYGROUND]: [DefaultHeader, true],
+	[RouteBase.LOGIN_EMAIL]: [<DefaultHeader />, false],
+	[RouteBase.LOGIN_VERIFICATION_CODE]: [<BackHeader />, false],
+	[RouteBase.LOGIN_NAME]: [<BackHeader />, false],
+	[RouteBase.LOGIN_BIRTH_DATE]: [<BackHeader />, false],
+	[RouteBase.LOGIN_PHOTOS]: [<BackHeader />, false],
+	[RouteBase.LOGIN_GENDER]: [<BackHeader />, false],
+	[RouteBase.LOGIN_DESCRIPTION]: [<BackHeader />, false],
+	[RouteBase.LOGIN_USER_INFO]: [<BackHeader />, false],
+	[RouteBase.HOME]: [<DefaultHeader />, true],
+	[RouteBase.SETTINGS]: [<BackHeader title='Параметры поиска' />, true],
+	[RouteBase.REELS]: [<DefaultHeader />, true],
+	[RouteBase.PLACES]: [<DefaultHeader />, true],
+	[RouteBase.PLACE]: [<PlaceHeader />, false],
+	[RouteBase.MESSENGER]: [<DefaultHeader />, true],
+	[RouteBase.CHAT]: [<ChatHeader />, false],
+	[RouteBase.LIKES]: [<BackHeader title='Посмотреть лайки' />, false],
+	[RouteBase.PROFILE]: [<BackHeader title='Редактирование' />, true],
+	[RouteBase.TESTING_PLAYGROUND]: [<DefaultHeader />, true],
 };
 
 export const publicRoutes: IRoute[] = [
@@ -105,13 +107,14 @@ export const publicRoutes: IRoute[] = [
 ];
 
 export const privateRoutes: IRoute[] = [
-	{ path: RouteNames.HOME, component: Home },
+	{ path: RouteNames.HOME, component: HomePage },
 	{ path: RouteNames.SETTINGS, component: Settings },
 	{ path: RouteNames.REELS, component: Page404 },
 	{ path: RouteNames.PLACES, component: Places },
 	{ path: RouteNames.PLACE, component: PlaceDetailedPage },
 	{ path: RouteNames.MESSENGER, component: MessengerPage },
 	{ path: RouteNames.CHAT, component: ChatPage },
+	{ path: RouteNames.LIKES, component: LikesPage },
 	{ path: RouteNames.PROFILE, component: Profile },
 	{ path: RouteNames.TESTING_PLAYGROUND, component: TestPlayground },
 ];

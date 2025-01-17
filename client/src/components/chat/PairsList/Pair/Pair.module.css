@@ -2,25 +2,45 @@
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
+	max-width: 121.5px;
+	width: 100%;
+	overflow: hidden; /* Скрываем все, что выходит за рамки */
 }
 
 .img {
 	aspect-ratio: 81 / 105;
 	min-width: 81px;
-	max-width: 162px;
+	max-width: 121.5px;
 	height: auto;
 	border-radius: 16px;
 	margin-bottom: 0;
+	object-fit: cover;
+	object-position: center;
 }
 
 .nameAndAge {
 	display: flex;
 	justify-content: center;
-	gap: 2px;
+	width: 100%;
+}
+.name {
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 73%;
+}
+
+.age {
+	display: block;
+	white-space: normal;
+	overflow: hidden;
+	max-width: 100%;
+	margin-left: 2px;
 }
 
 @media (max-width: 768px) {
-	.img {
-		max-width: 140px;
+	.pair {
+		max-width: 105px;
 	}
 }

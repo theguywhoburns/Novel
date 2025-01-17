@@ -1,4 +1,4 @@
-import { privateRoutes, publicRoutes, RouteNames } from '@/routes';
+import { privateRoutes, publicRoutes, RouteNames } from '@/routes/index.tsx';
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { Navigate, Route, Routes } from 'react-router-dom';
 

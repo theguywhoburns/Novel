@@ -1,0 +1,36 @@
+.likedUser {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	max-width: 320px;
+	width: 100%;
+	max-height: 360px;
+	height: 100%;
+	aspect-ratio: 8 / 9;
+	border-radius: 16px;
+	margin: 0 auto;
+}
+
+.img {
+	max-width: inherit;
+	width: inherit;
+	max-height: inherit;
+	height: inherit;
+	aspect-ratio: inherit;
+	border-radius: inherit;
+	object-fit: cover;
+}
+
+.nameAndAge {
+	position: absolute;
+	bottom: 22px;
+	left: 8px;
+	font-size: 16px;
+	line-height: 22px;
+	font-weight: 600;
+	hyphens: auto;
+}
+
+.age {
+	margin-left: 4px;
+}

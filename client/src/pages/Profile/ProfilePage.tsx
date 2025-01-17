@@ -8,7 +8,7 @@ import { useProfileStore } from '@/store/profile/useProfileStore';
 import { useThemeStore } from '@/store/theme/useThemeStore';
 import { setTheme } from '@/theme';
 import { useState } from 'react';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { UserCardDetailedPage } from '../Home/UserCardDetailedPage/UserCardDetailedPage';
 import styles from './ProfilePage.module.css';
 
@@ -18,8 +18,8 @@ export const Profile = () => {
 	const [gender, setGender] = useState('male');
 	const [orientation, setOrientation] = useState('heterosexual');
 
-	// const userId = useLoginStore(state => state.userId)?.toString();
-	// const visitedUserId = useParams().id;
+	const userId = useLoginStore(state => state.userId)?.toString();
+	const visitedUserId = useParams().id;
 
 	const currentTheme = useThemeStore(state => state.theme);
 
@@ -38,7 +38,7 @@ export const Profile = () => {
 		);
 	};
 
-	const isCurrentUserProfile = true;
+	const isCurrentUserProfile = userId === visitedUserId;
 
 	return (
 		<div className={styles.profilePage}>

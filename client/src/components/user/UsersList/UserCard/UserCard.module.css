@@ -4,6 +4,7 @@
 	border-radius: 22px;
 	width: 310px;
 	height: 410px;
+	z-index: 100;
 }
 
 .userCard:hover {

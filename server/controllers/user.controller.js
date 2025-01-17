@@ -7,9 +7,9 @@ class UserController {
     try {
       const usersResult = await db.query("SELECT * FROM users");
       res.json(usersResult.rows);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
     }
   };
 
@@ -17,9 +17,13 @@ class UserController {
     try {
       const currUserId = req.params.id;
 
+      if (!currUserId) {
+        return res.status(400).json({ err: "User ID not found" });
+      }
+
       const {
         distanceRange,
-        showPeopleInDistanse,
+        showPeopleInDistance,
         ageRange,
         showPeopleInAge,
         showVerifiedOnly,
@@ -27,9 +31,9 @@ class UserController {
       } = req.body;
 
       if (
-        !distanceRange ||
-        typeof showPeopleInDistanse !== "boolean" ||
-        !ageRange ||
+        distanceRange.length !== 2 ||
+        typeof showPeopleInDistance !== "boolean" ||
+        ageRange.length !== 2 ||
         typeof showPeopleInAge !== "boolean" ||
         typeof showVerifiedOnly !== "boolean"
       ) {
@@ -37,7 +41,7 @@ class UserController {
       }
 
       const currUserCoordinatesResult = await db.query(
-        "SELECT lon, lat FROM users WHERE id = $1",
+        "SELECT lat, lon FROM users WHERE id = $1",
         [currUserId]
       );
 
@@ -47,17 +51,30 @@ class UserController {
       const minAge = showPeopleInAge ? ageRange[0] : 18;
       const maxAge = showPeopleInAge ? ageRange[1] : 100;
 
-      const minDistance = showPeopleInDistanse ? distanceRange[0] : 0;
-      const maxDistance = showPeopleInDistanse ? distanceRange[1] : 10000000;
+      const minDistance = showPeopleInDistance ? distanceRange[0] : 0;
+      const maxDistance = showPeopleInDistance ? distanceRange[1] : 10000000;
 
       const usersResult = await db.query(
-        `SELECT *, 
-          DATE_PART('year', AGE("bDate")) AS "calculatedAge"
-          FROM users
-          WHERE DATE_PART('year', AGE("bDate")) BETWEEN $1 AND $2
-          AND ${showVerifiedOnly ? '("isVerified" = TRUE)' : "TRUE"}`,
+        `SELECT 
+          u.*, 
+          CASE 
+            WHEN s."showMeToMen" = TRUE AND s."showMeToWomen" = TRUE
+              THEN 'all'
+            WHEN s."showMeToMen" = TRUE THEN 'male' 
+            WHEN s."showMeToWomen" = TRUE THEN 'female' 
+            ELSE NULL
+          END AS "genderPreference",
+          DATE_PART('year', AGE(u."bDate")) AS age
+        FROM 
+          users u
+        LEFT JOIN 
+          settings s ON u.id = s."userId"
+        WHERE 
+          DATE_PART('year', AGE(u."bDate")) BETWEEN $1 AND $2
+          AND ${showVerifiedOnly ? '(u."isVerified" = TRUE)' : "TRUE"}`,
         [minAge, maxAge]
       );
+
       const users = usersResult.rows;
 
       const ratedUserIdsResult = await db.query(
@@ -69,7 +86,8 @@ class UserController {
         WHERE  "createdAt" >= NOW() - INTERVAL '${hideRatedUsersDays} days'`,
         [currUserId]
       );
-      const ratedUserIds = ratedUserIdsResult.rows.map((row) => row.ratedId);
+
+      const ratedUserIds = ratedUserIdsResult.rows.map(row => row.ratedId);
 
       const chatUserIdsResult = await db.query(
         `SELECT "userTwoId" FROM chats WHERE "userOneId" = $1
@@ -77,13 +95,31 @@ class UserController {
         SELECT "userOneId" FROM chats WHERE "userTwoId" = $1`,
         [currUserId]
       );
+
       const chatUserIds = chatUserIdsResult.rows.map(
-        (row) => row.userTwoId || row.userOneId
+        row => row.userTwoId || row.userOneId
       );
 
-      const filteredUsers = users.filter((user) => {
-        if (ratedUserIds.includes(user.id) || chatUserIds.includes(user.id))
+      const currUserGenderResult = await db.query(
+        'SELECT gender from users WHERE id = $1',
+        [currUserId]
+      );
+
+      const currUserGender = currUserGenderResult.rows[0].gender;
+
+      if (!currUserGender) {
+        res.status(404).json({ error: "Current users's gender not found" });
+      }
+
+      const filteredUsers = users.filter(user => {
+        if (
+          ratedUserIds.includes(user.id) ||
+          chatUserIds.includes(user.id) ||
+          (currUserGender !== user.genderPreference &&
+            user.genderPreference !== 'all')
+        ) {
           return false;
+        }
 
         const distanceToUser = getDistanceFromCoordinatesInKm(
           currUserLat,
@@ -137,7 +173,6 @@ class UserController {
         return res.status(400).json({ err: "Missing id" });
       }
 
-      // Fetch the current data for the user from the database
       const userResult = await db.query("SELECT * FROM users WHERE id = $1", [
         id,
       ]);
@@ -148,10 +183,9 @@ class UserController {
 
       const currentUserData = userResult.rows[0];
 
-      // Prepare dynamic update query parts
       const fieldsToUpdate = [];
-      const values = [id /* 1st arg, gpt4o messed up here lol */];
-      let index = 2; // Start at 2 because $1 is used for the id
+      const values = [id];
+      let index = 2;
 
       for (const [key, value] of Object.entries(req.body)) {
         if (currentUserData.hasOwnProperty(key)) {
@@ -161,7 +195,6 @@ class UserController {
         }
       }
 
-      // If there are no fields to update, return early
       if (fieldsToUpdate.length === 0) {
         return res.status(400).json({ err: "No valid fields to update" });
       }
@@ -219,6 +252,7 @@ class UserController {
       }
 
       await this.addRate("likes", raterId, ratedId);
+
       const isMutualLike = await this.checkMutualRate(
         "likes",
         raterId,

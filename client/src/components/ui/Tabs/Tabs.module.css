@@ -1,5 +1,6 @@
 .tabs {
 	display: flex;
+	flex-wrap: nowrap;
 	gap: 7px;
 	list-style-type: none;
 	max-width: 570px;
@@ -14,6 +15,7 @@
 	line-height: 17px;
 	border-radius: 30px;
 	padding: 7.5px 14px;
+	white-space: nowrap;
 }
 
 .tab:hover {

@@ -1,5 +1,6 @@
 import { IMessage, Status } from '@/components/chat/ChatsList/Chat/Chat';
 import { useMessengerStore } from '@/store/messenger/useMessengerStore';
+import { getServerUrl } from '@/utils/serverUrl';
 import { useEffect, useRef, useState } from 'react';
 
 export const useChatWebSocket = () => {
@@ -24,7 +25,7 @@ export const useChatWebSocket = () => {
 	useEffect(() => console.log(hasMoreMessages), [hasMoreMessages]);
 
 	const wsPort = 4200;
-	const wsUrl = `ws://localhost:${wsPort}/api/ws`;
+	const wsUrl = `ws://${getServerUrl()}:${wsPort}/api/ws`;
 
 	const connectToSocket = () => {
 		try {

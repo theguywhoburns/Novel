@@ -1,3 +1,6 @@
+import { NoDataText } from '@/components/ui/NoDataText/NoDataText';
+import { useNewPairsStore } from '@/store/newPairs/useNewPairsStore';
+import { useEffect } from 'react';
 import { Pair } from './Pair/Pair';
 import styles from './PairsList.module.css';
 
@@ -8,33 +11,27 @@ export interface IPair {
 	age: number;
 }
 
-const pairs: IPair[] = [
-	{
-		id: 1,
-		imgSrc: 'https://via.placeholder.com/100',
-		name: 'John Doe',
-		age: 25,
-	},
-	{
-		id: 2,
-		imgSrc: 'https://via.placeholder.com/100',
-		name: 'John Doe',
-		age: 25,
-	},
-	{
-		id: 3,
-		imgSrc: 'https://via.placeholder.com/100',
-		name: 'John Doe',
-		age: 25,
-	},
-];
-
 export const PairsList = () => {
+	const newPairs = useNewPairsStore(state => state.newPairs);
+	const getNewPairsByUser = useNewPairsStore(state => state.getNewPairsByUser);
+
+	useEffect(() => {
+		getNewPairsByUser();
+	}, []);
+
 	return (
-		<ul className={styles.pairsList}>
-			{pairs?.map(pair => (
-				<Pair key={pair.id} {...pair} />
-			))}
-		</ul>
+		<>
+			{newPairs.length ? (
+				<ul className={styles.pairsList}>
+					{newPairs?.map(pair => (
+						<Pair key={pair.id} {...pair} />
+					))}
+				</ul>
+			) : (
+				<NoDataText className={styles.noDataText}>
+					У Вас еще нет новых пар
+				</NoDataText>
+			)}
+		</>
 	);
 };

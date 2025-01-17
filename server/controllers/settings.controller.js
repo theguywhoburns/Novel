@@ -49,7 +49,7 @@ class SettingsController {
 
 			const fieldsToUpdate = [];
 			const values = [id];
-			let index = 2; // Start at 2 because $1 is used for the id
+			let index = 2;
 
 			for (const [key, value] of Object.entries(req.body)) {
 				if (settings.hasOwnProperty(key)) {

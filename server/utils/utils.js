@@ -1,3 +1,7 @@
+import { config as dotenvConfig } from 'dotenv-esm';
+
+dotenvConfig();
+
 export const capitalize = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
@@ -15,4 +19,18 @@ export const getDistanceFromCoordinatesInKm = (lat1, lon1, lat2, lon2) => {
   const centralAngle = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   return EARTH_R * centralAngle;
+};
+
+export const generateVerificationCode = () => {
+  return Math.floor(1000 + Math.random() * 9000).toString();
+};
+
+export const getDotenvVariable = (name) => {
+  const value = name;
+
+  if (!value) {
+    throw new Error(`Missing ${name} environment variable`);
+  }
+
+  return value;
 };

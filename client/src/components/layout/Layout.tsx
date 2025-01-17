@@ -23,7 +23,7 @@ export const Layout = ({ children }: ILayout) => {
 			className={styles.wrapper}
 			style={{ backgroundColor: theme.background_color }}
 		>
-			<Header />
+			{Header}
 			<Content>{children}</Content>
 			<BottomNav show={showBottomNav} />
 		</div>

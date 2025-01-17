@@ -21,7 +21,7 @@ interface IUsePlacesStore {
 	getPlace: (placeId: number) => Promise<void>;
 }
 
-export const usePlacesStore = create<IUsePlacesStore>(set => ({
+export const usePlacesStore = create<IUsePlacesStore>((set, get) => ({
 	placesObj: {},
 	setPlacesObj: placesObj => set({ placesObj }),
 
@@ -44,7 +44,7 @@ export const usePlacesStore = create<IUsePlacesStore>(set => ({
 				throw new Error(response.statusText);
 			}
 
-			usePlacesStore.getState().setPlacesObj(response.data);
+			get().setPlacesObj(response.data);
 		} catch (err) {
 			console.error(err);
 		}
@@ -52,13 +52,17 @@ export const usePlacesStore = create<IUsePlacesStore>(set => ({
 
 	getPlace: async placeId => {
 		try {
+			if (!placeId) {
+				throw new Error('Place ID is not found');
+			}
+
 			const response = await axios.get(`${baseUrl}/place/${placeId}`);
 
 			if (response.status !== 200) {
 				throw new Error(response.statusText);
 			}
 
-			usePlacesStore.getState().setPlace(response.data);
+			get().setPlace(response.data);
 		} catch (err) {
 			console.error(err);
 		}

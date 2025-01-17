@@ -68,7 +68,7 @@ const defaultSettingsState: ISettingsState = {
 	loveLanguage: '',
 };
 
-export const useSettingsStore = create<IUseSettingsStore>(set => ({
+export const useSettingsStore = create<IUseSettingsStore>((set, get) => ({
 	settings: defaultSettingsState,
 	setSettings: newState =>
 		set(state => ({
@@ -94,7 +94,7 @@ export const useSettingsStore = create<IUseSettingsStore>(set => ({
 
 			console.log(settingsData);
 
-			useSettingsStore.getState().setSettings(settingsData);
+			get().setSettings(settingsData);
 		} catch (err) {
 			console.error(err);
 		}
@@ -127,7 +127,7 @@ export const useSettingsStore = create<IUseSettingsStore>(set => ({
 			settingsData.ageRange = JSON.parse(settingsData.ageRange);
 			settingsData.distanceRange = JSON.parse(settingsData.distanceRange);
 
-			useSettingsStore.getState().setSettings(settingsData);
+			get().setSettings(settingsData);
 		} catch (err) {
 			console.error(err);
 		}

@@ -1,6 +1,7 @@
 import { useGeoPositionStore } from "@/store/geoPosition/useGeoPositionStore";
 import { Geolocation, Position } from "@capacitor/geolocation";
 import axios from "axios";
+import { getServerUrl } from "./serverUrl";
 
 export const updateGeoPosition = () => {
   const position = new Promise<Position>((resolve, reject) => {
@@ -29,7 +30,7 @@ export const updateGeoPosition = () => {
       const { latitude: geoLat, longitude: geoLon } = position.coords;
       useGeoPositionStore.getState().setPosition({ geoLat, geoLon });
       axios.patch(
-        `http://localhost:4000/api/update_user/${localStorage.getItem(
+        `http://${getServerUrl()}:4000/api/update_user/${localStorage.getItem(
           "userId"
         )}`,
         {

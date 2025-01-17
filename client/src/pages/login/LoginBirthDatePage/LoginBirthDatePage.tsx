@@ -5,6 +5,7 @@ import { Title } from '@/components/login/Title/Title';
 import { BottomButtonContainer } from '@/components/ui/BottomButtonContainer/BottomButtonContainer';
 import { CharInputsGroup } from '@/components/ui/CharInputsGroup/CharInputsGroup';
 import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
+import { RouteNames } from '@/routes';
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +28,7 @@ export const LoginBirthDatePage = () => {
 	}, []);
 
 	const handleClick = () => {
-		navigate('/login_photos');
+		navigate(RouteNames.LOGIN_PHOTOS);
 	};
 
 	return (

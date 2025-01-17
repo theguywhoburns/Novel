@@ -102,14 +102,14 @@ export const SettingsRadioModalTriggers = () => {
 		{
 			Icon: IconSchoolHat,
 			title: 'Образование',
-			options: [],
+			options: ['Среднее', 'Среднее специальное', 'Высшее'],
 			selectedOption: education,
 			setSelectedOption: option => handleSettingsChange({ education: option }),
 		},
 		{
 			Icon: IconFamily,
 			title: 'Планы на семью',
-			options: [],
+			options: ['Хочу детей', 'Не хочу детей'],
 			selectedOption: familyPlans,
 			setSelectedOption: option =>
 				handleSettingsChange({ familyPlans: option }),
@@ -117,7 +117,7 @@ export const SettingsRadioModalTriggers = () => {
 		{
 			Icon: IconSports,
 			title: 'Спорт',
-			options: [],
+			options: ['Регулярно', 'Часто', 'Редко', 'Никогда'],
 			selectedOption: sport,
 			setSelectedOption: option => handleSettingsChange({ sport: option }),
 		},
@@ -136,7 +136,7 @@ export const SettingsRadioModalTriggers = () => {
 		{
 			Icon: IconSmoke,
 			title: 'Как часто ты куришь?',
-			options: [],
+			options: ['Не курю', 'Редко', 'Часто'],
 			selectedOption: smoking,
 			setSelectedOption: option => handleSettingsChange({ smoking: option }),
 		},

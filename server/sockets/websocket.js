@@ -48,8 +48,8 @@ class WebSocketChatServer {
 				}
 			});
 
-		} catch (error) {
-			console.error('Error broadcasting message:', error);
+		} catch (err) {
+			console.error('Error broadcasting message:', err);
 		}
 	}
 
@@ -154,8 +154,8 @@ class WebSocketChatServer {
 		try {
 			const editedMessage = await this.updateMessage(message, message.message.replyToMessage);
 			ws.send(JSON.stringify({ type: 'editMessage', message: editedMessage }));
-		} catch (error) {
-			console.error('Error editing message:', error);
+		} catch (err) {
+			console.error('Error editing message:', err);
 		}
 	}
 

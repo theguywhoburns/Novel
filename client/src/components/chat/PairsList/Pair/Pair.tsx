@@ -6,7 +6,7 @@ export const Pair = ({ imgSrc, name, age }: IPair) => {
 		<li className={styles.pair}>
 			<img className={styles.img} src={imgSrc} alt='avatar' />
 			<div className={styles.nameAndAge}>
-				<span>{name},</span>
+				<span className={styles.name}>{name},</span>
 				<span className={styles.age}>{age}</span>
 			</div>
 		</li>

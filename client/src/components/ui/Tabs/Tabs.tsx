@@ -2,37 +2,45 @@
 import { useTheme } from '@/theme';
 import styles from './Tabs.module.css';
 
-interface ITab {
-	type: string;
-	label: string;
+export interface ITab<T extends string> {
+	label: T;
+	displayedLabel: string;
 }
 
-interface ITabs {
-	tabs: ITab[];
-	selectedTab: string;
-	onSelectTab: (type: string) => void;
+interface ITabs<T extends string, F extends Function>
+	extends React.HTMLAttributes<HTMLUListElement> {
+	tabs: ITab<T>[];
+	selectedTab: T;
+	setSelectedTab: F;
 }
 
-export const Tabs = ({ tabs, selectedTab, onSelectTab }: ITabs) => {
+export const Tabs = <T extends string, F extends Function>({
+	tabs,
+	selectedTab,
+	setSelectedTab,
+	...props
+}: ITabs<T, F>) => {
 	const theme = useTheme();
 
+	const { className, ...otherProps } = props;
+
 	return (
-		<ul className={styles.tabs}>
-			{tabs.map(({ type, label }) => (
-				<li key={label}>
+		<ul className={[styles.tabs, className].join(' ')} {...otherProps}>
+			{tabs.map(({ label, displayedLabel }) => (
+				<li key={displayedLabel}>
 					<button
 						className={styles.tab}
 						style={{
 							background:
-								selectedTab === type
+								selectedTab === label
 									? theme.accent_color
 									: theme.button_background_color,
-							color: selectedTab === type ? theme.white : theme.grey,
+							color: selectedTab === label ? theme.white : theme.grey,
 						}}
-						key={type}
-						onClick={() => onSelectTab(type)}
+						key={label}
+						onClick={() => setSelectedTab(label)}
 					>
-						{label}
+						{displayedLabel}
 					</button>
 				</li>
 			))}

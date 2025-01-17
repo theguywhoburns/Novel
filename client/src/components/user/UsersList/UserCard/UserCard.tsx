@@ -6,6 +6,8 @@ import { MarkSvg } from './MarkSvg/MarkSvg';
 import styles from './UserCard.module.css';
 import { UserCardTag } from './UserCardTag/UserCardTag';
 
+export type Direction = 'left' | 'right' | null;
+
 export interface IUserCard {
 	imgSrc: string;
 	isPopular: boolean;
@@ -38,8 +40,8 @@ export const UserCard = ({
 	const controls = useAnimation();
 
 	const [constrained, setConstrained] = useState(true);
-	const [direction, setDirection] = useState<'left' | 'right' | ''>(
-		x.get() > 0 ? 'right' : x.get() < 0 ? 'left' : ''
+	const [direction, setDirection] = useState<Direction>(
+		x.get() > 0 ? 'right' : x.get() < 0 ? 'left' : null
 	);
 	const [velocity, setVelocity] = useState<number>();
 
@@ -59,8 +61,8 @@ export const UserCard = ({
 				? 'right'
 				: velocity <= -1
 				? 'left'
-				: ''
-			: '';
+				: null
+			: null;
 	};
 
 	const getTrajectory = () => {
@@ -95,7 +97,7 @@ export const UserCard = ({
 					.parentNode as HTMLElement)!.getBoundingClientRect();
 				const result = getVote(childRect, parentRect);
 				result !== undefined;
-				setDirection(x.get() > 0 ? 'right' : x.get() < 0 ? 'left' : '');
+				setDirection(x.get() > 0 ? 'right' : x.get() < 0 ? 'left' : null);
 			}
 		});
 
@@ -150,7 +152,7 @@ export const UserCard = ({
 		`;
 
 	return (
-		<motion.li
+		<motion.div
 			className={styles.userCard}
 			style={{
 				...style,
@@ -192,7 +194,13 @@ export const UserCard = ({
 				<MarkSvg mark='like' x={x.get()} />
 			</div>
 
-			<img className={styles.img} src={imgSrc} />
+			<img
+				className={styles.img}
+				src={
+					imgSrc ||
+					'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ'
+				}
+			/>
 			{isPopular && (
 				<UserCardTag className={styles.popularTag} Icon={IconPopular}>
 					Popular
@@ -213,6 +221,6 @@ export const UserCard = ({
 					{distance}
 				</p>
 			</div>
-		</motion.li>
+		</motion.div>
 	);
 };

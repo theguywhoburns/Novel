@@ -1,4 +1,6 @@
 import { IconMuted } from '@/icons';
+import { RouteBase } from '@/routes';
+import { Gender } from '@/store/login/useLoginStore';
 import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useTheme } from '@/theme';
 import { useNavigate } from 'react-router-dom';
@@ -46,7 +48,7 @@ export interface IChat {
 		id: number;
 		name: string;
 		age: number;
-		gender: 'male' | 'female';
+		gender: Gender;
 		imgSrc: string;
 	};
 }
@@ -73,7 +75,7 @@ export const Chat = ({
 	}).format(newMessagesAmount);
 
 	const handleClick = () => {
-		navigate(`/chat/${id}`);
+		navigate(RouteBase.CHAT);
 
 		const selectedChat: IChat = {
 			id,
@@ -97,9 +99,13 @@ export const Chat = ({
 					className={styles.nameAgeAndNotifications}
 					style={{ color: theme.high_contrast_text_color }}
 				>
-					<span className={styles.name}>{name},</span>
-					<span className={styles.age}>{age}</span>
-					{isMuted ? <IconMuted /> : null}
+					<span className={styles.name} style={{ color: theme.text_color }}>
+						{name},
+					</span>
+					<span className={styles.age} style={{ color: theme.text_color }}>
+						{age}
+					</span>
+					{isMuted && <IconMuted />}
 				</div>
 
 				<div className={styles.textAndAmount}>

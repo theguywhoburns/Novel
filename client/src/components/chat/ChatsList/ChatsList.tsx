@@ -1,4 +1,5 @@
 import { Loader } from '@/components/ui/Loader/Loader';
+import { NoDataText } from '@/components/ui/NoDataText/NoDataText';
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useEffect, useState } from 'react';
@@ -28,7 +29,7 @@ export const ChatsList = () => {
 					))}
 				</ul>
 			) : (
-				<p>У вас еще нет чатов</p>
+				<NoDataText>У Вас еще нет чатов</NoDataText>
 			)}
 		</>
 	);

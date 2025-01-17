@@ -1,9 +1,9 @@
-import { PlacesList } from '@/components/place/PlacesList/PlacesList';
-import { IconFilter } from '@/icons';
-import { usePlacesStore } from '@/store/places/usePlacesStore';
-import { useEffect, useState } from 'react';
-import { Tabs } from '../../components/ui/Tabs/Tabs';
-import styles from './Places.module.css';
+import { PlacesList } from "@/components/place/PlacesList/PlacesList";
+import { IconFilter } from "@/icons";
+import { usePlacesStore } from "@/store/places/usePlacesStore";
+import { useEffect, useState } from "react";
+import { Tabs } from "../../components/ui/Tabs/Tabs";
+import styles from "./Places.module.css";
 
 // export const placesObj: Record<string, IPlace[]> = {
 // 	parks: [
@@ -177,38 +177,40 @@ import styles from './Places.module.css';
 // };
 
 export const Places = () => {
-	const getPlacesObj = usePlacesStore(state => state.getPlacesObj);
-	const placesObj = usePlacesStore(state => state.placesObj);
+  const placesObj = usePlacesStore((state) => state.placesObj);
+  const getPlacesObj = usePlacesStore((state) => state.getPlacesObj);
 
-	const [placeType, setPlaceType] = useState('cafe');
+  const [selectedTab, setSelectedTab] = useState("cafe");
 
-	useEffect(() => {}, [placeType, placesObj]);
+  const tabs = [
+    { label: "cafe", displayedLabel: "Кафе" },
+    { label: "bar", displayedLabel: "Бары" },
+    { label: "parks", displayedLabel: "Парки" },
+    { label: "movie", displayedLabel: "Кино" },
+    { label: "exhibition", displayedLabel: "Выставки" },
+    { label: "others", displayedLabel: "Другое" },
+  ];
 
-	const tabs = [
-		{ type: 'cafe', label: 'Кафе' },
-		{ type: 'bar', label: 'Бары' },
-		{ type: 'parks', label: 'Парки' },
-		{ type: 'movie', label: 'Кино' },
-		{ type: 'exhibition', label: 'Выставки' },
-		{ type: 'others', label: 'Другое' },
-	];
+  useEffect(() => {
+    getPlacesObj();
+  }, []);
 
-	useEffect(() => {
-		getPlacesObj();
-	}, []);
-
-	return (
-		<div className={styles.placesPage}>
-			<div className={styles.container}>
-				<button className={styles.filterButton}>
-					<IconFilter />
-				</button>
-				<Tabs tabs={tabs} selectedTab={placeType} onSelectTab={setPlaceType} />
-			</div>
-			<div className={styles.titledPlacesList}>
-				<h3 className={styles.title}>Рекомендуемые места</h3>
-				<PlacesList places={placesObj[placeType]} />
-			</div>
-		</div>
-	);
+  return (
+    <div className={styles.placesPage}>
+      <div className={styles.container}>
+        <button className={styles.filterButton}>
+          <IconFilter />
+        </button>
+        <Tabs
+          tabs={tabs}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+        />
+      </div>
+      <div className={styles.titledPlacesList}>
+        <h3 className={styles.title}>Рекомендуемые места</h3>
+        <PlacesList places={placesObj[selectedTab]} />
+      </div>
+    </div>
+  );
 };

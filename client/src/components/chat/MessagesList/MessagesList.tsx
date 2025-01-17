@@ -90,18 +90,14 @@ export const MessagesList = ({
 
 			if (messageWidth < buttonsGroupHalfWidth * 2) {
 				left = messageWidth - buttonsGroupHalfWidth * 2;
-			} // Click on the left half? Center the button group there
-			else if (clickPosition <= messageWidth / 2) {
+			} else if (clickPosition <= messageWidth / 2) {
 				left = clickPosition - buttonsGroupHalfWidth / 2;
 			} else if (clickPosition >= messageWidth - buttonsGroupHalfWidth) {
-				// Click near the right edge? Align the button group to the right
 				left = messageWidth - buttonsGroupHalfWidth * 2;
 			} else {
-				// Otherwise, center the button group relative to the click
 				left = clickPosition - buttonsGroupHalfWidth;
 			}
 
-			// Ensure left stays within the message boundaries
 			left = Math.max(Math.min(left, messageWidth - buttonsGroupHalfWidth));
 
 			setOffsetLeft(left);
