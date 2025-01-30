@@ -10,6 +10,7 @@ import { Sheet } from 'react-modal-sheet';
 import { useOverlayTriggerState } from 'react-stately';
 import { Separator } from '../Separator/Separator';
 import './BottomModal.css';
+
 interface IBottomModalProps extends React.PropsWithChildren {
 	isOpen: boolean;
 	setIsOpen: (isOpen: boolean) => void;
@@ -33,7 +34,6 @@ export const BottomModal = ({
 
 	return (
 		<Sheet
-			onClick={e => e.preventDefault()}
 			isOpen={sheetState.isOpen}
 			onClose={() => {
 				setIsOpen(false);
@@ -78,6 +78,11 @@ function SheetComp({
 
 	useModal();
 
+	const handleBackdropTap = (e: any) => {
+		e.preventDefault();
+		e.stopPropagation();
+	};
+
 	return (
 		<>
 			<Sheet.Container
@@ -92,7 +97,7 @@ function SheetComp({
 				</Sheet.Header>
 				<Sheet.Content>{props.children}</Sheet.Content>
 			</Sheet.Container>
-			<Sheet.Backdrop />
+			<Sheet.Backdrop onTap={handleBackdropTap} />
 		</>
 	);
 }

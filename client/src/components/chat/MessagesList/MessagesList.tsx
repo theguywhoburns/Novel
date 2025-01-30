@@ -59,6 +59,12 @@ export const MessagesList = ({
 		setIsMessagesLoading(true);
 	}, []);
 
+	useEffect(() => console.log(messages), [messages]);
+
+	useEffect(() => {
+		console.log(messages);
+	}, [messages]);
+
 	useEffect(() => {
 		if (messages) {
 			updateMessageStatus(messages.slice(-1)[0]?.id, 'sent');
@@ -179,6 +185,7 @@ export const MessagesList = ({
 								<MemoizedMessage
 									key={message.id}
 									{...message}
+									senderId={message.senderId}
 									nextMessageSenderId={nextMessage?.senderId || null}
 									visibleButtonsGroupId={activeButtonsGroupId}
 									onToggleButtonsGroup={toggleButtonsGroup}

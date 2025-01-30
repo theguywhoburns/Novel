@@ -6,7 +6,7 @@ class LikesController {
 			const userId = req.params.id;
 
 			if (!userId) {
-				res.status(400).json({ error: 'User ID is not found' });
+				res.status(400).json({ error: 'User ID not found' });
 			}
 
 			const matchesResult = await db.query(
@@ -39,7 +39,7 @@ class LikesController {
 			const userId = req.params.id;
 
 			if (!userId) {
-				res.status(400).json({ error: 'User ID is not found' });
+				res.status(400).json({ error: 'User ID not found' });
 			}
 
 			const myLikesResult = await db.query(
@@ -67,7 +67,7 @@ class LikesController {
 			const userId = req.params.id;
 
 			if (!userId) {
-				res.status(400).json({ error: 'User ID is not found' });
+				res.status(400).json({ error: 'User ID not found' });
 			}
 
 			const likedPartnersResult = await db.query(
@@ -89,8 +89,6 @@ class LikesController {
 			res.status(500).json({ error: err.message });
 		}
 	}
-
-
 };
 
 export default new LikesController();;;

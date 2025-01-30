@@ -24,6 +24,7 @@ export interface Theme {
 	white: string;
 	semi_transparent_white: string;
 	grey: string;
+	green: string;
 }
 
 export const themes = {
@@ -49,6 +50,9 @@ export const themes = {
 		white: '#FDFEFE',
 		semi_transparent_white: '#FFFFFF4D',
 		grey: '#C8CDDF',
+		dark_grey: '#575757',
+		green: '#75F947',
+		red: '#FF1B41',
 	},
 	dark: {
 		background_color: '#0B1034',
@@ -75,5 +79,8 @@ export const themes = {
 		white: '#FDFEFE',
 		semi_transparent_white: '#FFFFFF4D',
 		grey: '#C8CDDF',
+		dark_grey: '#575757',
+		green: '#75F947',
+		red: '#FF1B41',
 	},
 } as const;

@@ -24,6 +24,10 @@ export const LoginVerificationCodePage = () => {
 	const verificationCode = useLoginStore(state => state.verificationCode);
 	const setVerificationCode = useLoginStore(state => state.setVerificationCode);
 
+	const isVerificationCodeValid = useLoginStore(
+		state => state.isVerificationCodeVaild
+	);
+
 	const checkVerificationCode = useLoginStore(
 		state => state.checkVerificationCode
 	);
@@ -48,6 +52,10 @@ export const LoginVerificationCodePage = () => {
 		}
 	};
 
+	useEffect(() => {
+		console.log(isVerificationCodeValid);
+	}, [isVerificationCodeValid]);
+
 	return (
 		<LoginPageContainer>
 			<Form>
@@ -70,6 +78,8 @@ export const LoginVerificationCodePage = () => {
 							textColor={theme.accent_color}
 							inputWidth={70}
 							inputPaddingY={[16, 16]}
+							isError={!isVerificationCodeValid}
+							errorText='Произошла ошибка. Проверьте код'
 							centerHorizontally
 						/>
 					</div>

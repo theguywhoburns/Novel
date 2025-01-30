@@ -1,23 +1,20 @@
 {
-  "name": "novel-client",
+  "name": "novel-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsc -b && vite build && vite",
+    "dev": "npm run build && vite preview",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
-    "sync": "yarn build && npx cap sync",
-    "android": "yarn sync && npx cap run android",
-    "ios": "yarn sync && npx cap run ios",
-    "ios-web": "yarn ios && yarn dev",
-    "open-android": "yarn sync && npx cap open android",
-    "open-ios": "yarn sync && npx cap open ios",
-    "initialize": "yarn"
+    "lint": "eslint .",
+    "dev-sync": "cross-env NODE_ENV=development npx cap sync",
+    "sync": "npx cap sync",
+    "initialize": "yarn",
+    "ionic:build": "npm run build",
+    "ionic:serve": "npm run build && vite --host"
   },
   "dependencies": {
-    "@capacitor-community/safe-area": "^6.0.0-alpha.8",
     "@capacitor/android": "^6.1.2",
     "@capacitor/cli": "^6.1.2",
     "@capacitor/core": "^6.1.2",
@@ -53,6 +50,7 @@
     "globals": "^15.9.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "cross-env": "^7.0.3"
   }
 }

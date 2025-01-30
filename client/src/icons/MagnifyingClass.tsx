@@ -1,13 +1,13 @@
 import { useTheme } from '@/theme';
 
-interface IIconMagnifyingGlassProps extends React.SVGProps<SVGSVGElement> {
+export interface IFocusingIcon extends React.SVGProps<SVGSVGElement> {
 	focused: boolean;
 }
 
 export const IconMagnifyingGlass = ({
 	focused = false,
 	...props
-}: IIconMagnifyingGlassProps) => {
+}: IFocusingIcon) => {
 	const theme = useTheme();
 	return (
 		<svg

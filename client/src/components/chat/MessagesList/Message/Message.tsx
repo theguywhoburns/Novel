@@ -4,6 +4,7 @@ import { IconNotSent } from '@/icons/NotSent';
 import { IconRead } from '@/icons/Read';
 import { IconSending } from '@/icons/Sending';
 import { IconSent } from '@/icons/Sent';
+import { useLoginStore } from '@/store/login/useLoginStore';
 import { useThemeStore } from '@/store/theme/useThemeStore';
 import { useTheme } from '@/theme';
 import { memo, useRef } from 'react';
@@ -29,13 +30,13 @@ export const Message = memo(
 		const theme = useTheme();
 
 		const currentTheme = useThemeStore(state => state.theme);
+		const userId = useLoginStore(state => state.userId);
 
 		const messageRef = useRef<HTMLDivElement>(null);
-
 		const messageContentRef = useRef<HTMLDivElement>(null);
 
-		const userId = 1;
 		const amISender = userId === senderId;
+		const amIRecipient = userId === recipientId;
 		const isNextMessageFromSameSender = nextMessageSenderId === senderId;
 
 		const formattedTime =
@@ -69,7 +70,7 @@ export const Message = memo(
 			<div
 				className={[
 					styles.message,
-					amISender ? styles.sender : styles.recipient,
+					amISender ? styles.sender : amIRecipient ? styles.recipient : '',
 				].join(' ')}
 				ref={messageRef}
 			>

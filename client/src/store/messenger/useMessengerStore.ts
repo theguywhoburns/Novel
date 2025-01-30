@@ -45,14 +45,6 @@ interface IMessengerStore {
   chat: IChat;
   setChat: (chat: IChat) => void;
 
-  sendNewMessage: ({
-    data,
-    socket,
-  }: {
-    data: IMessageEntity;
-    socket: WebSocket | null;
-  }) => void;
-
   getChatsByUser: (userId: userId) => void;
 
   deleteChat: (chatId: number) => void;
@@ -98,49 +90,10 @@ export const useMessengerStore = create<IMessengerStore>((set, get) => ({
     : {},
   setChat: (chat) => set({ chat }),
 
-  sendNewMessage: ({ data, socket }) => {
-    try {
-      if (!socket || socket.readyState !== WebSocket.OPEN) {
-        return;
-      }
-
-      const {
-        senderId,
-        recipientId,
-        chatId,
-        type,
-        text,
-        createdAt,
-        status,
-        replyToMessageId,
-      } = data;
-
-      const message: IMessageEntity = {
-        senderId,
-        recipientId,
-        chatId,
-        type,
-        text,
-        createdAt,
-        status,
-        replyToMessageId,
-      };
-
-      if (get().newMessageText.length) {
-        get().setNewMessageText("");
-        get().setIsNewMessageSent(true);
-        setTimeout(() => get().setIsNewMessageSent(false), 100);
-        socket.send(JSON.stringify(message));
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  },
-
   getChatsByUser: async (userId) => {
     try {
       if (!userId) {
-        throw new Error("User ID is not found");
+        throw new Error("User ID not found");
       }
 
       const response = await axios.get<IChat[]>(`${baseUrl}/chats/${userId}`);

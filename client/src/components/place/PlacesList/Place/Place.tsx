@@ -1,4 +1,5 @@
 import { IconGeoTag, IconStar } from "@/icons";
+import { RouteBase } from "@/routes";
 import { useGeoPositionStore } from "@/store/geoPosition/useGeoPositionStore";
 import { usePlacesStore } from "@/store/places/usePlacesStore";
 import { useTheme } from "@/theme";
@@ -49,10 +50,8 @@ export const Place = ({
     ).toFixed(2);
   }
 
-  const formattedRating = rate;
-
   const handleClick = () => {
-    navigate(`/place/${id}`);
+    navigate(`${RouteBase.PLACE}/${id}`);
     setPlace({ id, name, imgSrc, rate, geoLat, geoLon, workingHours });
   };
 
@@ -61,7 +60,8 @@ export const Place = ({
       <img
         className={styles.img}
         src={
-          "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIALIAuwMBIgACEQEDEQH/xAAaAAEAAwEBAQAAAAAAAAAAAAAAAwQFAgEH/8QALRABAAIAAgcIAgMBAAAAAAAAAAECAwQREyEzYXGREhQkMVJjgaFRcjJBsSL/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A+GgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmylYtjaLRExonzBCNG1cCs6LRSObzw3t/QM8aHhvb+jw3t/QM8aHhvb+jw3t/QM8aHhvb+nOaw6VwZmtIidMeUAogAAAAAAAAAAAAAJ8lv/AIlAnyW/+JB1nt5X9VeImZ0RGmeCxnt5X9XWRtSO1EzEWn8gqzExOidkvFnO2rN47OiZiNswrACTBw5xbxWPL+5e5nD1eLMRH/M7YBE0M5uLc4Z7Qzm4tzgGeAAAAAAAAAAAAAAnyW/+JQJ8lv8A4kHWe3lf1QUra9uzWNMp89vK/qkyWHorOJMbZ2RyBVwsOcTEinl+eC5j5atqR2I0WiNnFNFIi02iNs+cugQ5fC1VNv8AKfNznKdrC7Uedf8AFh5MaYmJjZIMloZzcW5wo4lZpeaz/Ur2c3FucAzwAAAAAAAAAAAAAE+S3/xKBPkt/wDEgnzWDfFvE10bI0eaDumLw6r4Ch3TF4dTumLw6r4Ch3TF4dTumLw6r4Ch3TF4dVnObi3OEyHObiecAzwAAAAAAAAAAAAAE+S3/wASgexaazprMxPAGqMzW4nrt1Nbieu3UGmMzW4nrt1Nbieu3UGmMzW4nrt1Nbieu3UGmhzm4nnClrcT126vJve0aLWtMcZByAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//Z"
+          imgSrc ||
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ"
         }
         alt="place image"
       />
@@ -72,7 +72,7 @@ export const Place = ({
 
         <div className={styles.iconAndValue} style={{ color: theme.grey }}>
           <IconStar style={{ transform: "scale(0.85)" }} />
-          <span>{formattedRating}</span>
+          <span>{rate}</span>
         </div>
 
         <div

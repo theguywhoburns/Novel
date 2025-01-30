@@ -32,7 +32,7 @@ export const useLikesStore = create<IUseLikesStore>((set, get) => ({
 			const userId = useLoginStore.getState().userId;
 
 			if (!userId) {
-				throw new Error('User ID is not found');
+				throw new Error('User ID not found');
 			}
 
 			const response = await axios.get(`${baseUrl}/matches/${userId}`);
@@ -52,7 +52,7 @@ export const useLikesStore = create<IUseLikesStore>((set, get) => ({
 			const userId = useLoginStore.getState().userId;
 
 			if (!userId) {
-				throw new Error('User ID is not found');
+				throw new Error('User ID not found');
 			}
 
 			const response = await axios.get(`${baseUrl}/my_likes/${userId}`);
@@ -72,7 +72,7 @@ export const useLikesStore = create<IUseLikesStore>((set, get) => ({
 			const userId = useLoginStore.getState().userId;
 
 			if (!userId) {
-				throw new Error('User ID is not found');
+				throw new Error('User ID not found');
 			}
 
 			const response = await axios.get(`${baseUrl}/liked_partners/${userId}`);

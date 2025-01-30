@@ -149,9 +149,13 @@ class UserController {
         return res.status(400).json({ err: "Missing id" });
       }
 
-      const userResult = await db.query("SELECT * FROM users WHERE id = $1", [
-        id,
-      ]);
+      const userResult = await db.query(
+        `SELECT 
+          *, 
+          DATE_PART('year', AGE("bDate")) as age
+        FROM users WHERE id = $1`,
+        [id]
+      );
 
       const user = userResult.rows[0];
 

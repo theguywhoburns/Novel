@@ -5,9 +5,9 @@
 	padding: 10px 16px;
 }
 
-.buttonsWrapper {
+.linksWrapper {
 	display: flex;
-	gap: 20px;
+	gap: 11px;
 }
 
 .link {

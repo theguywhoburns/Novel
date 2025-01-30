@@ -1,8 +1,8 @@
-import { config as dotenvConfig } from "dotenv-esm";
+import { config as dotenvConfig } from 'dotenv-esm';
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import { db } from "../db.js";
-import { generateVerificationCode } from "../utils/utils.js";
+import { generateVerificationCode } from '../utils/utils.js';
 
 dotenvConfig();
 
@@ -48,14 +48,9 @@ class AuthController {
         'UPDATE credentials SET "verificationCode" = $1 WHERE "userId" = $2',
         [verificationCode, userId]
       );
-      console.log(
-        "Sengidng verefication code: ",
-        verificationCode,
-        " to email: ",
-        email
-      );
+
       const transporter = nodemailer.createTransport({
-        host: "smtp.yandex.ru",
+        host: 'smtp.yandex.ru',
         port: 465,
         secure: true,
         auth: {
@@ -88,33 +83,43 @@ class AuthController {
           .json({ error: "Email and verification code are required" });
       }
 
-      const userIdResult = await db.query(
-        'SELECT "userId" FROM credentials WHERE email = $1 AND "verificationCode" = $2',
-        [email, verificationCode]
+      const userAndCodeResult = await db.query(
+        'SELECT "userId", "verificationCode" FROM credentials WHERE email = $1',
+        [email]
       );
 
-      const userId = userIdResult.rows[0]?.userId;
+      if (!userAndCodeResult.rows || userAndCodeResult.rows.length === 0) {
+        return res.status(404).json({ error: "User with this email not found." });
+      }
+
+      const user = userAndCodeResult.rows[0];
+      const userId = user.userId;
+      const sentVerificationCodeFromServer = user.verificationCode;
+
+      if (verificationCode !== sentVerificationCodeFromServer) {
+        return res.status(400).json({ error: "Invalid verification code" });
+      }
 
       const userNameResult = await db.query(
-        "SELECT name FROM users WHERE id = $1",
+        'SELECT name FROM users WHERE id = $1',
         [userId]
       );
 
       const userName = userNameResult.rows[0]?.name;
 
-      if (!userId) {
-        return res.status(404).json({ error: "User ID not found" });
-      }
+      const isNewUser = userName ? false : true;
 
       await db.query(
         'UPDATE credentials SET "verificationCode" = NULL WHERE "userId" = $1',
         [userId]
       );
 
-      res.status(200).json({
-        message: "Verification code is valid",
-        isNewUser: userName ? false : true,
-      });
+      res
+        .status(200)
+        .json({
+          message: "Verification code is valid",
+          isNewUser
+        });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: err.message });
@@ -142,9 +147,10 @@ class AuthController {
         return res.status(404).json({ error: "User's id not found" });
       }
 
-      const userResult = await db.query("SELECT * FROM users WHERE id = $1", [
-        userId,
-      ]);
+      const userResult = await db.query(
+        "SELECT * FROM users WHERE id = $1",
+        [userId]
+      );
 
       const user = userResult.rows[0];
 
@@ -182,7 +188,7 @@ class AuthController {
         familyPlans,
         sport,
         alcohol,
-        smoking,
+        smoking
       } = req.body;
 
       if (!email) {
@@ -234,7 +240,7 @@ class AuthController {
           sport,
           alcohol,
           smoking,
-          userId,
+          userId
         ]
       );
 
@@ -256,6 +262,6 @@ class AuthController {
       res.status(500).json({ error: err.message });
     }
   }
-}
+};
 
 export default new AuthController();

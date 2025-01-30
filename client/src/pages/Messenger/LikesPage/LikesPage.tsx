@@ -51,7 +51,7 @@ const tabConfigurations: ITabConfigurations = {
 	},
 	[LikeTabsLabels.MY_LIKES]: {
 		action: myLikesPluralForms[0],
-		noDataText: 'Вы еще не поставили ни один лайк',
+		noDataText: 'Вам еще не поставили ни одного лайка',
 		pluralForms: myLikesPluralForms,
 	},
 	[LikeTabsLabels.LIKED_PARTNERS]: {

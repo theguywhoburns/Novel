@@ -2,7 +2,7 @@ import { useTheme } from '@/theme';
 import styles from './UserTag.module.css';
 
 interface IUserTag extends React.HTMLAttributes<HTMLDivElement> {
-	Icon: React.FC | null;
+	Icon: JSX.Element | null;
 	children: React.ReactNode;
 }
 
@@ -14,7 +14,7 @@ export const UserTag = ({ Icon, children, ...props }: IUserTag) => {
 			style={{ border: `1px solid ${theme.accent_color}` }}
 			{...props}
 		>
-			{Icon && <Icon />}
+			{Icon && Icon}
 			<span className={styles.tagText} style={{ color: theme.accent_color }}>
 				{children}
 			</span>

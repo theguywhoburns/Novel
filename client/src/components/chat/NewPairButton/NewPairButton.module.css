@@ -1,0 +1,16 @@
+.imgContainer {
+	display: flex;
+	position: relative;
+	height: fit-content;
+}
+
+.overlayIcon {
+	position: absolute;
+	top: 20px;
+	left: 6px;
+	right: 6px;
+}
+
+.text {
+	font-size: 8.5px;
+}

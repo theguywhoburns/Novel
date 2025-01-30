@@ -1,12 +1,12 @@
-import { IPair } from '@/components';
+import { INewPair } from '@/components';
 import axios from 'axios';
 import { create } from 'zustand';
 import { useLoginStore } from '../login/useLoginStore';
 import { baseUrl } from '../messenger/useMessengerStore';
 
 interface IUseNewPairsStore {
-	newPairs: IPair[];
-	setNewPairs: (newPairs: IPair[]) => void;
+	newPairs: INewPair[];
+	setNewPairs: (newPairs: INewPair[]) => void;
 
 	getNewPairsByUser: () => Promise<void>;
 }

@@ -1,75 +1,27 @@
-import { UsersList } from '@/components/user/UsersList/UsersList';
-import { IconCross, IconDiscard, IconLike } from '@/icons';
-import { IconCrystal } from '@/icons/Crystal';
-import { useTheme } from '@/theme';
-import IconButton from '@mui/material/IconButton';
-import styles from './Home.module.css';
+import { UserActionButtons } from "@/components/user/UserActionButtons/UserActionButtons";
+import { UsersList } from "@/components/user/UsersList/UsersList";
+import { useTheme } from "@/theme";
+import styles from "./Home.module.css";
+import { NoDataText } from "@/components/ui/NoDataText/NoDataText";
+import { useUsersStore } from "@/store/users/useUsersStore";
 
 export const HomePage = () => {
-	const theme = useTheme();
+  const theme = useTheme();
+  const users = useUsersStore((state) => state.users);
 
-	return (
-		<div
-			className={styles.homePage}
-			style={{ backgroundColor: theme.background_color }}
-		>
-			<div className={styles.container}>
-				<UsersList />
-
-				<div className={styles.actions}>
-					<IconButton
-						sx={{
-							width: 38,
-							height: 38,
-							padding: 0,
-							backgroundColor: theme.background_color,
-							transition: '0.2s',
-						}}
-					>
-						<IconDiscard />
-					</IconButton>
-
-					<IconButton
-						sx={{
-							width: 54,
-							height: 54,
-							padding: 0,
-							backgroundColor: theme.background_color,
-							transition: '0.2s',
-						}}
-					>
-						<IconCross />
-					</IconButton>
-
-					<IconButton
-						sx={{
-							width: 54,
-							height: 54,
-							padding: 0,
-							backgroundColor: 'transparent',
-							transition: '0.2s',
-
-							'&:hover': {
-								opacity: 0.8,
-							},
-						}}
-					>
-						<IconLike />
-					</IconButton>
-
-					<IconButton
-						sx={{
-							width: 38,
-							height: 38,
-							padding: 0,
-							backgroundColor: theme.background_color,
-							transition: '0.2s',
-						}}
-					>
-						<IconCrystal />
-					</IconButton>
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <div
+      className={styles.homePage}
+      style={{ backgroundColor: theme.background_color }}
+    >
+      {!users?.length ? (
+        <NoDataText style={{ fontWeight: 700 }}>Нет пользователей</NoDataText>
+      ) : (
+        <div className={styles.container}>
+          <UsersList />
+          <UserActionButtons />
+        </div>
+      )}
+    </div>
+  );
 };

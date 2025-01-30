@@ -9,14 +9,16 @@ interface ITagsList {
 export const TagsList = ({ tags }: ITagsList) => {
 	return (
 		<ul className={styles.list}>
-			{tags?.map(tag => (
-				<UserTag
-					key={tag.id}
-					id={tag.id}
-					Icon={tag.Icon}
-					children={tag.children}
-				/>
-			))}
+			{Array.isArray(tags) &&
+				tags[0].children &&
+				tags?.map(tag => (
+					<UserTag
+						key={tag.id}
+						id={tag.id}
+						Icon={tag.Icon}
+						children={tag.children}
+					/>
+				))}
 		</ul>
 	);
 };

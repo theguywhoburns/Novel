@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: client
+          image: client:latest
+          ports:
+            - containerPort: 5173
+          env:
+            - name: NODE_ENV
+              value: "development"
+          volumeMounts:
+            - name: client-volume
+              mountPath: /client
+            - name: client-node-modules
+              mountPath: /client/node_modules
+      volumes:
+        - name: client-volume
+          hostPath:
+            path: ./client
+        - name: client-node-modules
+          emptyDir: {}

@@ -10,10 +10,15 @@
 .title {
 	font-size: 14px;
 	font-weight: 500;
+	margin-bottom: 12px;
 }
 
-.titleWithMargin {
-	font-size: 14px;
-	font-weight: 500;
-	margin-bottom: 12px;
+.container {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	overflow-x: auto;
+	scrollbar-width: none;
+	height: 125px;
+	margin-bottom: 13px;
 }

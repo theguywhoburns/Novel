@@ -1,21 +1,14 @@
 .homePage {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .container {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	margin: 0 auto;
-}
-
-.actions {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 10px;
-	width: fit-content;
-	margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: auto;
 }

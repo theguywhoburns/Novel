@@ -1,0 +1,11 @@
+.textWithIcon {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 4px;
+}
+
+.text {
+	font-size: 16px;
+	line-height: 19px;
+}

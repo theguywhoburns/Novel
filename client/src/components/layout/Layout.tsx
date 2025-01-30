@@ -1,4 +1,4 @@
-import { RouteLayouts } from '@/routes';
+import { routeLayouts } from '@/routes';
 import { useTheme } from '@/theme';
 import { useLocation } from 'react-router-dom';
 import { BottomNav } from './BottomNav/BottomNav';
@@ -16,7 +16,7 @@ export const Layout = ({ children }: ILayout) => {
 	const paths = pathname.split('/');
 	const path = paths.length > 2 ? paths.slice(0, 2).join('/') : paths.join('/');
 
-	const [Header, showBottomNav] = RouteLayouts[path];
+	const [Header, showBottomNav] = routeLayouts[path];
 
 	return (
 		<div

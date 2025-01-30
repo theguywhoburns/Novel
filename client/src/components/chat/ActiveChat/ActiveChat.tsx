@@ -1,5 +1,5 @@
 import { MessagesList } from '@/components/chat/MessagesList/MessagesList';
-import { useChatWebSocket } from '@/hooks/useChatWebSocket';
+import { useChatWebSocket } from '@/hooks/sockets/useChatWebSocket';
 import { useScrollRef } from '@/hooks/useScrollRef';
 import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -8,8 +8,8 @@ import { ChatInput } from './ChatInput/ChatInput';
 
 export const ActiveChat = () => {
 	const {
-		socket,
 		loadMoreMessages,
+		sendNewMessage,
 		editMessage,
 		updateMessageStatus,
 		hasMoreMessages,
@@ -53,8 +53,8 @@ export const ActiveChat = () => {
 				ref={chatInputRef}
 				scrollBottomRef={scrollRef}
 				onChatInputHeightAvailable={onChatInputHeightAvailable}
-				socket={socket.current}
 				editMessage={editMessage}
+				sendNewMessage={sendNewMessage}
 			/>
 		</div>
 	);

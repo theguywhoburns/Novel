@@ -1,3 +1,4 @@
+import { Direction } from '@/components/user/UsersList/UserCard/UserCard';
 import { IUser } from '@/components/user/UsersList/UsersList';
 import { NumericTuple } from '@/types/types';
 import axios from 'axios';
@@ -16,26 +17,63 @@ export type Filter = {
 type RateFunction = (ratedId: userId) => Promise<void>;
 
 interface IUseUsersStore {
-	user: IUser | null;
-	setUser: (user: IUser | null) => void;
+	user: IUser;
+	setUser: (user: IUser) => void;
 
-	users: IUser[];
+	visitingUserId: number | null;
+	setVisitingUserId: (visitingUserId: number | null) => void;
+
+	visitingUser: IUser | null;
+	setVisitingUser: (visitingUser: IUser | null) => void;
+
+	users: IUser[] | null;
 	setUsers: (users: IUser[]) => void;
+
+	currentIndex: number;
+	setCurrentIndex: (value: number | ((state: number) => number)) => void;
+
+	nextIndex: number;
+	setNextIndex: (nextIndex: number) => void;
+
+	direction: Direction;
+	setDirection: (direction: Direction) => void;
 
 	getAllUsers: () => Promise<void>;
 	getFilteredUsers: (filter: Filter) => Promise<void>;
-	getUserById: (userId: userId) => Promise<void>;
+	getUserById: (
+		userId: userId,
+		setUser: (user: IUser) => void
+	) => Promise<void>;
 
 	likeUser: RateFunction;
 	dislikeUser: RateFunction;
 }
 
 export const useUsersStore = create<IUseUsersStore>((set, get) => ({
-	user: null,
+	user: {} as IUser,
 	setUser: user => set({ user }),
+
+	visitingUserId: null,
+	setVisitingUserId: visitingUserId => set({ visitingUserId }),
+
+	visitingUser: null,
+	setVisitingUser: visitingUser => set({ visitingUser }),
 
 	users: [],
 	setUsers: users => set({ users }),
+
+	currentIndex: 0,
+	setCurrentIndex: (value: number | ((state: number) => number)) =>
+		set(state => ({
+			currentIndex:
+				typeof value === 'function' ? value(state.currentIndex) : value,
+		})),
+
+	nextIndex: 1,
+	setNextIndex: nextIndex => set({ nextIndex }),
+
+	direction: null,
+	setDirection: direction => set({ direction }),
 
 	getAllUsers: async () => {
 		try {
@@ -56,7 +94,7 @@ export const useUsersStore = create<IUseUsersStore>((set, get) => ({
 			const { userId } = useLoginStore.getState();
 
 			if (!userId) {
-				throw new Error('User ID is not found');
+				throw new Error('User ID not found');
 			}
 
 			const response = await axios.post(`${baseUrl}/filtered_users/${userId}`, {
@@ -75,10 +113,10 @@ export const useUsersStore = create<IUseUsersStore>((set, get) => ({
 		}
 	},
 
-	getUserById: async userId => {
+	getUserById: async (userId, setUser) => {
 		try {
 			if (!userId) {
-				throw new Error('User ID is not found');
+				throw new Error('User ID not found');
 			}
 
 			const response = await axios.get(`${baseUrl}/user/${userId}`);
@@ -87,7 +125,9 @@ export const useUsersStore = create<IUseUsersStore>((set, get) => ({
 				throw new Error(response.statusText);
 			}
 
-			get().setUser(response.data);
+			console.log('USER RES: , ', response);
+
+			setUser(response.data);
 		} catch (err) {
 			console.error(err);
 		}
@@ -98,7 +138,7 @@ export const useUsersStore = create<IUseUsersStore>((set, get) => ({
 			const likerId = useLoginStore.getState().userId;
 
 			if (!likerId || !likedId) {
-				throw new Error('User ID is not found');
+				throw new Error('User ID not found');
 			}
 
 			const response = await axios.post(`${baseUrl}/like_user`, {
@@ -119,7 +159,7 @@ export const useUsersStore = create<IUseUsersStore>((set, get) => ({
 			const likerId = useLoginStore.getState().userId;
 
 			if (!likerId || !likedId) {
-				throw new Error('User ID is not found');
+				throw new Error('User ID not found');
 			}
 
 			const response = await axios.post(`${baseUrl}/dislike_user`, {

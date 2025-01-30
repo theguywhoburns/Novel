@@ -1,5 +1,6 @@
 import { Separator } from '@/components/ui/Separator/Separator';
 import { IconMike, IconSticker } from '@/icons';
+import { useLoginStore } from '@/store/login/useLoginStore';
 import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useTheme } from '@/theme';
 import { IconButton } from '@mui/material';
@@ -16,14 +17,19 @@ export interface IMessageEntity
 
 interface IChatInput {
 	onChatInputHeightAvailable: (height: number) => void;
-	socket: WebSocket | null;
+	sendNewMessage: (data: IMessageEntity) => void;
 	editMessage: (message: IMessage) => void;
 	scrollBottomRef: React.RefObject<HTMLDivElement>;
 }
 
 export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 	(
-		{ onChatInputHeightAvailable, socket, editMessage, scrollBottomRef },
+		{
+			onChatInputHeightAvailable,
+			sendNewMessage,
+			editMessage,
+			scrollBottomRef,
+		},
 		ref
 	) => {
 		const theme = useTheme();
@@ -50,14 +56,13 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 			state => state.setEditedMessageText
 		);
 
-		const sendNewMessage = useMessengerStore(state => state.sendNewMessage);
+		const userId = useLoginStore(state => state.userId);
 
-		const userId = 1;
 		const recipientId =
 			chat?.userOneId === userId ? chat?.userTwoId : chat?.userOneId;
 
 		const newMessage: IMessageEntity = {
-			senderId: userId,
+			senderId: userId || 0,
 			recipientId,
 			chatId: chat?.id,
 			type: 'text',
@@ -68,7 +73,7 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 		};
 
 		const handleSendNewMessage = () => {
-			sendNewMessage({ data: newMessage, socket });
+			sendNewMessage(newMessage);
 			setReplyTo(null);
 			setMessageToEdit(null);
 

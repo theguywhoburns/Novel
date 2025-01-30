@@ -1,23 +1,23 @@
 .separator {
-	display: flex;
+  display: flex;
 }
 
 .horizontal {
-	flex-direction: row;
-	height: 1px;
-	min-height: 1px;
-	width: 100%;
+  flex-direction: row;
+  height: 1px;
+  min-height: 1px;
+  width: 100%;
 }
 
 .vertical {
-	flex-direction: column;
-	width: 2.5px;
+  flex-direction: column;
+  width: 2.5px;
 }
 
 .dragLine {
-	display: flex;
-	margin: 0 auto;
-	width: 36px;
-	height: 5px;
-	border-radius: 2.5px;
+  display: flex;
+  margin: 0 auto;
+  width: 36px;
+  height: 5px;
+  border-radius: 2.5px;
 }

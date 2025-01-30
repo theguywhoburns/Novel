@@ -3,7 +3,7 @@ import styles from './UserCardTag.module.css';
 
 export interface ITag extends React.HTMLAttributes<HTMLDivElement> {
 	id?: string;
-	Icon: React.FC | null;
+	Icon: JSX.Element | null;
 	children: React.ReactNode;
 }
 
@@ -19,7 +19,7 @@ export const UserCardTag = ({ id, Icon, children, ...props }: ITag) => {
 			style={{ backgroundColor: theme.semi_transparent_white }}
 			{...otherProps}
 		>
-			{Icon && <Icon />}
+			{Icon && Icon}
 			<span className={styles.tagText} style={{ color: theme.white }}>
 				{children}
 			</span>

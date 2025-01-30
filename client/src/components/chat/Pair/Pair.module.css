@@ -1,0 +1,22 @@
+.pair {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	max-width: 105px;
+	width: 100%;
+	overflow: hidden;
+}
+
+.button,
+.card {
+	padding: 0;
+	border-radius: 16px;
+	height: 125px;
+	width: 81px;
+	background-color: transparent;
+}
+
+.button:hover {
+	background-color: transparent;
+	opacity: 0.8;
+}

@@ -1,10 +1,7 @@
 import { useTheme } from '@/theme';
+import { IFocusingIcon } from './MagnifyingClass';
 
-interface IIconReels extends React.SVGProps<SVGSVGElement> {
-	focused: boolean;
-}
-
-export const IconReels = ({ focused = false, ...props }: IIconReels) => {
+export const IconReels = ({ focused = false, ...props }: IFocusingIcon) => {
 	const theme = useTheme();
 	return (
 		<svg

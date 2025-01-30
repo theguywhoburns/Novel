@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import { UserCardDetailedPage } from '../Home/UserCardDetailedPage/UserCardDetailedPage';
 import styles from './ProfilePage.module.css';
 
-export const Profile = () => {
+export const ProfilePage = () => {
 	const [editMode, setEditMode] = useState(false);
 	const [height, setHeight] = useState(187);
 	const [gender, setGender] = useState('male');

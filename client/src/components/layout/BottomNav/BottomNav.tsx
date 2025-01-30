@@ -3,18 +3,20 @@ import {
 	IconChat,
 	IconLike,
 	IconMagnifyingGlass,
+	IconMyProfile,
 	IconPlaces,
 	IconReels,
 } from '@/icons';
 import { RouteNames } from '@/routes';
 import { useTheme } from '@/theme';
-import { BottomNavigation, BottomNavigationAction } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
-import styles from './BottomNav.module.css';
+import { BottomNavigation } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+import { BottomNavAction } from './BottomNavAction/BottomNavAction';
 
 interface IBottomNav {
 	show: boolean;
 }
+
 export const BottomNav = ({ show }: IBottomNav) => {
 	const theme = useTheme();
 	const { pathname } = useLocation();
@@ -25,45 +27,41 @@ export const BottomNav = ({ show }: IBottomNav) => {
 				<>
 					<Separator marginY={[0, 0]} />
 					<BottomNavigation
-						className={styles.bottomNav}
 						style={{
 							backgroundColor: theme.background_color,
-							justifyContent: 'space-between',
 						}}
 					>
-						<BottomNavigationAction
+						<BottomNavAction
 							label='Home'
-							component={Link}
 							to={RouteNames.HOME}
 							icon={
 								<IconMagnifyingGlass focused={pathname === RouteNames.HOME} />
 							}
-							sx={{ color: theme.text_color }}
 						/>
-						<BottomNavigationAction
+						<BottomNavAction
 							label='Reels'
-							component={Link}
 							to={RouteNames.REELS}
 							icon={<IconReels focused={pathname === RouteNames.REELS} />}
-							sx={{ color: theme.text_color }}
 						/>
-						<BottomNavigationAction
+						<BottomNavAction
 							label='Interests'
-							component={Link}
 							to={RouteNames.PLACES}
 							icon={<IconPlaces focused={pathname === RouteNames.PLACES} />}
-							sx={{ color: theme.text_color }}
 						/>
-						<BottomNavigationAction
-							label='Chat'
-							component={Link}
+						<BottomNavAction
+							label='Messenger'
 							to={RouteNames.MESSENGER}
 							icon={<IconChat focused={pathname === RouteNames.MESSENGER} />}
-							sx={{ color: theme.text_color }}
 						/>
-						<BottomNavigationAction
+						<BottomNavAction
+							label='MyProfile'
+							to={RouteNames.MY_PROFILE}
+							icon={
+								<IconMyProfile focused={pathname === RouteNames.MY_PROFILE} />
+							}
+						/>
+						<BottomNavAction
 							label='Testing playground'
-							component={Link}
 							to={RouteNames.TESTING_PLAYGROUND}
 							icon={<IconLike />}
 							sx={{ color: theme.text_color }}

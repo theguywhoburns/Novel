@@ -53,7 +53,7 @@ export const usePlacesStore = create<IUsePlacesStore>((set, get) => ({
 	getPlace: async placeId => {
 		try {
 			if (!placeId) {
-				throw new Error('Place ID is not found');
+				throw new Error('Place ID found');
 			}
 
 			const response = await axios.get(`${baseUrl}/place/${placeId}`);

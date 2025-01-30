@@ -9,15 +9,15 @@ import { UserCardTag } from './UserCardTag/UserCardTag';
 export type Direction = 'left' | 'right' | null;
 
 export interface IUserCard {
-	imgSrc: string;
-	isPopular: boolean;
-	name: string;
-	age: number;
-	search: string;
-	job: string;
-	distance: string;
+	imgSrc?: string;
+	isPopular?: boolean;
+	name?: string;
+	age?: number;
+	search?: string;
+	job?: string;
+	distance?: string;
 	direction?: 'left' | 'right' | '';
-	isDraggable: boolean;
+	isDraggable?: boolean;
 	style?: React.CSSProperties;
 	onClick?: () => void;
 }
@@ -161,7 +161,7 @@ export const UserCard = ({
 			initial={{ opacity: 1, x: 0 }}
 			animate={controls}
 			transition={{ duration: 0.5 }}
-			drag={isDraggable}
+			drag={isDraggable ? 'x' : false}
 			dragConstraints={constrained && { top: 0, bottom: 0, left: 0, right: 0 }}
 			dragElastic={1}
 			onClick={onClick}
@@ -202,7 +202,7 @@ export const UserCard = ({
 				}
 			/>
 			{isPopular && (
-				<UserCardTag className={styles.popularTag} Icon={IconPopular}>
+				<UserCardTag className={styles.popularTag} Icon={<IconPopular />}>
 					Popular
 				</UserCardTag>
 			)}

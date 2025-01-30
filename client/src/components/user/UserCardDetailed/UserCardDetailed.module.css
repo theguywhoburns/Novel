@@ -8,6 +8,17 @@
 	margin: 0 auto 10px;
 }
 
+.imgContainer {
+	position: relative;
+}
+
+.actions {
+	position: absolute;
+	bottom: 42px;
+	left: 0;
+	right: 0;
+}
+
 .infoContainer {
 	padding: 0 16px;
 }
@@ -17,6 +28,7 @@
 	flex-direction: row;
 	align-items: center;
 	gap: 5px;
+	margin-bottom: 10px;
 }
 
 .name,
@@ -29,15 +41,11 @@
 .mainInfoContainer {
 	display: flex;
 	flex-direction: column;
+	gap: 6px;
 	margin-bottom: 10px;
 }
 
-.mainInfoContainer p {
-	font-size: 16px;
-	line-height: 19px;
-}
-
-.about {
+.description {
 	margin-bottom: 10px;
 }
 

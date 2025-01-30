@@ -1,0 +1,6 @@
+.pairsList {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 13px;
+	scrollbar-width: none;
+}

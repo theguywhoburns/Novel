@@ -1,12 +1,14 @@
 .tabs {
 	display: flex;
-	flex-wrap: nowrap;
 	gap: 7px;
-	list-style-type: none;
-	max-width: 570px;
-	width: 100%;
 	overflow-x: auto;
+	overflow-y: hidden;
 	scrollbar-width: none;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.tabs::-webkit-scrollbar {
+	display: none;
 }
 
 .tab {

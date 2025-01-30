@@ -6,7 +6,7 @@ class NewPairController {
 			const userId = req.params.id;
 
 			if (!userId) {
-				res.status(400).json({ error: 'User ID is not found' });
+				res.status(400).json({ error: 'User ID not found' });
 			}
 
 			const newPairsResult = await db.query(

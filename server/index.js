@@ -21,6 +21,15 @@ app.use(helmet());
 app.use(express.json());
 app.use(cors());
 
+app.use("/", (req, res, next) => {
+  console.log(
+    `${req.method} ${req.path} ${JSON.stringify(req.headers)} ${JSON.stringify(
+      req.query
+    )}`
+  );
+  next();
+});
+
 app.use("/api", userRouter);
 app.use("/api", authRouter);
 app.use("/api", chatRouter);

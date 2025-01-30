@@ -1,0 +1,42 @@
+.pair {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	max-width: 105px;
+	width: 100%;
+	overflow: hidden;
+}
+
+.img {
+	aspect-ratio: 81 / 105;
+	width: 81.24px;
+	height: auto;
+	border-radius: 16px;
+	margin-bottom: 0;
+	object-fit: cover;
+	object-position: center;
+}
+
+.nameAndAge {
+	display: flex;
+	justify-content: center;
+	max-width: 105px;
+	width: 100%;
+	font-size: 8.5px;
+}
+
+.name {
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 73%;
+}
+
+.age {
+	display: block;
+	white-space: normal;
+	overflow: hidden;
+	max-width: 100%;
+	margin-left: 2px;
+}
