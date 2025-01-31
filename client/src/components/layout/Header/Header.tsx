@@ -1,12 +1,12 @@
 import {
 	IconEdit,
 	IconHeaderGeoTag,
-	IconHeaderVerified,
 	IconLogo,
 	IconSettingsGear,
 	IconShield,
 } from '@/icons';
-import { RouteNames } from '@/routes';
+import { RouteBase, RouteNames } from '@/routes';
+import { useLoginStore } from '@/store/login/useLoginStore';
 import { useTheme } from '@/theme';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Header.module.css';
@@ -14,6 +14,8 @@ import styles from './Header.module.css';
 export const Header = () => {
 	const theme = useTheme();
 	const { pathname } = useLocation();
+
+	const userId = useLoginStore(state => state.userId);
 
 	const isMessengerPage = pathname === RouteNames.MESSENGER;
 	const isHomePage = pathname === RouteNames.HOME;
@@ -25,14 +27,14 @@ export const Header = () => {
 			className={styles.header}
 			style={{ backgroundColor: theme.background_color }}
 		>
-			<Link to='/'>
-				<IconLogo style={{ width: 140, height: 50 }} />
+			<Link to={RouteNames.HOME}>
+				<IconLogo />
 			</Link>
 
 			<div className={styles.linksWrapper}>
-				{(isHomePage || isMessengerPage) && (
+				{(isHomePage || isMessengerPage || isMyProfilePage) && (
 					<Link
-						to='/'
+						to={pathname}
 						className={styles.link}
 						style={{ backgroundColor: theme.button_background_color }}
 					>
@@ -42,7 +44,7 @@ export const Header = () => {
 
 				{isHomePage && (
 					<Link
-						to='/settings'
+						to={RouteNames.SETTINGS}
 						className={styles.link}
 						style={{ backgroundColor: theme.button_background_color }}
 					>
@@ -52,7 +54,7 @@ export const Header = () => {
 
 				{isPlacesPage && (
 					<Link
-						to='/'
+						to={pathname}
 						className={styles.link}
 						style={{ backgroundColor: theme.button_background_color }}
 					>
@@ -61,23 +63,13 @@ export const Header = () => {
 				)}
 
 				{isMyProfilePage && (
-					<>
-						<Link
-							to='/'
-							className={styles.link}
-							style={{ backgroundColor: theme.button_background_color }}
-						>
-							<IconEdit />
-						</Link>
-
-						<Link
-							to='/'
-							className={styles.link}
-							style={{ backgroundColor: theme.button_background_color }}
-						>
-							<IconHeaderVerified />
-						</Link>
-					</>
+					<Link
+						to={`${RouteBase.PROFILE}/${userId}`}
+						className={styles.link}
+						style={{ backgroundColor: theme.button_background_color }}
+					>
+						<IconEdit />
+					</Link>
 				)}
 			</div>
 		</header>

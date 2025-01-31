@@ -9,27 +9,32 @@ import { RouteNames } from '@/routes';
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './LoginDescriptionPage.module.css';
+import styles from './LoginNamePage.module.css';
 
-export const LoginDescriptionPage = () => {
+export const LoginNamePage = () => {
 	const navigate = useNavigate();
 
-	const description = useLoginStore(state => state.description);
-	const setDescription = useLoginStore(state => state.setDescription);
+	const name = useLoginStore(state => state.name);
+	const setName = useLoginStore(state => state.setName);
 
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-	const handleDescriptionChange = (
+	const handleNameChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
-		if (event.target.value.length <= 55) {
-			setDescription(event.target.value);
-			setIsButtonDisabled(!event.target.value);
+		setName(event.target.value);
+
+		if (event.target.value.trim() === '') {
+			setIsButtonDisabled(true);
+		} else {
+			setIsButtonDisabled(false);
 		}
 	};
 
 	const handleClick = () => {
-		navigate(RouteNames.LOGIN_USER_INFO);
+		if (!name) return;
+
+		navigate(RouteNames.LOGIN_BIRTH_DATE);
 	};
 
 	return (
@@ -37,17 +42,16 @@ export const LoginDescriptionPage = () => {
 			<Form>
 				<BottomButtonContainer>
 					<div className={styles.TitleAndInputContainer}>
-						<Title>Напишите краткое описание о себе</Title>
+						<Title>Введите ваше имя</Title>
 						<TextInput
-							value={description}
-							onChange={handleDescriptionChange}
-							textBelow='до 55 символов'
-							paddingY={[4, 15]}
-							multiLine
+							value={name}
+							onChange={handleNameChange}
+							type='text'
+							placeholder='Введите имя'
 						/>
+
 						<Explanation marginY={[12, 0]}>
-							Напиши краткую информацию о себе, для привлечения внимания
-							пользователя.
+							После введения данных в этом поле вы не сможете их изменить.
 						</Explanation>
 					</div>
 

@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS "cards" (
 
 CREATE TABLE IF NOT EXISTS "places" (
   "id" SERIAL PRIMARY KEY,
-  "categoryId" INT NOT NULL,
+  "categoryName" VARCHAR(255) NOT NULL,
   "cityName" VARCHAR(255) NOT NULL,
   "name" VARCHAR(255) NOT NULL,
   "description" TEXT,

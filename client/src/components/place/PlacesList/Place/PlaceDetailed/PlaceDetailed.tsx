@@ -21,7 +21,7 @@ export const PlaceDetailed = ({
 	id,
 	imgSrc,
 	name,
-	rating,
+	rate,
 	address,
 	workingHours,
 	approximateCost,
@@ -31,8 +31,6 @@ export const PlaceDetailed = ({
 	link,
 }: IPlace) => {
 	const theme = useTheme();
-
-	const formattedRating = rating / 10;
 
 	const position = useGeoPositionStore(state => state.position);
 
@@ -71,11 +69,7 @@ export const PlaceDetailed = ({
 					</h3>
 
 					<ul className={styles.placeInfoList}>
-						<PlaceInfoItem
-							Icon={<IconStar />}
-							value={formattedRating}
-							separator=''
-						/>
+						<PlaceInfoItem Icon={<IconStar />} value={rate} separator='' />
 						<PlaceInfoItem
 							Icon={<IconGeoTag />}
 							value={`${address}, ${position ? distanceInKm : '???'} км от вас`}
@@ -108,9 +102,11 @@ export const PlaceDetailed = ({
 					</ul>
 				</div>
 
-				<RoundedButton className={styles.button} onClick={handleClick}>
-					Забронировать
-				</RoundedButton>
+				{link ? (
+					<RoundedButton className={styles.button} onClick={handleClick}>
+						Забронировать
+					</RoundedButton>
+				) : null}
 			</BottomButtonContainer>
 		</div>
 	);

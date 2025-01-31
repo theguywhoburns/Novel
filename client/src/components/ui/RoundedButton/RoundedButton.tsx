@@ -5,8 +5,6 @@ interface IRoundedButton extends ButtonProps {
 	children: React.ReactNode;
 	onClick: () => void;
 	variant?: 'contained' | 'outlined' | 'text';
-	startIcon?: React.ReactNode;
-	endIcon?: React.ReactNode;
 }
 
 export const RoundedButton = ({

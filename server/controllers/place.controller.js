@@ -94,32 +94,27 @@ class PlaceController {
         [cityName]
       );
 
-      const categorizedPlaces = places.rows.reduce(
-        (acc, place) => {
-          switch (place.categoryId) {
-            case 1:
-              acc.cafe.push(place);
-              break;
-            case 2:
-              acc.bar.push(place);
-              break;
-            case 3:
-              acc.parks.push(place);
-              break;
-            case 4:
-              acc.movie.push(place);
-              break;
-            case 5:
-              acc.exhibition.push(place);
-              break;
-            default:
-              acc.others.push(place);
-              break;
-          }
-          return acc;
-        },
-        { cafe: [], bar: [], parks: [], movie: [], exhibition: [], others: [] }
-      );
+      console.log(`Found ${places.rowCount} places for city ${cityName}`);
+      let placeLabelMap = {};
+      let categorizedPlaces = {};
+      let counter = 0;
+      places.rows.forEach((place) => {
+        if (place.categoryName === undefined || place.categoryName === null) {
+          place.categoryName = "Другое";
+        }
+        if (placeLabelMap[place.categoryName] === undefined) {
+          const labelId = `_${counter++}`;
+          placeLabelMap[place.categoryName] = labelId;
+          categorizedPlaces[labelId] = {
+            displayLabel: place.categoryName,
+            places: [place],
+          };
+        } else {
+          const labelId = placeLabelMap[place.categoryName];
+          categorizedPlaces[labelId].places.push(place);
+        }
+      });
+
       res.json(categorizedPlaces);
     } catch (error) {
       console.error(error);

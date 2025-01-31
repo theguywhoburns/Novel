@@ -9,30 +9,29 @@ import { RouteNames } from '@/routes';
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './LoginNamePage.module.css';
+import styles from './LoginDescriptionPage.module.css';
 
-export const LoginNamePage = () => {
+export const LoginDescriptionPage = () => {
 	const navigate = useNavigate();
 
-	const name = useLoginStore(state => state.name);
-	const setName = useLoginStore(state => state.setName);
+	const description = useLoginStore(state => state.description);
+	const setDescription = useLoginStore(state => state.setDescription);
 
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-	const handleNameChange = (
+	const handleDescriptionChange = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
-		setName(event.target.value);
-
-		if (event.target.value.trim() === '') {
-			setIsButtonDisabled(true);
-		} else {
-			setIsButtonDisabled(false);
+		if (event.target.value.length <= 55) {
+			setDescription(event.target.value);
+			setIsButtonDisabled(!event.target.value);
 		}
 	};
 
 	const handleClick = () => {
-		navigate(RouteNames.LOGIN_BIRTH_DATE);
+		if (!description) return;
+
+		navigate(RouteNames.LOGIN_USER_INFO);
 	};
 
 	return (
@@ -40,16 +39,17 @@ export const LoginNamePage = () => {
 			<Form>
 				<BottomButtonContainer>
 					<div className={styles.TitleAndInputContainer}>
-						<Title>Введите ваше имя</Title>
+						<Title>Напишите краткое описание о себе</Title>
 						<TextInput
-							value={name}
-							onChange={handleNameChange}
-							type='text'
-							placeholder='Введите имя'
+							value={description}
+							onChange={handleDescriptionChange}
+							textBelow='до 55 символов'
+							paddingY={[4, 15]}
+							multiLine
 						/>
-
 						<Explanation marginY={[12, 0]}>
-							После введения данных в этом поле вы не сможете их изменить.
+							Напиши краткую информацию о себе, для привлечения внимания
+							пользователя.
 						</Explanation>
 					</div>
 

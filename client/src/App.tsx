@@ -9,8 +9,8 @@ import { useLoginStore } from './store/login/useLoginStore';
 import { useThemeStore } from './store/theme/useThemeStore';
 import { updateCssVariables } from './theme';
 import { themes } from './theme/themes';
-import { updateCity, updateGeoPosition } from './utils/updateGeoPosition';
 import { getServerUrl } from './utils/serverUrl';
+import { updateCity, updateGeoPosition } from './utils/updateGeoPosition';
 
 function App() {
 	const currentTheme = useThemeStore(state => state.theme);
@@ -18,10 +18,9 @@ function App() {
 		behavior: 'instant',
 		includePathname: true,
 	});
+	const navigate = useNavigate();
 
 	const isAuth = useLoginStore(state => state.isAuth);
-
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (!isAuth) {

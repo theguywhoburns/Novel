@@ -39,7 +39,7 @@ interface IUseUsersStore {
 	setDirection: (direction: Direction) => void;
 
 	getAllUsers: () => Promise<void>;
-	getFilteredUsers: (filter: Filter) => Promise<void>;
+	getFilteredUsers: (userId: userId, filter: Filter) => Promise<void>;
 	getUserById: (
 		userId: userId,
 		setUser: (user: IUser) => void
@@ -89,10 +89,8 @@ export const useUsersStore = create<IUseUsersStore>((set, get) => ({
 		}
 	},
 
-	getFilteredUsers: async filter => {
+	getFilteredUsers: async (userId, filter) => {
 		try {
-			const { userId } = useLoginStore.getState();
-
 			if (!userId) {
 				throw new Error('User ID not found');
 			}

@@ -39,6 +39,8 @@ export const LoginEmailPage = () => {
 	};
 
 	const handleClick = () => {
+		if (!email) return;
+
 		navigate(RouteNames.LOGIN_VERIFICATION_CODE);
 		sendVerificationCode();
 	};

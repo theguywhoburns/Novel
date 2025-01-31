@@ -43,6 +43,8 @@ export const LoginVerificationCodePage = () => {
 	}, []);
 
 	const handleClick = () => {
+		if (!verificationCode) return;
+
 		checkVerificationCode(navigate);
 	};
 

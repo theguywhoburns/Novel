@@ -1,9 +1,9 @@
-import { PlacesList } from '@/components/place/PlacesList/PlacesList';
-import { IconFilter } from '@/icons';
-import { usePlacesStore } from '@/store/places/usePlacesStore';
-import { useEffect, useState } from 'react';
-import { Tabs } from '../../components/ui/Tabs/Tabs';
-import styles from './Places.module.css';
+import { PlacesList } from "@/components/place/PlacesList/PlacesList";
+import { IconFilter } from "@/icons";
+import { usePlacesStore } from "@/store/places/usePlacesStore";
+import { useEffect, useState } from "react";
+import { Tabs } from "../../components/ui/Tabs/Tabs";
+import styles from "./PlacesPage.module.css";
 
 // export const placesObj: Record<string, IPlace[]> = {
 // 	parks: [
@@ -177,40 +177,48 @@ import styles from './Places.module.css';
 // };
 
 export const PlacesPage = () => {
-	const placesObj = usePlacesStore(state => state.placesObj);
-	const getPlacesObj = usePlacesStore(state => state.getPlacesObj);
+  const placesAndTabsObj = usePlacesStore((state) => state.placesAndTabsObj);
+  const getPlacesAndTabsObj = usePlacesStore(
+    (state) => state.getPlacesAndTabsObj
+  );
 
-	const [selectedTab, setSelectedTab] = useState('cafe');
+  const [selectedTab, setSelectedTab] = useState("");
 
-	const tabs = [
-		{ label: 'cafe', displayedLabel: 'Кафе' },
-		{ label: 'bar', displayedLabel: 'Бары' },
-		{ label: 'parks', displayedLabel: 'Парки' },
-		{ label: 'movie', displayedLabel: 'Кино' },
-		{ label: 'exhibition', displayedLabel: 'Выставки' },
-		{ label: 'others', displayedLabel: 'Другое' },
-	];
-
-	useEffect(() => {
-		getPlacesObj();
-	}, []);
-
-	return (
-		<div className={styles.placesPage}>
-			<div className={styles.container}>
-				<button className={styles.filterButton}>
-					<IconFilter />
-				</button>
-				<Tabs
-					tabs={tabs}
-					selectedTab={selectedTab}
-					setSelectedTab={setSelectedTab}
-				/>
-			</div>
-			<div className={styles.titledPlacesList}>
-				<h3 className={styles.title}>Рекомендуемые места</h3>
-				<PlacesList places={placesObj[selectedTab]} />
-			</div>
-		</div>
-	);
+  useEffect(() => {
+    getPlacesAndTabsObj();
+  }, []);
+  useEffect(() => {
+    if (placesAndTabsObj) {
+      const keys = Object.keys(placesAndTabsObj);
+      console.log("Got the folowing places tab labels: ", keys);
+      if (keys.length) setSelectedTab(keys[0]);
+      setSelectedTab(keys[0]);
+      console.log(placesAndTabsObj);
+    }
+  }, [placesAndTabsObj]);
+  return (
+    <div className={styles.placesPage}>
+      <div className={styles.container}>
+        <button className={styles.filterButton}>
+          <IconFilter />
+        </button>
+        {placesAndTabsObj && (
+          <Tabs
+            tabs={Object.entries(placesAndTabsObj).map(([key, value]) => ({
+              label: key,
+              displayedLabel: value.displayLabel,
+            }))}
+            selectedTab={selectedTab}
+            setSelectedTab={(tab: string) => setSelectedTab(tab)}
+          />
+        )}
+      </div>
+      <div className={styles.titledPlacesList}>
+        <h3 className={styles.title}>Рекомендуемые места</h3>
+        {placesAndTabsObj && selectedTab && (
+          <PlacesList places={placesAndTabsObj[selectedTab].places} />
+        )}
+      </div>
+    </div>
+  );
 };

@@ -24,10 +24,33 @@ export interface Theme {
 	white: string;
 	semi_transparent_white: string;
 	grey: string;
+	dark_grey: string;
 	green: string;
+	red: string;
+	orange_gradient: string;
 }
 
-export const themes = {
+const baseColors = {
+	white: '#FDFEFE',
+	semi_transparent_white: '#FFFFFF4D',
+	grey: '#C8CDDF',
+	dark_grey: '#575757',
+	green: '#75F947',
+	red: '#FF1B41',
+	orange_gradient: `
+		linear-gradient(
+			to right, 
+			#FFF8F8EB -200%,
+			#F4CD76 -30%, 
+			#FF627E 48%,
+			#FF627E 52%,
+			#F4CD76 130%, 
+			#FFF8F8EB 200%
+		)
+	`,
+};
+
+export const themes: Record<ThemeType, Theme> = {
 	light: {
 		background_color: '#FDFEFE',
 		accent_color: '#FB847B',
@@ -42,17 +65,13 @@ export const themes = {
 		settings_modal_background_color: '#FDFEFE',
 		separator_color: '#C8CDDF',
 		list_item_background_color: '#F9FAFD',
+
 		icon_linear_gradient_stop_1: '#FF627E',
 		icon_linear_gradient_stop_2: '#F4CD76',
+
 		rounded_button_linear_gradiend_1: '#F4CD76',
 		rounded_button_linear_gradiend_2: '#FF627E',
-
-		white: '#FDFEFE',
-		semi_transparent_white: '#FFFFFF4D',
-		grey: '#C8CDDF',
-		dark_grey: '#575757',
-		green: '#75F947',
-		red: '#FF1B41',
+		...baseColors,
 	},
 	dark: {
 		background_color: '#0B1034',
@@ -75,12 +94,6 @@ export const themes = {
 
 		rounded_button_linear_gradiend_1: '#C50AFC',
 		rounded_button_linear_gradiend_2: '#6A45D0',
-
-		white: '#FDFEFE',
-		semi_transparent_white: '#FFFFFF4D',
-		grey: '#C8CDDF',
-		dark_grey: '#575757',
-		green: '#75F947',
-		red: '#FF1B41',
+		...baseColors,
 	},
-} as const;
+};

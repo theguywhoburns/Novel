@@ -129,10 +129,12 @@ export const UserCardDetailed = ({
 						'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ'
 					}
 				/>
-				<UserActionButtons
-					className={styles.actions}
-					navigateTo={RouteNames.HOME}
-				/>
+				{userId !== visitingUser?.id && (
+					<UserActionButtons
+						className={styles.actions}
+						navigateTo={RouteNames.HOME}
+					/>
+				)}
 			</div>
 
 			<div className={styles.infoContainer}>

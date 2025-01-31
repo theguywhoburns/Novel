@@ -17,6 +17,8 @@ export const LoginGenderPage = () => {
 	const setGender = useLoginStore(state => state.setGender);
 
 	const handleClick = () => {
+		if (!gender) return;
+
 		navigate(RouteNames.LOGIN_DESCRIPTION);
 	};
 

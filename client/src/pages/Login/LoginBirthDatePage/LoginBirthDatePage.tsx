@@ -28,6 +28,8 @@ export const LoginBirthDatePage = () => {
 	}, []);
 
 	const handleClick = () => {
+		if (!birthDate) return;
+
 		navigate(RouteNames.LOGIN_PHOTOS);
 	};
 
