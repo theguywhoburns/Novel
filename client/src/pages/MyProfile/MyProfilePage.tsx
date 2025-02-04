@@ -1,4 +1,4 @@
-import { RoundedButton } from '@/components/ui/RoundedButton/RoundedButton';
+import { OutlinedBanner } from '@/components/subscription/OutlinedBanner/OutlinedBanner';
 import { PowerUpButton } from '@/components/user/PowerUpButton/PowerUpButton';
 import {
 	IconIncognito,
@@ -9,6 +9,7 @@ import {
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { useUsersStore } from '@/store/users/useUsersStore';
 import { useTheme } from '@/theme';
+import { themes } from '@/theme/themes';
 import { useEffect } from 'react';
 import styles from './MyProfilePage.module.css';
 
@@ -60,20 +61,18 @@ export const MyProfilePage = () => {
 					</PowerUpButton>
 				</div>
 
-				<div
-					className={styles.banner}
-					style={{ border: `1px solid ${theme.accent_color}` }}
-				>
-					<h3 className={styles.title} style={{ color: theme.accent_color }}>
-						Базовая подписка
-					</h3>
-					<ul className={styles.list} style={{ color: theme.accent_color }}>
-						<li>Фильтр по возрасту и расстоянию</li>
-						<li>Безлимитное количество свайпов</li>
-						<li>Уменьшение комиссии на кристаллы</li>
-					</ul>
-					<RoundedButton onClick={handleClick}>От 100 р</RoundedButton>
-				</div>
+				<OutlinedBanner
+					title='Базовая подписка'
+					listData={[
+						'Фильтр по возрасту и расстоянию',
+						'Безлимитное количество свайпов',
+						'Уменьшение комиссии на кристаллы',
+					]}
+					price={100}
+					color={themes['light'].accent_color}
+					gradientColor={theme.orange_gradient}
+					onClick={handleClick}
+				/>
 			</div>
 		</div>
 	);

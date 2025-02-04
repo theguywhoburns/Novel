@@ -1,6 +1,7 @@
 import { IconMale } from '@/icons';
 import { Gender } from '@/store/login/useLoginStore';
 import { useTheme } from '@/theme';
+import { Keyboard } from '@capacitor/keyboard';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
@@ -39,25 +40,25 @@ const GenderInput = ({ gender, setGender }: IGenderInput) => {
 		}
 	}, [gender]);
 
+	const hideKeyboard = async () => {
+		await Keyboard.hide();
+	};
+
 	const handleSelectMale = async () => {
 		if (gender !== 'male') {
-			setGender('male');
+			await hideKeyboard();
 			maleInput?.focus();
-			// await Keyboard.hide();
+			setGender('male');
 		}
 	};
 
 	const handleSelectFemale = async () => {
 		if (gender !== 'female') {
-			setGender('female');
+			await hideKeyboard();
 			femaleInput?.focus();
-			// await Keyboard.hide();
+			setGender('female');
 		}
 	};
-
-	// const hideKeyboard = async () => {
-	// 	await Keyboard.hide();
-	// };
 
 	return (
 		<Box sx={{ display: 'flex', gap: 2 }}>

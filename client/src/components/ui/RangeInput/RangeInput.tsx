@@ -1,6 +1,6 @@
 import { useTheme } from '@/theme';
 import { Slider } from '@mui/material';
-import { Fragment } from 'react/jsx-runtime';
+import { Fragment } from 'react';
 import styles from './RangeInput.module.css';
 
 export interface IRangeInput<T extends Array<number>> {
@@ -10,7 +10,7 @@ export interface IRangeInput<T extends Array<number>> {
 	min: number;
 	max: number;
 	step?: number;
-	unit: string;
+	unit: string | ((value: number) => string);
 	width?: number | string;
 }
 
@@ -38,6 +38,13 @@ export const RangeInput = <T extends Array<number>>({
 		setValues(typedNewValue);
 	};
 
+	const getUnit = (value: number) => {
+		if (typeof unit === 'function') {
+			return unit(value);
+		}
+		return unit;
+	};
+
 	return (
 		<div className={styles.container} style={{ width }}>
 			<div className={styles.labelAndValue}>
@@ -47,7 +54,7 @@ export const RangeInput = <T extends Array<number>>({
 						values?.map((val, index) => (
 							<Fragment key={index}>
 								{index > 0 && ' - '}
-								{val} {unit}
+								{val} {getUnit(val)}
 							</Fragment>
 						))}
 				</span>

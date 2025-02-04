@@ -38,15 +38,11 @@ const baseColors = {
 	green: '#75F947',
 	red: '#FF1B41',
 	orange_gradient: `
-		linear-gradient(
-			to right, 
-			#FFF8F8EB -200%,
-			#F4CD76 -30%, 
-			#FF627E 48%,
-			#FF627E 52%,
-			#F4CD76 130%, 
-			#FFF8F8EB 200%
-		)
+	 radial-gradient(
+    circle at center,
+    #FF627E 0%,
+    #F4CD76 200%
+   )
 	`,
 };
 

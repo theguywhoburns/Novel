@@ -10,7 +10,7 @@ export const ProfileHeader = () => {
 	const myProfileTitle = 'Редактирование';
 	const otherProfileTitle = 'Профиль';
 
-	const isMyProfile = Number(userId) !== Number(visitingUser?.id);
+	const isMyProfile = Number(userId) === Number(visitingUser?.id);
 
 	const title = isMyProfile ? myProfileTitle : otherProfileTitle;
 

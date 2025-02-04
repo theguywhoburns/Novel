@@ -1,10 +1,19 @@
+import { RouteBase } from '@/routes';
+import { useNavigate } from 'react-router-dom';
 import { Pair } from '../../Pair/Pair';
 import { INewPair } from '../NewPairsList';
 import styles from './NewPairCard.module.css';
 
-export const NewPairCard = ({ imgSrc, name, age }: INewPair) => {
+export const NewPairCard = ({ id, imgSrc, name, age }: INewPair) => {
+	const navigate = useNavigate();
+
+	const handleClick = () => {
+		navigate(`${RouteBase.PROFILE}/${id}`);
+	};
+
 	return (
 		<Pair
+			className={styles.newPairCard}
 			renderImage={() => (
 				<img
 					className={styles.img}
@@ -17,10 +26,11 @@ export const NewPairCard = ({ imgSrc, name, age }: INewPair) => {
 			)}
 			renderText={() => (
 				<p className={styles.nameAndAge}>
-					<span className={styles.name}> {name},</span>
+					<span className={styles.name}>{name},</span>
 					<span className={styles.age}>{age}</span>
 				</p>
 			)}
+			onClick={handleClick}
 			isButton={false}
 		/>
 	);

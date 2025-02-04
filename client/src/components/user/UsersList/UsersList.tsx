@@ -28,202 +28,20 @@ export interface IUser {
 	interests: string[];
 }
 
-export const mockUsers = [
-	// mock data, must be IUser[] type
-	{
-		id: 1,
-		imgSrc:
-			'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ',
-		isPopular: true,
-		name: 'John Doe 1',
-		lat: 40.7128,
-		lon: -74.006,
-		age: 25,
-		searchGoal: 'Family',
-		jobPosition: 'Engineer',
-		distance: '5 miles away',
-		isVerified: true,
-		gender: 'male',
-		city: 'New York',
-		description:
-			'I am a software engineer with a passion for coding and problem-solving.',
-		main: [
-			{ id: '1', Icon: null, children: 'Coding' },
-			{ id: '2', Icon: null, children: 'Gaming' },
-			{ id: '3', Icon: null, children: 'Hiking' },
-		],
-		languages: [
-			{ id: '1', Icon: null, children: 'English' },
-			{ id: '2', Icon: null, children: 'Spanish' },
-		],
-		interests: [
-			{ id: '1', Icon: null, children: 'Technology' },
-			{ id: '2', Icon: null, children: 'Sports' },
-			{ id: '3', Icon: null, children: 'Music' },
-		],
-	},
-	{
-		id: 2,
-		imgSrc:
-			'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ',
-		isPopular: false,
-		name: 'John Doe 2',
-		lat: 40.7128,
-		lon: -74.006,
-		age: 25,
-		searchGoal: 'Husband',
-		jobPosition: 'Engineer',
-		distance: '5 miles away',
-		isVerified: false,
-		gender: 'male',
-		city: 'Los Angeles',
-		description:
-			'I am a software engineer with a passion for coding and problem-solving.',
-		main: [
-			{ id: '1', Icon: null, children: 'Coding' },
-			{ id: '2', Icon: null, children: 'Gaming' },
-			{ id: '3', Icon: null, children: 'Cooking' },
-		],
-		languages: [
-			{ id: '1', Icon: null, children: 'English' },
-			{ id: '2', Icon: null, children: 'French' },
-		],
-		interests: [
-			{ id: '1', Icon: null, children: 'Technology' },
-			{ id: '2', Icon: null, children: 'Sports' },
-			{ id: '3', Icon: null, children: 'Travel' },
-		],
-	},
-	{
-		id: 3,
-		imgSrc:
-			'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ',
-		isPopular: true,
-		name: 'John Doe 3',
-		lat: 40.7128,
-		lon: -74.006,
-		age: 25,
-		searchGoal: 'Love',
-		jobPosition: 'Engineer',
-		distance: '5 miles away',
-		isVerified: true,
-		gender: 'male',
-		city: 'Chicago',
-		description:
-			'I am a software engineer with a passion for coding and problem-solving.',
-		main: [
-			{ id: '1', Icon: null, children: 'Coding' },
-			{ id: '2', Icon: null, children: 'Gaming' },
-			{ id: '3', Icon: null, children: 'Reading' },
-		],
-		languages: [
-			{ id: '1', Icon: null, children: 'English' },
-			{ id: '2', Icon: null, children: 'German' },
-		],
-		interests: [
-			{ id: '1', Icon: null, children: 'Technology' },
-			{ id: '2', Icon: null, children: 'Sports' },
-			{ id: '3', Icon: null, children: 'History' },
-		],
-	},
-	{
-		id: 4,
-		imgSrc:
-			'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ',
-		isPopular: false,
-		name: 'John Doe 4',
-		lat: 40.7128,
-		lon: -74.006,
-		age: 25,
-		searchGoal: 'Friends',
-		jobPosition: 'Engineer',
-		distance: '5 miles away',
-		isVerified: false,
-		gender: 'male',
-		city: 'Houston',
-		description:
-			'I am a software engineer with a passion for coding and problem-solving.',
-		main: [
-			{ id: '1', Icon: null, children: 'Coding' },
-			{ id: '2', Icon: null, children: 'Gaming' },
-			{ id: '3', Icon: null, children: 'Sports' },
-		],
-		languages: [
-			{ id: '1', Icon: null, children: 'English' },
-			{ id: '2', Icon: null, children: 'Italian' },
-		],
-		interests: [
-			{ id: '1', Icon: null, children: 'Technology' },
-			{ id: '2', Icon: null, children: 'Sports' },
-			{ id: '3', Icon: null, children: 'Music' },
-		],
-	},
-	{
-		id: 5,
-		imgSrc:
-			'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ',
-		isPopular: true,
-		name: 'John Doe 5',
-		lat: 40.7128,
-		lon: -74.006,
-		age: 25,
-		searchGoal: 'New people',
-		jobPosition: 'Engineer',
-		distance: '5 miles away',
-		isVerified: true,
-		gender: 'male',
-		city: 'Phoenix',
-		description:
-			'I am a software engineer with a passion for coding and problem-solving.',
-		main: [
-			{ id: '1', Icon: null, children: 'Coding' },
-			{ id: '2', Icon: null, children: 'Gaming' },
-			{ id: '3', Icon: null, children: 'Travel' },
-		],
-		languages: [
-			{ id: '1', Icon: null, children: 'English' },
-			{ id: '2', Icon: null, children: 'Japanese' },
-		],
-		interests: [
-			{ id: '1', Icon: null, children: 'Technology' },
-			{ id: '2', Icon: null, children: 'Sports' },
-			{ id: '3', Icon: null, children: 'Cooking' },
-		],
-	},
-];
-
-export interface IUserActions {
-	handleLike: () => void;
-	handleDislike: () => void;
+interface IUsersList {
+	users: IUser[] | null;
 }
 
-export const UsersList = ({ users }: { users: IUser[] | null }) => {
+export const UsersList = ({ users }: IUsersList) => {
 	const currentIndex = useUsersStore(state => state.currentIndex);
 	const nextIndex = useUsersStore(state => state.nextIndex);
 	const direction = useUsersStore(state => state.direction);
 
-	const visitingUserId = useUsersStore(state => state.visitingUserId);
 	const setVisitingUserId = useUsersStore(state => state.setVisitingUserId);
 
 	const navigate = useNavigate();
 
 	const { handleLike, handleDislike } = useUserActions({});
-
-	const handleClick = () => {
-		if (visitingUserId) {
-			setVisitingUserId(null);
-		} else {
-			setVisitingUserId(Number(id));
-			navigate(`${RouteBase.PROFILE}/${id}`);
-		}
-	};
-
-	const handlers = useSwipeable({
-		onSwipedLeft: handleDislike,
-		onSwipedRight: handleLike,
-		preventScrollOnSwipe: true,
-		trackMouse: true,
-	});
 
 	const {
 		id,
@@ -235,6 +53,18 @@ export const UsersList = ({ users }: { users: IUser[] | null }) => {
 		jobPosition,
 		distance,
 	} = users?.[currentIndex] ?? {};
+
+	const handleClick = () => {
+		setVisitingUserId(Number(id));
+		navigate(`${RouteBase.PROFILE}/${id}`);
+	};
+
+	const handlers = useSwipeable({
+		onSwipedLeft: handleDislike,
+		onSwipedRight: handleLike,
+		preventScrollOnSwipe: true,
+		trackMouse: true,
+	});
 
 	return (
 		<div className={styles.usersList} {...handlers}>
@@ -255,17 +85,19 @@ export const UsersList = ({ users }: { users: IUser[] | null }) => {
 				}}
 				transition={{ duration: 0.5 }}
 			>
-				<UserCard
-					style={{ position: 'absolute', top: 0, left: 0 }}
-					imgSrc={users?.[nextIndex]?.imgSrc ?? ''}
-					isPopular={users?.[nextIndex]?.isPopular ?? false}
-					name={users?.[nextIndex]?.name ?? 'Ты долистал-(а) до конца'}
-					age={users?.[nextIndex]?.age ?? 0}
-					search={users?.[nextIndex]?.searchGoal ?? ''}
-					job={users?.[nextIndex]?.jobPosition ?? ''}
-					distance={users?.[nextIndex]?.distance ?? ''}
-					isDraggable={false}
-				/>
+				{users?.[nextIndex] && (
+					<UserCard
+						style={{ position: 'absolute', inset: 0 }}
+						imgSrc={users?.[nextIndex]?.imgSrc ?? ''}
+						isPopular={users?.[nextIndex]?.isPopular ?? false}
+						name={users?.[nextIndex]?.name ?? 'Ты долистал-(а) до конца'}
+						age={users?.[nextIndex]?.age ?? 0}
+						search={users?.[nextIndex]?.searchGoal ?? ''}
+						job={users?.[nextIndex]?.jobPosition ?? ''}
+						distance={users?.[nextIndex]?.distance ?? ''}
+						isDraggable={false}
+					/>
+				)}
 				<UserCard
 					imgSrc={imgSrc}
 					isPopular={isPopular}

@@ -14,8 +14,8 @@ export const useUserActions = ({ navigateTo }: IUseUserActions) => {
 	const dislikeUser = useUsersStore(state => state.dislikeUser);
 
 	const currentIndex = useUsersStore(state => state.currentIndex);
-
 	const setCurrentIndex = useUsersStore(state => state.setCurrentIndex);
+
 	const setNextIndex = useUsersStore(state => state.setNextIndex);
 	const setDirection = useUsersStore(state => state.setDirection);
 
@@ -25,7 +25,7 @@ export const useUserActions = ({ navigateTo }: IUseUserActions) => {
 		setCurrentIndex(prevIndex =>
 			prevIndex < users.length - 1 ? prevIndex + 1 : prevIndex
 		);
-		setNextIndex(currentIndex + 2);
+		setNextIndex(currentIndex + 1);
 
 		navigateTo && navigate(navigateTo);
 	};

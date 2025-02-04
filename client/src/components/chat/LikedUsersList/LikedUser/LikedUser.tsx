@@ -1,5 +1,7 @@
 import { IUser } from '@/components/user/UsersList/UsersList';
+import { RouteBase } from '@/routes';
 import { useTheme } from '@/theme';
+import { useNavigate } from 'react-router-dom';
 import styles from './LikedUser.module.css';
 
 export interface ILikedUser
@@ -7,11 +9,16 @@ export interface ILikedUser
 
 export const LikedUser = ({ ...user }: ILikedUser) => {
 	const theme = useTheme();
+	const navigate = useNavigate();
 
-	const { imgSrc, name, age } = user;
+	const { id, imgSrc, name, age } = user;
+
+	const handleClick = () => {
+		navigate(`${RouteBase.PROFILE}/${id}`);
+	};
 
 	return (
-		<li className={styles.likedUser}>
+		<li className={styles.likedUser} onClick={handleClick}>
 			<img
 				className={styles.img}
 				src={

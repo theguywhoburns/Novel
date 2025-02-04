@@ -1,3 +1,4 @@
+import { useThemeStore } from '@/store/theme/useThemeStore';
 import { useTheme } from '@/theme';
 import { ToggleButtonGroup, ToggleButtonGroupProps } from '@mui/material';
 import { RoundedButton } from '../RoundedButton/RoundedButton';
@@ -19,6 +20,12 @@ export const SwitchModeButtonGroup = <T extends string>({
 	...props
 }: ISwitchModeButtonGroupProps<T>) => {
 	const theme = useTheme();
+	const themeVariant = useThemeStore(state => state.theme);
+
+	const shadow =
+		themeVariant === 'light'
+			? '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)'
+			: '0px 3px 1px -2px rgba(255,255,255,0.1), 0px 2px 2px 0px rgba(255,255,255,0.1), 0px 1px 5px 0px rgba(255,255,255,0.1)';
 
 	return (
 		<ToggleButtonGroup
@@ -39,6 +46,7 @@ export const SwitchModeButtonGroup = <T extends string>({
 						padding: '7px 30px',
 						margin: '0 -10px',
 						zIndex: value === val ? 2 : 1,
+						boxShadow: value === val ? shadow : 'none',
 					}}
 					onClick={() => setValue(val)}
 					variant={value === val ? 'contained' : 'text'}

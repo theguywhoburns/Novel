@@ -1,14 +1,11 @@
-.pair {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	max-width: 105px;
-	width: 100%;
-	overflow: hidden;
+.newPairCard:hover {
+	transition: 0.3s;
+	cursor: pointer;
+	opacity: 0.85;
 }
 
 .img {
-	aspect-ratio: 81 / 105;
+	aspect-ratio: 81 / 106;
 	width: 81.24px;
 	height: auto;
 	border-radius: 16px;

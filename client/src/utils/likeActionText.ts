@@ -20,12 +20,23 @@ export const getActionText = (
 
 	const { pluralForms } = config;
 
-	const pluralForm =
-		selectedUsersLength === 1
-			? pluralForms[0] // If 1, use singular
-			: selectedUsersLength > 1 && selectedUsersLength < 5
-			? pluralForms[1] // If from 2 to 4, use dual
-			: pluralForms[2]; // Otherwise use plural form
+	// Get the last digit of selectedUsersLength
+	const lastDigit = selectedUsersLength % 10;
+	const lastTwoDigits = selectedUsersLength % 100;
+
+	let pluralForm = pluralForms[2];
+
+	if (lastTwoDigits > 10 && lastTwoDigits < 15) {
+		pluralForm = pluralForms[2];
+	} else {
+		if (lastDigit === 1) {
+			pluralForm = pluralForms[0];
+		} else if (lastDigit >= 2 && lastDigit <= 4) {
+			pluralForm = pluralForms[1];
+		} else {
+			pluralForm = pluralForms[2];
+		}
+	}
 
 	return `У Вас ${selectedUsersLength} ${pluralForm}`;
 };

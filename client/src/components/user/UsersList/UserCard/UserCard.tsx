@@ -1,4 +1,5 @@
 import { IconPopular } from '@/icons/Popular';
+import { useUsersStore } from '@/store/users/useUsersStore';
 import { useTheme } from '@/theme';
 import { motion, useAnimation, useMotionValue } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
@@ -16,7 +17,7 @@ export interface IUserCard {
 	search?: string;
 	job?: string;
 	distance?: string;
-	direction?: 'left' | 'right' | '';
+	direction?: Direction;
 	isDraggable?: boolean;
 	style?: React.CSSProperties;
 	onClick?: () => void;
@@ -40,12 +41,13 @@ export const UserCard = ({
 	const controls = useAnimation();
 
 	const [constrained, setConstrained] = useState(true);
-	const [direction, setDirection] = useState<Direction>(
-		x.get() > 0 ? 'right' : x.get() < 0 ? 'left' : null
-	);
+
+	const direction = useUsersStore(state => state.direction);
+	const setDirection = useUsersStore(state => state.setDirection);
+
 	const [velocity, setVelocity] = useState<number>();
 
-	const cardRef = useRef<HTMLLIElement | null>(null);
+	const cardRef = useRef<HTMLDivElement | null>(null);
 
 	const getVote = (childRect: DOMRect, parentRect: DOMRect) => {
 		return parentRect.left >= childRect.right
@@ -72,10 +74,11 @@ export const UserCard = ({
 	};
 
 	const flyAway = (min: number) => {
-		const flyAwayDistance = (direction: 'left' | 'right') => {
+		const flyAwayDistance = (direction: Direction) => {
 			const parentWidth = (cardRef.current
 				?.parentNode as HTMLElement).getBoundingClientRect().width;
 			const childWidth = cardRef.current!.getBoundingClientRect().width;
+
 			return direction === 'left'
 				? -parentWidth! / 2 - childWidth! / 2
 				: parentWidth! / 2 + childWidth! / 2;
@@ -97,7 +100,8 @@ export const UserCard = ({
 					.parentNode as HTMLElement)!.getBoundingClientRect();
 				const result = getVote(childRect, parentRect);
 				result !== undefined;
-				setDirection(x.get() > 0 ? 'right' : x.get() < 0 ? 'left' : null);
+				const newDirection = getDirection();
+				setDirection(newDirection);
 			}
 		});
 
@@ -151,9 +155,14 @@ export const UserCard = ({
 			)
 		`;
 
+	useEffect(() => {
+		console.log(direction);
+	}, [direction]);
+
 	return (
 		<motion.div
 			className={styles.userCard}
+			ref={cardRef}
 			style={{
 				...style,
 				x,
