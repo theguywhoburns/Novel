@@ -1,6 +1,7 @@
 import { IconPopular } from '@/icons/Popular';
 import { useUsersStore } from '@/store/users/useUsersStore';
 import { useTheme } from '@/theme';
+import { getAvatar } from '@/utils/getAvatar';
 import { motion, useAnimation, useMotionValue } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { MarkSvg } from './MarkSvg/MarkSvg';
@@ -10,7 +11,7 @@ import { UserCardTag } from './UserCardTag/UserCardTag';
 export type Direction = 'left' | 'right' | null;
 
 export interface IUserCard {
-	imgSrc?: string;
+	uploadedImages?: string;
 	isPopular?: boolean;
 	name?: string;
 	age?: number;
@@ -24,7 +25,7 @@ export interface IUserCard {
 }
 
 export const UserCard = ({
-	imgSrc,
+	uploadedImages,
 	isPopular,
 	name,
 	age,
@@ -155,9 +156,7 @@ export const UserCard = ({
 			)
 		`;
 
-	useEffect(() => {
-		console.log(direction);
-	}, [direction]);
+	const avatarUrl = getAvatar(uploadedImages as string);
 
 	return (
 		<motion.div
@@ -206,7 +205,7 @@ export const UserCard = ({
 			<img
 				className={styles.img}
 				src={
-					imgSrc ||
+					avatarUrl ||
 					'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ'
 				}
 			/>

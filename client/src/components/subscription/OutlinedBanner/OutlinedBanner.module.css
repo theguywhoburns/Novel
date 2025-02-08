@@ -1,6 +1,7 @@
 .bannerWrapper {
 	padding: 1px;
 	border-radius: 13px;
+	user-select: none;
 }
 
 .banner {
@@ -35,5 +36,5 @@
 }
 
 .list li::marker {
-	color: #fb847b;
+	color: var(--marker-color);
 }

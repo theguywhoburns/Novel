@@ -37,7 +37,7 @@ export const LoginPhotosPage = () => {
 	};
 
 	const handleClick = () => {
-		if (!uploadedImages.length) return;
+		if (!uploadedImages[3]) return;
 
 		navigate(RouteNames.LOGIN_GENDER);
 	};

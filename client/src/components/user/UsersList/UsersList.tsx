@@ -10,7 +10,7 @@ import styles from './UsersList.module.css';
 
 export interface IUser {
 	id: number;
-	imgSrc: string;
+	uploadedImages: string;
 	isPopular: boolean;
 	name: string;
 	age: number;
@@ -45,7 +45,7 @@ export const UsersList = ({ users }: IUsersList) => {
 
 	const {
 		id,
-		imgSrc,
+		uploadedImages,
 		isPopular,
 		name,
 		age,
@@ -88,7 +88,7 @@ export const UsersList = ({ users }: IUsersList) => {
 				{users?.[nextIndex] && (
 					<UserCard
 						style={{ position: 'absolute', inset: 0 }}
-						imgSrc={users?.[nextIndex]?.imgSrc ?? ''}
+						uploadedImages={users?.[nextIndex]?.uploadedImages ?? ''}
 						isPopular={users?.[nextIndex]?.isPopular ?? false}
 						name={users?.[nextIndex]?.name ?? 'Ты долистал-(а) до конца'}
 						age={users?.[nextIndex]?.age ?? 0}
@@ -99,7 +99,7 @@ export const UsersList = ({ users }: IUsersList) => {
 					/>
 				)}
 				<UserCard
-					imgSrc={imgSrc}
+					uploadedImages={uploadedImages}
 					isPopular={isPopular}
 					name={name}
 					age={age}

@@ -32,7 +32,7 @@ export const SettingsPage = () => {
 
 	useEffect(() => {
 		getSettingsByUser(userId);
-	}, []);
+	}, [userId]);
 
 	const handleSettingsChange = useCallback(
 		(newSettings: Partial<ISettingsState>) => {

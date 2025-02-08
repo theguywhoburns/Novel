@@ -1,0 +1,28 @@
+.container {
+	position: relative;
+	width: 100%;
+}
+
+.swipeableContainer {
+	overflow: hidden;
+	width: 100%;
+}
+
+.indicators {
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+	gap: 4px;
+}
+
+.indicator {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.indicator.active {
+	width: 24px;
+	border-radius: 3px;
+}

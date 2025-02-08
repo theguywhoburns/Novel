@@ -30,7 +30,7 @@ export const OutlinedBanner = ({
 				<h3 className={styles.title} style={{ backgroundImage: gradientColor }}>
 					{title}
 				</h3>
-				<ul className={styles.list} style={{ color }}>
+				<ul className={styles.list} style={{ color, '--marker-color': color }}>
 					{listData.map(item => (
 						<li key={item}>{item}</li>
 					))}

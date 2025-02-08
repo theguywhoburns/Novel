@@ -1,17 +1,17 @@
 import { NoDataText } from '@/components/ui/NoDataText/NoDataText';
 import { UserActionButtons } from '@/components/user/UserActionButtons/UserActionButtons';
 import { UsersList } from '@/components/user/UsersList/UsersList';
-import { useLoginStore } from '@/store/login/useLoginStore';
 import { useSettingsStore } from '@/store/settings/useSettingsStore';
 import { useUsersStore } from '@/store/users/useUsersStore';
 import { useTheme } from '@/theme';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styles from './Home.module.css';
+import { UserId } from '@/store/login/useLoginStore';
 
 export const HomePage = () => {
 	const theme = useTheme();
 
-	const userId = useLoginStore(state => state.userId);
+	const userId = localStorage.getItem('userId') as UserId;
 	const users = useUsersStore(state => state.users);
 	const settings = useSettingsStore(state => state.settings);
 
@@ -34,25 +34,13 @@ export const HomePage = () => {
 		showVerifiedOnly,
 	};
 
-	const [settingsLoaded, setSettingsLoaded] = useState(false);
-
-	useLayoutEffect(() => {
-		const fetchSettings = async () => {
-			await getSettingsByUser(userId);
-			console.log('SETTINGS: ', settings);
-			setSettingsLoaded(true);
-		};
-
-		fetchSettings();
+	useEffect(() => {
+		getSettingsByUser(userId);
 	}, [userId]);
 
 	useEffect(() => {
-		console.log('FILTER: ', filter);
-		if (settingsLoaded) {
-			getFilteredUsers(userId, filter);
-			console.log('filtered users: ', users);
-		}
-	}, [userId, settingsLoaded]);
+		getFilteredUsers(userId, filter);
+	}, [userId]);
 
 	return (
 		<div

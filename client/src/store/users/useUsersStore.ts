@@ -3,7 +3,7 @@ import { IUser } from '@/components/user/UsersList/UsersList';
 import { NumericTuple } from '@/types/types';
 import axios from 'axios';
 import { create } from 'zustand';
-import { useLoginStore, userId } from '../login/useLoginStore';
+import { useLoginStore, UserId } from '../login/useLoginStore';
 import { baseUrl } from '../messenger/useMessengerStore';
 
 export type Filter = {
@@ -14,7 +14,7 @@ export type Filter = {
 	showVerifiedOnly: boolean;
 };
 
-type RateFunction = (ratedId: userId) => Promise<void>;
+type RateFunction = (ratedId: UserId) => Promise<void>;
 
 interface IUseUsersStore {
 	user: IUser;
@@ -39,9 +39,9 @@ interface IUseUsersStore {
 	setDirection: (direction: Direction) => void;
 
 	getAllUsers: () => Promise<void>;
-	getFilteredUsers: (userId: userId, filter: Filter) => Promise<void>;
+	getFilteredUsers: (userId: UserId, filter: Filter) => Promise<void>;
 	getUserById: (
-		userId: userId,
+		userId: UserId,
 		setUser: (user: IUser) => void
 	) => Promise<void>;
 

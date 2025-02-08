@@ -78,7 +78,7 @@ function SheetComp({
 
 	useModal();
 
-	const handleBackdropTap = (e: any) => {
+	const handleBackdropTap = (e: MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 	};
@@ -97,7 +97,10 @@ function SheetComp({
 				</Sheet.Header>
 				<Sheet.Content>{props.children}</Sheet.Content>
 			</Sheet.Container>
-			<Sheet.Backdrop onTap={handleBackdropTap} />
+			<Sheet.Backdrop
+				onTap={handleBackdropTap}
+				onTapStart={handleBackdropTap}
+			/>
 		</>
 	);
 }

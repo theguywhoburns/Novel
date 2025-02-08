@@ -6,7 +6,7 @@ import { baseUrl } from '../messenger/useMessengerStore';
 
 export type Gender = 'male' | 'female' | null;
 
-export type userId = number | null;
+export type UserId = number | null;
 
 export type Image = File | null;
 
@@ -14,8 +14,8 @@ interface IUseLoginStore {
 	isAuth: boolean;
 	setIsAuth: (isAuth: boolean) => void;
 
-	userId: userId;
-	setUserId: (userId: userId) => void;
+	userId: UserId;
+	setUserId: (userId: UserId) => void;
 
 	email: string;
 	setEmail: (email: string) => void;
@@ -78,9 +78,7 @@ export const useLoginStore = create<IUseLoginStore>((set, get) => ({
 	isAuth: localStorage.getItem('userId') ? true : false,
 	setIsAuth: isAuth => set({ isAuth }),
 
-	userId: localStorage.getItem('userId')
-		? Number(localStorage.getItem('userId'))
-		: null,
+	userId: Number(localStorage.getItem('userId')) || null,
 	setUserId: userId => set({ userId }),
 
 	email: '',
@@ -243,28 +241,49 @@ export const useLoginStore = create<IUseLoginStore>((set, get) => ({
 				smoking,
 			} = useLoginStore.getState();
 
-			const response = await axios.post(`${baseUrl}/sign_up`, {
-				email,
-				name,
-				bDate: birthDate,
-				imgSrc: uploadedImages,
-				gender,
-				about: description,
-				interests,
-				zodiacSign,
-				searchGoal,
-				education,
-				familyPlans,
-				sport,
-				alcohol,
-				smoking,
+			const formData = new FormData(); // Create FormData object
+
+			// Append non-image data to FormData
+			formData.append('email', email);
+			formData.append('name', name);
+			formData.append('bDate', birthDate); // Make sure your backend expects 'bDate'
+			formData.append('gender', String(gender));
+			formData.append('about', description);
+			formData.append('interests', JSON.stringify(interests)); // Stringify arrays/objects
+			formData.append('zodiacSign', zodiacSign);
+			formData.append('searchGoal', searchGoal);
+			formData.append('education', education);
+			formData.append('familyPlans', familyPlans);
+			formData.append('sport', sport);
+			formData.append('alcohol', alcohol);
+			formData.append('smoking', smoking);
+
+			// Append images to FormData
+			uploadedImages.forEach((image, index) => {
+				if (image) {
+					formData.append(`image${index}`, image); // Append each image
+				}
+			});
+
+			const response = await axios.post(`${baseUrl}/sign_up`, formData, {
+				// Send FormData
+				headers: {
+					'Content-Type': 'multipart/form-data', // IMPORTANT! Set Content-Type
+				},
 			});
 
 			if (response.status !== 200) {
-				throw new Error(response.statusText);
+				throw new Error(
+					`Sign-up failed: ${response.status} ${response.statusText}`
+				);
 			}
+
+			// Handle successful sign-up (e.g., store token, redirect)
+			console.log('Sign-up successful', response.data); // Log response data for debugging
 		} catch (err) {
-			console.error(err);
+			console.error('Sign-up error:', err);
+			alert('Sign-up failed. Please check your information and try again.'); // User-friendly message
+			// Optionally, log the full error details to a logging service
 		}
 	},
 }));
