@@ -1,20 +1,10 @@
-import { config as dotenvConfig } from "dotenv-esm";
-import { getDotenvVariable } from "./utils/utils.js";
-import pg from "pg";
 import fs from "fs";
+import { PGlite } from "@electric-sql/pglite";
 
-dotenvConfig();
+if (!fs.existsSync("./assets/database.db/")) {
+  PGlite.create("./assets/database.db/");
+}
+const db = new PGlite("./assets/database.db/");
+db.exec(fs.readFileSync("database.sql", "utf-8"));
 
-const { Pool } = pg;
-
-const pool = new Pool({
-  user: getDotenvVariable(process.env.DB_USER),
-  password: getDotenvVariable(process.env.DB_PASSWORD),
-  host: getDotenvVariable(process.env.DB_HOST),
-  port: getDotenvVariable(process.env.DB_PORT),
-  database: getDotenvVariable(process.env.DB_NAME),
-});
-
-pool.query(fs.readFileSync("database.sql", "utf-8"));
-
-export { pool as db };
+export { db };

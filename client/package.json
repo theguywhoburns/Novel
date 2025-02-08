@@ -10,9 +10,10 @@
     "lint": "eslint .",
     "dev-sync": "cross-env NODE_ENV=development npx cap sync",
     "sync": "npx cap sync",
-    "initialize": "yarn",
+    "initialize": "npm install",
     "ionic:build": "npm run build",
-    "ionic:serve": "npm run build && vite --host"
+    "ionic:serve": "npm run build && vite --host",
+    "start": "vite --host"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.2",

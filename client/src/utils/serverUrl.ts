@@ -10,15 +10,15 @@ export const getServerUrl = () => {
   if (process.env.NODE_ENV === "development") {
     switch (Capacitor.getPlatform()) {
       case "web":
-        return "localhost";
+        return "51.250.45.70";
       case "ios":
-        return "localhost";
+        return "51.250.45.70";
       case "android":
-        return "172.17.48.1";
+        return "51.250.45.70";
       default:
         throw new Error("Wadafuq, unknown platform");
     }
   } else {
-    return "novel.com";
+    return "51.250.45.70";
   }
 };

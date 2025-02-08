@@ -52,7 +52,7 @@ class UserController {
       const maxAge = showPeopleInAge ? ageRange[1] : 100;
 
       const minDistance = showPeopleInDistance ? distanceRange[0] : 0;
-      const maxDistance = showPeopleInDistance ? distanceRange[1] : 10000000;
+      const maxDistance = showPeopleInDistance ? distanceRange[1] : 1_000_000;
 
       const usersResult = await db.query(
         `SELECT 
@@ -60,8 +60,8 @@ class UserController {
           CASE 
             WHEN s."showMeToMen" = TRUE AND s."showMeToWomen" = TRUE
               THEN 'all'
-            WHEN s."showMeToMen" = TRUE THEN 'male' 
-            WHEN s."showMeToWomen" = TRUE THEN 'female' 
+            WHEN s."showMeToMen" = TRUE AND s."showMeToWomen" = FALSE THEN 'male' 
+            WHEN s."showMeToWomen" = TRUE AND s."showMeToMen" = FALSE THEN 'female' 
             ELSE NULL
           END AS "genderPreference",
           DATE_PART('year', AGE(u."bDate")) AS age
@@ -77,6 +77,8 @@ class UserController {
 
       const users = usersResult.rows;
 
+      console.log('users: ', users);
+
       const ratedUserIdsResult = await db.query(
         `SELECT "ratedId" FROM (
           SELECT "ratedId", "createdAt" FROM likes WHERE "raterId" = $1
@@ -89,6 +91,8 @@ class UserController {
 
       const ratedUserIds = ratedUserIdsResult.rows.map(row => row.ratedId);
 
+      console.log('rated: ', ratedUserIds);
+
       const chatUserIdsResult = await db.query(
         `SELECT "userTwoId" FROM chats WHERE "userOneId" = $1
           UNION
@@ -100,12 +104,16 @@ class UserController {
         row => row.userTwoId || row.userOneId
       );
 
+      console.log('chats: ', chatUserIds);
+
       const currUserGenderResult = await db.query(
         'SELECT gender from users WHERE id = $1',
         [currUserId]
       );
 
       const currUserGender = currUserGenderResult.rows[0].gender;
+
+      console.log('gender: ', currUserGender);
 
       if (!currUserGender) {
         res.status(404).json({ error: "Current users's gender not found" });
@@ -127,6 +135,8 @@ class UserController {
           user.lat,
           user.lon
         );
+
+        console.log('distance: ', distanceToUser);
 
         return (
           distanceToUser >= minDistance &&

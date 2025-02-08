@@ -1,10 +1,15 @@
 import { config as dotenvConfig } from 'dotenv-esm';
 import jwt from "jsonwebtoken";
+import multer from "multer";
 import nodemailer from "nodemailer";
 import { db } from "../db.js";
-import { generateVerificationCode } from '../utils/utils.js';
+import { generateVerificationCode, parseDDMMYYYY } from '../utils/utils.js';
 
 dotenvConfig();
+
+const storage = multer.memoryStorage(); // Store the files in memory
+const upload = multer({ storage });
+
 
 class AuthController {
   async sendVerificationCode(req, res) {
@@ -174,11 +179,13 @@ class AuthController {
 
   async signUp(req, res) {
     try {
+      console.log('req body:', req.body);
+      console.log('req files:', req.files);
+
       const {
         email,
         name,
-        birthDate,
-        uploadedImages,
+        bDate,
         gender,
         description,
         interests,
@@ -195,41 +202,58 @@ class AuthController {
         return res.status(400).json({ error: "Email is required" });
       }
 
+      const formattedBirthDate = parseDDMMYYYY(bDate);
+
+      console.log("BirthDate: ", formattedBirthDate);
+
       const userIdResult = await db.query(
         'SELECT "userId" FROM credentials WHERE email = $1',
         [email]
       );
 
-      const userId = userIdResult.rows[0].userId;
+      if (!userIdResult || userIdResult.rows.length === 0) {
+        return res.status(404).json({ error: "User's ID not found" });
+      }
 
-      console.log("userId: ", userId);
+      const userId = userIdResult.rows[0].userId;
 
       if (!userId) {
         return res.status(404).json({ error: "User's id not found" });
       }
+
+      let imageUrls = [];
+
+      if (req.files && req.files.length > 0) {
+        imageUrls = req.files.map(file => {
+          const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${file.filename}`;
+
+          return imageUrl;
+        });
+      }
+
+      const imageUrlsString = imageUrls.join(';');
 
       const userResult = await db.query(
         `UPDATE users
           SET
             name = $1,
             "bDate" = $2,
-            "uploadedImages" = $3,
-            "gender" = $4,
-            "description" = $5,
-            "interests" = $6,
-            "zodiacSign" = $7,
-            "searchGoal" = $8,
-            "education" = $9,
-            "familyPlans" = $10,
-            "sport" = $11,
-            "alcohol" = $12,
-            "smoke" = $13
-          WHERE id = $14
+            "gender" = $3,
+            "description" = $4,
+            "interests" = $5,
+            "zodiacSign" = $6,
+            "searchGoal" = $7,
+            "education" = $8,
+            "familyPlans" = $9,
+            "sport" = $10,
+            "alcohol" = $11,
+            "smoke" = $12,
+            "uploadedImages" = $14
+          WHERE id = $13
           RETURNING *`,
         [
           name,
-          birthDate,
-          uploadedImages,
+          formattedBirthDate,
           gender,
           description,
           interests,
@@ -240,11 +264,16 @@ class AuthController {
           sport,
           alcohol,
           smoking,
-          userId
+          userId,
+          imageUrlsString
         ]
       );
 
       const user = userResult.rows[0];
+
+      if (!user) {
+        return res.status(500).json({ error: "User update failed" });
+      }
 
       const settingsResult = await db.query(
         'INSERT INTO settings ("userId") VALUES ($1) RETURNING *',
@@ -254,7 +283,7 @@ class AuthController {
       const settings = settingsResult.rows[0];
 
       if (!settings) {
-        return res.status(404).json({ error: "Settings was not created" });
+        return res.status(500).json({ error: "Settings creation failed" });
       }
 
       res.json({ userId: user?.id });

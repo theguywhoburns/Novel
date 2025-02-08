@@ -38,7 +38,7 @@ class SettingsController {
 				return res.status(400).json({ err: "Missing id" });
 			}
 			const settingsResult = await db.query(
-				"SELECT * FROM settings WHERE id = $1",
+				'SELECT * FROM settings WHERE "userId" = $1',
 				[id]
 			);
 			const settings = settingsResult.rows[0];

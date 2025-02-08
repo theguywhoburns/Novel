@@ -34,3 +34,13 @@ export const getDotenvVariable = (name) => {
 
   return value;
 };
+
+export const parseDDMMYYYY = (dateString) => {
+  const day = parseInt(dateString.substring(0, 2));
+  const monthIndex = parseInt(dateString.substring(2, 4)) - 1;
+  const year = parseInt(dateString.substring(4, 8));
+
+  const date = new Date(Date.UTC(year, monthIndex, day, 0, 0, 0, 0));
+
+  return date;
+};
