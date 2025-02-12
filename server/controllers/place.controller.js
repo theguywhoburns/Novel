@@ -99,6 +99,7 @@ class PlaceController {
       let categorizedPlaces = {};
       let counter = 0;
       places.rows.forEach((place) => {
+        place.image = `${req.protocol}://${req.get('host')}/assets/places/${place.image}`;
         if (place.categoryName === undefined || place.categoryName === null) {
           place.categoryName = "Другое";
         }
@@ -127,6 +128,7 @@ class PlaceController {
       const id = req.params.id;
 
       const place = await db.query("SELECT * FROM places WHERE id = $1", [id]);
+      place.rows[0].image = `${req.protocol}://${req.get('host')}/assets/places/${place.rows[0].image}`;
 
       if (!place.rowCount) {
         return res

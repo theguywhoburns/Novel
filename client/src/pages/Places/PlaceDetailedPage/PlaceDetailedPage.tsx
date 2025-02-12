@@ -2,6 +2,7 @@ import { PlaceDetailed } from '@/components/place/PlacesList/Place/PlaceDetailed
 import { usePlacesStore } from '@/store/places/usePlacesStore';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import styles from './PlaceDetailedPage.module.css';
 
 export const PlaceDetailedPage = () => {
 	const { id } = useParams();
@@ -14,7 +15,7 @@ export const PlaceDetailedPage = () => {
 	}, []);
 
 	return (
-		<div>
+		<div className={styles.placeDetailedPage}>
 			{place?.id ? (
 				<PlaceDetailed {...place} />
 			) : (

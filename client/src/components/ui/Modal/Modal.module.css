@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh;
+	height: 100dvh;
 	width: 100vw;
 	padding: 40px;
 	background-color: rgba(0, 0, 0, 0.3);
@@ -23,7 +23,7 @@
 	padding: 30px;
 	border-radius: 10px;
 	overflow-y: auto;
-	max-height: calc(100vh - 60px);
+	max-height: calc(100dvh - 60px);
 	overscroll-behavior: none;
 }
 
@@ -52,8 +52,8 @@
 	}
 	.modal .modalContent {
 		width: 100vw;
-		max-height: 100vh;
-		height: 100vh;
+		max-height: 100dvh;
+		height: 100dvh;
 	}
 }
 

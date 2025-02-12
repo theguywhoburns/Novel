@@ -19,7 +19,7 @@ import { PlaceInfoItem } from './PlaceInfoItem/PlaceInfoItem';
 
 export const PlaceDetailed = ({
 	id,
-	imgSrc,
+	image,
 	name,
 	rate,
 	address,
@@ -39,8 +39,8 @@ export const PlaceDetailed = ({
 		distanceInKm = distance(
 			geoLat,
 			geoLon,
-			position?.geoLat,
-			position?.geoLon,
+			position.geoLat,
+			position.geoLon,
 			'K'
 		).toFixed(2);
 	}
@@ -61,9 +61,9 @@ export const PlaceDetailed = ({
 
 	return (
 		<div className={styles.placeDetailed}>
-			<BottomButtonContainer>
-				<div>
-					<img className={styles.img} src={imgSrc} />
+			<BottomButtonContainer gap='20px'>
+				<div className={styles.container}>
+					<img className={styles.img} src={image} />
 					<h3 className={styles.name} style={{ color: theme.text_color }}>
 						{name}
 					</h3>
@@ -75,15 +75,15 @@ export const PlaceDetailed = ({
 							value={`${address}, ${position ? distanceInKm : '???'} км от вас`}
 							separator=''
 						/>
-						<PlaceInfoItem
-							Icon={<IconClock />}
-							title='Рабочие часы'
-							value={
-								Array.isArray(workingHours) && workingHours.length === 2
-									? `${workingHours[0]} - ${workingHours[1]}`
-									: 'not found'
-							}
-						/>
+
+						{workingHours && (
+							<PlaceInfoItem
+								Icon={<IconClock />}
+								title='Рабочие часы'
+								value={`${workingHours[0]} - ${workingHours[1]}`}
+							/>
+						)}
+
 						{approximateCost && (
 							<PlaceInfoItem
 								Icon={<IconDollar />}
@@ -102,11 +102,11 @@ export const PlaceDetailed = ({
 					</ul>
 				</div>
 
-				{link ? (
+				{link && (
 					<RoundedButton className={styles.button} onClick={handleClick}>
 						Забронировать
 					</RoundedButton>
-				) : null}
+				)}
 			</BottomButtonContainer>
 		</div>
 	);

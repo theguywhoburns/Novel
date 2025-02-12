@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "initialize": "yarn",
+    "initialize": "npm install",
     "websocket": "nodemon websocket.js"
   },
   "keywords": [],

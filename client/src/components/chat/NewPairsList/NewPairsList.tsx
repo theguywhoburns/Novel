@@ -21,7 +21,7 @@ export const NewPairsList = () => {
 
 	return (
 		<>
-			{newPairs.length ? (
+			{[].length ? (
 				<ul className={styles.pairsList}>
 					{newPairs?.map(pair => (
 						<NewPairCard key={pair.id} {...pair} />

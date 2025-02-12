@@ -1,11 +1,11 @@
 import { PowerUpButton } from '@/components/user/PowerUpButton/PowerUpButton';
+import { useUserId } from '@/hooks/useUserId';
 import {
 	IconIncognito,
 	IconPowerUpCrystal,
 	IconRocket,
 	IconVerified,
 } from '@/icons';
-import { useLoginStore } from '@/store/login/useLoginStore';
 import { useUsersStore } from '@/store/users/useUsersStore';
 import { useTheme } from '@/theme';
 import { getAvatar } from '@/utils/getAvatar';
@@ -16,7 +16,8 @@ import styles from './MyProfilePage.module.css';
 export const MyProfilePage = () => {
 	const theme = useTheme();
 
-	const userId = useLoginStore(state => state.userId);
+	const userId = useUserId();
+
 	const user = useUsersStore(state => state.user);
 	const setUser = useUsersStore(state => state.setUser);
 
@@ -37,7 +38,7 @@ export const MyProfilePage = () => {
 
 	return (
 		<div className={styles.myProfilePage}>
-			<div className={styles.container}>
+			<div>
 				<div className={styles.userCard}>
 					<img className={styles.avatar} src={avatarUrl} alt='avatar' />
 					<p className={styles.nameAndAge} style={{ color: theme.dark_grey }}>

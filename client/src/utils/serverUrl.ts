@@ -10,11 +10,11 @@ export const getServerUrl = () => {
   if (process.env.NODE_ENV === "development") {
     switch (Capacitor.getPlatform()) {
       case "web":
-        return "localhost";
+        return "localhost"; // local server ip
       case "ios":
-        return "localhost";
+        return "localhost"; // local server ip
       case "android":
-        return "172.17.48.1";
+        return "172.17.48.1"; // local server ip
       default:
         throw new Error("Wadafuq, unknown platform");
     }

@@ -8,13 +8,10 @@ interface IBottomButtonContainer {
 
 export const BottomButtonContainer = ({
 	children,
-	gap,
+	gap = '50px',
 }: IBottomButtonContainer) => {
 	return (
-		<div
-			className={styles.bottomButtonContainer}
-			style={{ gap: gap ?? '50px' }}
-		>
+		<div className={styles.bottomButtonContainer} style={{ gap }}>
 			{children}
 		</div>
 	);
