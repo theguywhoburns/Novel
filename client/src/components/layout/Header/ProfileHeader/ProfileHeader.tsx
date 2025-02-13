@@ -1,10 +1,10 @@
-import { useLoginStore } from '@/store/login/useLoginStore';
+import { useUserId } from '@/hooks/useUserId';
 import { useUsersStore } from '@/store/users/useUsersStore';
 import { useEffect } from 'react';
 import { BackHeader } from '../BackHeader/BackHeader';
 
 export const ProfileHeader = () => {
-	const userId = useLoginStore(state => state.userId);
+	const userId = useUserId();
 	const visitingUser = useUsersStore(state => state.visitingUser);
 
 	const myProfileTitle = 'Редактирование';

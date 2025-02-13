@@ -1,6 +1,6 @@
 import { Separator } from '@/components/ui/Separator/Separator';
+import { useUserId } from '@/hooks/useUserId';
 import { IconMike, IconSticker } from '@/icons';
-import { useLoginStore } from '@/store/login/useLoginStore';
 import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useTheme } from '@/theme';
 import { IconButton } from '@mui/material';
@@ -33,6 +33,7 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 		ref
 	) => {
 		const theme = useTheme();
+		const userId = useUserId();
 
 		const inputRef = useRef<HTMLInputElement>(null);
 
@@ -55,8 +56,6 @@ export const ChatInput = forwardRef<HTMLDivElement, IChatInput>(
 		const setEditedMessageText = useMessengerStore(
 			state => state.setEditedMessageText
 		);
-
-		const userId = useLoginStore(state => state.userId);
 
 		const recipientId =
 			chat?.userOneId === userId ? chat?.userTwoId : chat?.userOneId;

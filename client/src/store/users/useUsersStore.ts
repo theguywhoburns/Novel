@@ -20,9 +20,6 @@ interface IUseUsersStore {
 	user: IUser;
 	setUser: (user: IUser) => void;
 
-	visitingUserId: number | null;
-	setVisitingUserId: (visitingUserId: number | null) => void;
-
 	visitingUser: IUser | null;
 	setVisitingUser: (visitingUser: IUser | null) => void;
 
@@ -52,9 +49,6 @@ interface IUseUsersStore {
 export const useUsersStore = create<IUseUsersStore>((set, get) => ({
 	user: {} as IUser,
 	setUser: user => set({ user }),
-
-	visitingUserId: null,
-	setVisitingUserId: visitingUserId => set({ visitingUserId }),
 
 	visitingUser: null,
 	setVisitingUser: visitingUser => set({ visitingUser }),

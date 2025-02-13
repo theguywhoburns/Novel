@@ -1,9 +1,11 @@
 import { IconPopular } from '@/icons/Popular';
+import { RouteBase } from '@/routes';
 import { useUsersStore } from '@/store/users/useUsersStore';
 import { useTheme } from '@/theme';
 import { getAvatar } from '@/utils/getAvatar';
 import { motion, useAnimation, useMotionValue } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MarkSvg } from './MarkSvg/MarkSvg';
 import styles from './UserCard.module.css';
 import { UserCardTag } from './UserCardTag/UserCardTag';
@@ -11,6 +13,7 @@ import { UserCardTag } from './UserCardTag/UserCardTag';
 export type Direction = 'left' | 'right' | null;
 
 export interface IUserCard {
+	id: number | undefined;
 	uploadedImages?: string;
 	isPopular?: boolean;
 	name?: string;
@@ -21,10 +24,10 @@ export interface IUserCard {
 	direction?: Direction;
 	isDraggable?: boolean;
 	style?: React.CSSProperties;
-	onClick?: () => void;
 }
 
 export const UserCard = ({
+	id,
 	uploadedImages,
 	isPopular,
 	name,
@@ -34,12 +37,13 @@ export const UserCard = ({
 	distance,
 	isDraggable,
 	style,
-	onClick,
 }: IUserCard) => {
 	const theme = useTheme();
 
 	const x = useMotionValue(0);
 	const controls = useAnimation();
+
+	const navigate = useNavigate();
 
 	const [constrained, setConstrained] = useState(true);
 
@@ -91,6 +95,12 @@ export const UserCard = ({
 				x: flyAwayDistance(direction),
 			});
 		}
+	};
+
+	const handleClick = () => {
+		navigate(`${RouteBase.PROFILE}/${id}`, {
+			state: { from: location.pathname },
+		});
 	};
 
 	useEffect(() => {
@@ -172,7 +182,7 @@ export const UserCard = ({
 			drag={isDraggable ? 'x' : false}
 			dragConstraints={constrained && { top: 0, bottom: 0, left: 0, right: 0 }}
 			dragElastic={1}
-			onClick={onClick}
+			onClick={handleClick}
 			onDrag={getTrajectory}
 			onDragEnd={() => flyAway(500)}
 		>

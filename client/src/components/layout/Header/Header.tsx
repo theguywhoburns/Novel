@@ -1,3 +1,4 @@
+import { useUserId } from '@/hooks/useUserId';
 import {
 	IconEdit,
 	IconHeaderGeoTag,
@@ -6,7 +7,6 @@ import {
 	IconShield,
 } from '@/icons';
 import { RouteBase, RouteNames } from '@/routes';
-import { useLoginStore } from '@/store/login/useLoginStore';
 import { useTheme } from '@/theme';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Header.module.css';
@@ -15,7 +15,7 @@ export const Header = () => {
 	const theme = useTheme();
 	const { pathname } = useLocation();
 
-	const userId = useLoginStore(state => state.userId);
+	const userId = useUserId();
 
 	const isMessengerPage = pathname === RouteNames.MESSENGER;
 	const isHomePage = pathname === RouteNames.HOME;

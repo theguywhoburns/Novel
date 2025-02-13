@@ -3,8 +3,10 @@ import { IMessage, Status } from '@/components/chat/ChatsList/Chat/Chat';
 import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useEffect, useRef, useState } from 'react';
 import { getWsUrl } from './config';
+import { useUserId } from '../useUserId';
 
 export const useChatWebSocket = () => {
+	const userId = useUserId();
 	const socket = useRef<WebSocket | null>(null);
 
 	const [isConnected, setIsConnected] = useState(false);
@@ -35,7 +37,7 @@ export const useChatWebSocket = () => {
 
 	const connectToSocket = () => {
 		try {
-			socket.current = new WebSocket(getWsUrl('chat'));
+			socket.current = new WebSocket(getWsUrl(userId, 'chat'));
 
 			socket.current.onopen = () => {
 				console.log('Connected to WebSocket');

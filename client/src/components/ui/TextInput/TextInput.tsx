@@ -64,8 +64,8 @@ export const TextInput = ({
 						lineHeight: '19px',
 						fontWeight: 400,
 						color: theme.text_color,
-						paddingTop: parseInt(paddingY[0].toString()) / 8,
-						paddingBottom: parseInt(paddingY[1].toString()) / 8,
+						paddingTop: parseInt(paddingY[0].toString()) + 'px',
+						paddingBottom: parseInt(paddingY[1].toString()) + 'px',
 
 						'&::before': {
 							borderBottom: `1px solid ${theme.grey} !important`,

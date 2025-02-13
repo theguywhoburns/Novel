@@ -5,6 +5,7 @@ import { useMessengerStore } from '@/store/messenger/useMessengerStore';
 import { useTheme } from '@/theme';
 import { useNavigate } from 'react-router-dom';
 import styles from './Chat.module.css';
+import { getAvatar } from '@/utils/getAvatar';
 
 export type Status = 'sending' | 'sent' | 'read' | 'not sent';
 
@@ -88,12 +89,13 @@ export const Chat = ({
 		};
 
 		setChat(selectedChat);
-		localStorage.setItem('chat', JSON.stringify(selectedChat));
 	};
+	
+	const avatar = getAvatar(imgSrc);
 
 	return (
 		<li className={styles.chat} onClick={handleClick}>
-			<img className={styles.img} src={imgSrc} alt='avatar' />
+			<img className={styles.img} src={avatar} alt='avatar' />
 			<div className={styles.chatInfo}>
 				<div
 					className={styles.nameAgeAndNotifications}

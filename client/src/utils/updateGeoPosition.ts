@@ -96,7 +96,7 @@ export const updateCity = () => {
   const position = useGeoPositionStore.getState().position;
   if (!position) {
     console.log("[updateCity] No position to update city!");
-    useGeoPositionStore.getState().setCity("Королев");
+    useGeoPositionStore.getState().setCity("Королёв");
     return;
   }
 
@@ -123,6 +123,6 @@ export const updateCity = () => {
     })
     .catch((err) => {
       console.error("[updateCity] Failed to resolve the city!", err);
-      useGeoPositionStore.getState().setCity("Королев");
+      useGeoPositionStore.getState().setCity("Королёв");
     });
 };

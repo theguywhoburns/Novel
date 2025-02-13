@@ -2,6 +2,7 @@ import {
 	IRadioModalTrigger,
 	RadioModalTriggerList,
 } from '@/components/ui/RadioModalTriggerList/RadioModalTriggerList';
+import { useUserId } from '@/hooks/useUserId';
 import {
 	IconAlcohol,
 	IconCommunicationStyle,
@@ -25,6 +26,7 @@ import {
 import { useCallback } from 'react';
 
 export const SettingsRadioModalTriggers = () => {
+	const userId = useUserId();
 	const settings = useSettingsStore(state => state.settings);
 	const updateSettings = useSettingsStore(state => state.updateSettings);
 
@@ -47,7 +49,7 @@ export const SettingsRadioModalTriggers = () => {
 
 	const handleSettingsChange = useCallback(
 		(newSettings: Partial<ISettingsState>) => {
-			updateSettings(newSettings);
+			updateSettings(userId, newSettings);
 		},
 		[]
 	);

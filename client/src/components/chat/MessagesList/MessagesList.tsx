@@ -62,10 +62,6 @@ export const MessagesList = ({
 	useEffect(() => console.log(messages), [messages]);
 
 	useEffect(() => {
-		console.log(messages);
-	}, [messages]);
-
-	useEffect(() => {
 		if (messages) {
 			updateMessageStatus(messages.slice(-1)[0]?.id, 'sent');
 		}

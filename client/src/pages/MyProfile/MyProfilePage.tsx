@@ -25,11 +25,11 @@ export const MyProfilePage = () => {
 
 	const { name, age, uploadedImages, isVerified } = user;
 
+	const avatarUrl = getAvatar(uploadedImages);
+
 	useEffect(() => {
 		getUserById(userId, setUser);
-	}, []);
-
-	const avatarUrl = getAvatar(uploadedImages, ';') as string;
+	}, [userId]);
 
 	useEffect(() => {
 		console.log('IMAGES: ', uploadedImages);

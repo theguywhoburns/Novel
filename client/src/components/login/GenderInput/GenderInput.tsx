@@ -80,7 +80,7 @@ const GenderInput = ({ gender, setGender }: IGenderInput) => {
 									width: '100%',
 									height: '100%',
 									borderRadius: 0,
-									marginBottom: 5 / 8,
+									marginBottom: '5px',
 									'&:hover': {
 										backgroundColor: 'transparent',
 									},
@@ -120,7 +120,7 @@ const GenderInput = ({ gender, setGender }: IGenderInput) => {
 						lineHeight: '19px',
 						fontWeight: 400,
 						textAlign: 'center',
-						paddingBottom: 14 / 8,
+						paddingBottom: '14px',
 						caretColor: 'transparent',
 					},
 				}}
@@ -138,7 +138,7 @@ const GenderInput = ({ gender, setGender }: IGenderInput) => {
 									width: '100%',
 									height: '100%',
 									borderRadius: 0,
-									marginBottom: 5 / 8,
+									marginBottom: '5px',
 									'&:hover': {
 										backgroundColor: 'transparent',
 									},
@@ -176,7 +176,7 @@ const GenderInput = ({ gender, setGender }: IGenderInput) => {
 						lineHeight: '19px',
 						fontWeight: 400,
 						textAlign: 'center',
-						paddingBottom: 14 / 8,
+						paddingBottom: '14px',
 						caretColor: 'transparent',
 					},
 				}}

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Pair } from '../../Pair/Pair';
 import { INewPair } from '../NewPairsList';
 import styles from './NewPairCard.module.css';
+import { getAvatar } from '@/utils/getAvatar';
 
 export const NewPairCard = ({ id, imgSrc, name, age }: INewPair) => {
 	const navigate = useNavigate();
@@ -11,16 +12,15 @@ export const NewPairCard = ({ id, imgSrc, name, age }: INewPair) => {
 		navigate(`${RouteBase.PROFILE}/${id}`);
 	};
 
+	const avatar = getAvatar(imgSrc);
+
 	return (
 		<Pair
 			className={styles.newPairCard}
 			renderImage={() => (
 				<img
 					className={styles.img}
-					src={
-						imgSrc ||
-						'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ'
-					}
+					src={avatar}
 					alt='avatar'
 				/>
 			)}

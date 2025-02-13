@@ -89,37 +89,64 @@ class PlaceController {
   async getPlacesByCityName(req, res) {
     try {
       const cityName = req.params.cityName;
+
+      if (!cityName) {
+        return res.status(400).json({ error: "Missing city name" });
+      }
+
       const places = await db.query(
         'SELECT * FROM places WHERE "cityName" = $1',
         [cityName]
       );
 
+      if (places.rowCount === 0) {
+        console.log(`No places found for city ${cityName}`);
+        return res.json({});
+      }
+
       console.log(`Found ${places.rowCount} places for city ${cityName}`);
-      let placeLabelMap = {};
-      let categorizedPlaces = {};
+
+      const categorizedPlaces = {};
       let counter = 0;
+      let othersLabelId = null;
+
+      const placeLabelMap = {};
+
       places.rows.forEach((place) => {
-        place.image = `${req.protocol}://${req.get('host')}/assets/places/${place.image}`;
-        if (place.categoryName === undefined || place.categoryName === null) {
-          place.categoryName = "Другое";
-        }
-        if (placeLabelMap[place.categoryName] === undefined) {
-          const labelId = `_${counter++}`;
-          placeLabelMap[place.categoryName] = labelId;
+        const categoryName = place.categoryName ?? "Другое";
+        const labelId = placeLabelMap[categoryName] || `_${counter++}`;
+        placeLabelMap[categoryName] = labelId;
+
+        if (!categorizedPlaces[labelId]) {
           categorizedPlaces[labelId] = {
-            displayLabel: place.categoryName,
-            places: [place],
+            displayLabel: categoryName,
+            places: [],
           };
-        } else {
-          const labelId = placeLabelMap[place.categoryName];
-          categorizedPlaces[labelId].places.push(place);
+          if (categoryName === "Другое") {
+            othersLabelId = labelId;
+          }
         }
+        place.image = `${req.protocol}://${req.get('host')}/assets/places/${place.image}`;
+        categorizedPlaces[labelId].places.push(place);
       });
 
-      res.json(categorizedPlaces);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: error.message });
+      const orderedCategorizedPlaces = {};
+      if (othersLabelId && categorizedPlaces[othersLabelId]) {
+        Object.keys(categorizedPlaces)
+          .filter(labelId => labelId !== othersLabelId)
+          .forEach(labelId => {
+            orderedCategorizedPlaces[labelId] = categorizedPlaces[labelId];
+          });
+        orderedCategorizedPlaces[othersLabelId] = categorizedPlaces[othersLabelId];
+      } else {
+        Object.keys(categorizedPlaces).forEach(labelId => {
+          orderedCategorizedPlaces[labelId] = categorizedPlaces[labelId];
+        });
+      }
+
+      res.json(orderedCategorizedPlaces);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
     }
   }
 

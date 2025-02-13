@@ -18,6 +18,7 @@ import { router as userRouter } from "./routes/user.routes.js";
 import WebSocketChatServer from "./sockets/chat.websocket.js";
 import WebSocketOnlineStatusServer from "./sockets/online_status.websocket.js";
 
+
 dotenvConfig();
 
 const PORT = process.env.PORT || 4000;
@@ -36,7 +37,7 @@ const imageStorageDirectory = path.join(__dirname, 'uploads');
 await fs.mkdir(imageStorageDirectory, { recursive: true });
 
 app.use('/uploads', (req, res, next) => {
-  res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   next();
 });
 

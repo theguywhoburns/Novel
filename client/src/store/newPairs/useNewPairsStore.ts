@@ -1,23 +1,25 @@
 import { INewPair } from '@/components';
 import axios from 'axios';
 import { create } from 'zustand';
-import { useLoginStore } from '../login/useLoginStore';
+import { UserId } from '../login/useLoginStore';
 import { baseUrl } from '../messenger/useMessengerStore';
 
 interface IUseNewPairsStore {
 	newPairs: INewPair[];
 	setNewPairs: (newPairs: INewPair[]) => void;
 
-	getNewPairsByUser: () => Promise<void>;
+	getNewPairsByUser: (userId: UserId) => Promise<void>;
 }
 
 export const useNewPairsStore = create<IUseNewPairsStore>((set, get) => ({
 	newPairs: [],
 	setNewPairs: newPairs => set({ newPairs }),
 
-	getNewPairsByUser: async () => {
+	getNewPairsByUser: async userId => {
 		try {
-			const userId = useLoginStore.getState().userId;
+			if (!userId) {
+				throw new Error('User ID not found');
+			}
 
 			const response = await axios.get(`${baseUrl}/new_pairs/${userId}`);
 

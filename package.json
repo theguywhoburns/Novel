@@ -5,9 +5,7 @@
     "initialize": "cd client && npm run initialize && cd .. && cd server && npm run initialize && cd ..",
     "front": "cd client && npm run dev",
     "back": "cd server && npm run dev",
-    "web": "cross-env NODE_ENV=development concurrently \"cd client && cross-env NODE_ENV=development npm run dev\" \"cd server && cross-env NODE_ENV=development npm run dev\"",
-    "android": "",
-    "ios": "",
+    "web": "concurrently \"cd client && npm run start\" \"cd server && npm run dev\"",
     "build": "cd client && npm run build && cd .. && cd server && npm run build",
     "build-front": "cd client && npm run build",
     "build-back": "cd server && npm run build"

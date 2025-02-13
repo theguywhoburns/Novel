@@ -1,7 +1,7 @@
 import { LabeledSwitch, RangeInput } from '@/components';
 import { Banner } from '@/components/settings/Banner/Banner';
+import { useUserId } from '@/hooks/useUserId';
 import { IconHeartLoop, IconLoop } from '@/icons';
-import { useLoginStore } from '@/store/login/useLoginStore';
 import {
 	ISettingsState,
 	useSettingsStore,
@@ -14,9 +14,9 @@ import { SettingsRadioModalTriggers } from './SettingsRadioModalTriggers';
 
 export const SettingsPage = () => {
 	const theme = useTheme();
+	const userId = useUserId();
 
 	const settings = useSettingsStore(state => state.settings);
-	const userId = useLoginStore(state => state.userId);
 	const getSettingsByUser = useSettingsStore(state => state.getSettingsByUser);
 	const updateSettings = useSettingsStore(state => state.updateSettings);
 
@@ -36,7 +36,7 @@ export const SettingsPage = () => {
 
 	const handleSettingsChange = useCallback(
 		(newSettings: Partial<ISettingsState>) => {
-			updateSettings(newSettings);
+			updateSettings(userId, newSettings);
 		},
 		[]
 	);

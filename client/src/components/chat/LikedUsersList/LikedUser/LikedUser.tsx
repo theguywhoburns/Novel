@@ -24,10 +24,7 @@ export const LikedUser = ({ ...user }: ILikedUser) => {
 		<li className={styles.likedUser} onClick={handleClick}>
 			<img
 				className={styles.img}
-				src={
-					avatarUrl ||
-					'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ'
-				}
+				src={avatarUrl}
 				alt='avatar'
 			/>
 			<span className={styles.nameAndAge} style={{ color: theme.white }}>

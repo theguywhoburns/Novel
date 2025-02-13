@@ -1,9 +1,7 @@
 import { useUserActions } from '@/hooks/useUserActions';
-import { RouteBase } from '@/routes';
 import { Gender } from '@/store/login/useLoginStore';
 import { useUsersStore } from '@/store/users/useUsersStore';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import { UserCard } from './UserCard/UserCard';
 import styles from './UsersList.module.css';
@@ -37,10 +35,6 @@ export const UsersList = ({ users }: IUsersList) => {
 	const nextIndex = useUsersStore(state => state.nextIndex);
 	const direction = useUsersStore(state => state.direction);
 
-	const setVisitingUserId = useUsersStore(state => state.setVisitingUserId);
-
-	const navigate = useNavigate();
-
 	const { handleLike, handleDislike } = useUserActions({});
 
 	const {
@@ -53,11 +47,6 @@ export const UsersList = ({ users }: IUsersList) => {
 		jobPosition,
 		distance,
 	} = users?.[currentIndex] ?? {};
-
-	const handleClick = () => {
-		setVisitingUserId(Number(id));
-		navigate(`${RouteBase.PROFILE}/${id}`);
-	};
 
 	const handlers = useSwipeable({
 		onSwipedLeft: handleDislike,
@@ -88,6 +77,7 @@ export const UsersList = ({ users }: IUsersList) => {
 				{users?.[nextIndex] && (
 					<UserCard
 						style={{ position: 'absolute', inset: 0 }}
+						id={id}
 						uploadedImages={users?.[nextIndex]?.uploadedImages ?? ''}
 						isPopular={users?.[nextIndex]?.isPopular ?? false}
 						name={users?.[nextIndex]?.name ?? 'Ты долистал-(а) до конца'}
@@ -99,6 +89,7 @@ export const UsersList = ({ users }: IUsersList) => {
 					/>
 				)}
 				<UserCard
+					id={id}
 					uploadedImages={uploadedImages}
 					isPopular={isPopular}
 					name={name}
@@ -107,7 +98,6 @@ export const UsersList = ({ users }: IUsersList) => {
 					job={jobPosition}
 					distance={distance}
 					isDraggable={true}
-					onClick={handleClick}
 				/>
 			</motion.div>
 		</div>

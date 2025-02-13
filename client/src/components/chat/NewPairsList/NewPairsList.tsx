@@ -1,4 +1,5 @@
 import { NoDataText } from '@/components/ui/NoDataText/NoDataText';
+import { useUserId } from '@/hooks/useUserId';
 import { useNewPairsStore } from '@/store/newPairs/useNewPairsStore';
 import { useEffect } from 'react';
 import { NewPairCard } from './NewPairCard/NewPairCard';
@@ -12,12 +13,13 @@ export interface INewPair {
 }
 
 export const NewPairsList = () => {
+	const userId = useUserId();
 	const newPairs = useNewPairsStore(state => state.newPairs);
 	const getNewPairsByUser = useNewPairsStore(state => state.getNewPairsByUser);
 
 	useEffect(() => {
-		getNewPairsByUser();
-	}, []);
+		getNewPairsByUser(userId);
+	}, [userId]);
 
 	return (
 		<>

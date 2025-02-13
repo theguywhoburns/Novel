@@ -1,7 +1,9 @@
 import { Separator } from '@/components/ui/Separator/Separator';
 import { UserActionsList } from '@/components/ui/UserActionsList/UserActionsList';
 import { TagsWithTitle } from '@/components/user/TagsWithTitle/TagsWithTitle';
+import { useUserId } from '@/hooks/useUserId';
 import {
+	IconChat,
 	IconCity,
 	IconFingersCross,
 	IconGender,
@@ -12,13 +14,15 @@ import {
 } from '@/icons';
 import { RouteNames } from '@/routes';
 import { useGeoPositionStore } from '@/store/geoPosition/useGeoPositionStore';
-import { useLoginStore } from '@/store/login/useLoginStore';
 import { useThemeStore } from '@/store/theme/useThemeStore';
 import { useUsersStore } from '@/store/users/useUsersStore';
 import { useTheme } from '@/theme';
 import { distance } from '@/utils/distance';
 import { getAvatar } from '@/utils/getAvatar';
+import { getTagsFromArrayOfStrings } from '@/utils/getTagsFromArrayOfString';
+import { IconButton } from '@mui/material';
 import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { UserActionButtons } from '../UserActionButtons/UserActionButtons';
 import { IUser } from '../UsersList/UsersList';
 import { TextWithIcon } from './TextWithIcon/TextWithIcon';
@@ -43,7 +47,10 @@ export const UserCardDetailed = ({
 	const theme = useTheme();
 	const themeVariant = useThemeStore(state => state.theme);
 
-	const userId = useLoginStore(state => state.userId);
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	const userId = useUserId();
 	const visitingUser = useUsersStore(state => state.visitingUser);
 
 	const currUserPosition = useGeoPositionStore(state => state.position);
@@ -63,21 +70,8 @@ export const UserCardDetailed = ({
 			Number(lon)
 		).toFixed(1) + ' км';
 
-	const getTagsFromArrayOfStrings = (
-		array: string[],
-		Icon: JSX.Element | null = null
-	) => {
-		return [array].map((tag, index) => ({
-			id: String(index + 1),
-			children: tag,
-			Icon,
-		}));
-	};
-
 	const languagesTags = getTagsFromArrayOfStrings(languages, <IconLanguage />);
-
 	const interestsTags = getTagsFromArrayOfStrings(interests);
-
 	const mainTags = getTagsFromArrayOfStrings(main, <IconJob />);
 
 	useEffect(() => {
@@ -87,6 +81,19 @@ export const UserCardDetailed = ({
 	useEffect(() => {
 		console.log(visitingUser?.id, userId);
 	}, [visitingUser, userId]);
+
+	const handleClick = () => {
+		navigate(`${RouteNames.CHAT}`);
+	};
+
+	const notSelf = userId !== visitingUser?.id;
+
+	const fromHome = location.state?.from === RouteNames.HOME;
+	const fromChat = location.state?.from === RouteNames.CHAT;
+
+	useEffect(() => {
+		console.log(location.state?.from);
+	}, [location.state?.from]);
 
 	return (
 		<div className={styles.container}>
@@ -98,11 +105,25 @@ export const UserCardDetailed = ({
 						'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3MjQ4fQ'
 					}
 				/>
-				{userId !== visitingUser?.id && (
+				{fromHome && notSelf && (
 					<UserActionButtons
 						className={styles.actions}
 						navigateTo={RouteNames.HOME}
 					/>
+				)}
+
+				{fromChat && notSelf && (
+					<IconButton
+						sx={{
+							position: 'absolute',
+							bottom: '10px',
+							right: '10px',
+							background: theme.accent_color,
+						}}
+						onClick={handleClick}
+					>
+						<IconChat />
+					</IconButton>
 				)}
 			</div>
 

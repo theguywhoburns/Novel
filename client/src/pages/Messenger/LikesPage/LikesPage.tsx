@@ -1,7 +1,9 @@
 import { ILikedUser } from '@/components/chat/LikedUsersList/LikedUser/LikedUser';
 import { LikedUsersList } from '@/components/chat/LikedUsersList/LikedUsersList';
 import Tabs, { ITab } from '@/components/ui/Tabs/Tabs';
+import { useUserId } from '@/hooks/useUserId';
 import { useLikesStore } from '@/store/likes/useLikesStore';
+import { UserId } from '@/store/login/useLoginStore';
 import { useTheme } from '@/theme';
 import { getActionText } from '@/utils/likeActionText';
 import { useEffect, useState } from 'react';
@@ -26,7 +28,7 @@ export interface ITabConfigurations
 
 interface ILikeDataWithQuery {
 	data: ILikedUser[];
-	query: () => Promise<void>;
+	query: (userId: UserId) => Promise<void>;
 }
 
 const matchesPluralForms = [
@@ -72,6 +74,7 @@ const tabs: ILikeTab[] = [
 
 export const LikesPage = () => {
 	const theme = useTheme();
+	const userId = useUserId();
 
 	const matches = useLikesStore(state => state.matches);
 	const myLikes = useLikesStore(state => state.myLikes);
@@ -104,7 +107,7 @@ export const LikesPage = () => {
 	);
 
 	useEffect(() => {
-		likedUsers[selectedTab].query();
+		likedUsers[selectedTab].query(userId);
 	}, [selectedTab]);
 
 	return (

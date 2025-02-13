@@ -1,7 +1,7 @@
 import { useTheme } from '@/theme';
 
 export interface IFocusingIcon extends React.SVGProps<SVGSVGElement> {
-	focused: boolean;
+	focused?: boolean;
 }
 
 export const IconMagnifyingGlass = ({

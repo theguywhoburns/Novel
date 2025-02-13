@@ -8,11 +8,26 @@
 	margin: 0 auto;
 }
 
+.recipient {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0;
+	background-color: unset;
+	transition: 0.3s;
+}
+
+.recipient:hover {
+	cursor: pointer;
+	opacity: 0.7;
+	background-color: unset;
+}
+
 .recipientInfo {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-right: auto;
+	margin: 0 auto;
 }
 
 .recipientInfo div {

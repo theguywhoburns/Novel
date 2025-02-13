@@ -1,7 +1,7 @@
 import { NumericTuple } from '@/types/types';
 import axios from 'axios';
 import { create } from 'zustand';
-import { useLoginStore, UserId } from '../login/useLoginStore';
+import { UserId } from '../login/useLoginStore';
 import { baseUrl } from '../messenger/useMessengerStore';
 
 export interface ISettingsState {
@@ -41,7 +41,10 @@ export interface IUseSettingsStore {
 	setSettings: (newState: Partial<ISettingsState>) => void;
 
 	getSettingsByUser: (userId: UserId) => Promise<void>;
-	updateSettings: (newSettings: Partial<ISettingsState>) => Promise<void>;
+	updateSettings: (
+		userId: UserId,
+		newSettings: Partial<ISettingsState>
+	) => Promise<void>;
 }
 
 const defaultSettingsState: ISettingsState = {
@@ -98,10 +101,8 @@ export const useSettingsStore = create<IUseSettingsStore>((set, get) => ({
 		}
 	},
 
-	updateSettings: async newSettings => {
+	updateSettings: async (userId, newSettings) => {
 		try {
-			const userId = useLoginStore.getState().userId;
-
 			if (!userId) {
 				throw new Error('User ID not found');
 			}

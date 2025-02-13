@@ -1,7 +1,7 @@
 import { ILikedUser } from '@/components/chat/LikedUsersList/LikedUser/LikedUser';
 import axios from 'axios';
 import { create } from 'zustand';
-import { useLoginStore } from '../login/useLoginStore';
+import { UserId } from '../login/useLoginStore';
 import { baseUrl } from '../messenger/useMessengerStore';
 
 interface IUseLikesStore {
@@ -12,9 +12,9 @@ interface IUseLikesStore {
 	likedPartners: ILikedUser[];
 	setLikedPartners: (likedPartners: ILikedUser[]) => void;
 
-	getMatches: () => Promise<void>;
-	getMyLikes: () => Promise<void>;
-	getLikedPartners: () => Promise<void>;
+	getMatches: (userId: UserId) => Promise<void>;
+	getMyLikes: (userId: UserId) => Promise<void>;
+	getLikedPartners: (userId: UserId) => Promise<void>;
 }
 
 export const useLikesStore = create<IUseLikesStore>((set, get) => ({
@@ -27,9 +27,11 @@ export const useLikesStore = create<IUseLikesStore>((set, get) => ({
 	likedPartners: [],
 	setLikedPartners: likedPartners => set({ likedPartners }),
 
-	getMatches: async () => {
+	getMatches: async userId => {
 		try {
-			const userId = useLoginStore.getState().userId;
+			if (!userId) {
+				throw new Error('User ID not found');
+			}
 
 			if (!userId) {
 				throw new Error('User ID not found');
@@ -47,9 +49,11 @@ export const useLikesStore = create<IUseLikesStore>((set, get) => ({
 		}
 	},
 
-	getMyLikes: async () => {
+	getMyLikes: async userId => {
 		try {
-			const userId = useLoginStore.getState().userId;
+			if (!userId) {
+				throw new Error('User ID not found');
+			}
 
 			if (!userId) {
 				throw new Error('User ID not found');
@@ -67,9 +71,11 @@ export const useLikesStore = create<IUseLikesStore>((set, get) => ({
 		}
 	},
 
-	getLikedPartners: async () => {
+	getLikedPartners: async userId => {
 		try {
-			const userId = useLoginStore.getState().userId;
+			if (!userId) {
+				throw new Error('User ID not found');
+			}
 
 			if (!userId) {
 				throw new Error('User ID not found');

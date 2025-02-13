@@ -1,8 +1,11 @@
 import { useOnlineStatusStore } from '@/store/onlineStatus/useOnlineStatusStore';
 import { useEffect, useRef, useState } from 'react';
+import { useUserId } from '../useUserId';
 import { getWsUrl } from './config';
 
 export const useOnlineWebSocket = () => {
+	const userId = useUserId();
+
 	const socket = useRef<WebSocket | null>(null);
 	const [isConnected, setIsConnected] = useState(false);
 
@@ -12,8 +15,8 @@ export const useOnlineWebSocket = () => {
 
 	const connectToSocket = () => {
 		try {
-			socket.current = new WebSocket(getWsUrl('online-status'));
-			console.log(getWsUrl('online-status'));
+			socket.current = new WebSocket(getWsUrl(userId, 'online-status'));
+			console.log(getWsUrl(userId, 'online-status'));
 
 			console.log('ONLINE STATUS WS OPENED');
 

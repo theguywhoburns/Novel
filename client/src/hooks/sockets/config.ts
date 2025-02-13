@@ -1,13 +1,11 @@
-import { useLoginStore } from '@/store/login/useLoginStore';
-
+import { UserId } from '@/store/login/useLoginStore';
+import {getServerUrl} from '@/utils/serverUrl';
 const chatWsPort = 4200;
 const onlineStatusWsPort = 4100;
 
-const wsBaseUrl = 'ws://localhost:';
+const wsBaseUrl = `ws://${getServerUrl()}:`;
 
-const userId = useLoginStore.getState().userId;
-
-export const getWsUrl = (type: 'chat' | 'online-status') => {
+export const getWsUrl = (userId: UserId, type: 'chat' | 'online-status') => {
 	if (!userId) {
 		throw new Error('User ID not found');
 	}

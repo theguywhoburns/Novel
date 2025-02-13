@@ -88,7 +88,10 @@ export const useMessengerStore = create<IMessengerStore>((set, get) => ({
 	chat: localStorage.getItem('chat')
 		? JSON.parse(localStorage.getItem('chat') as string)
 		: {},
-	setChat: chat => set({ chat }),
+		setChat: chat => {
+			localStorage.setItem('chat', JSON.stringify(chat));
+			set({ chat });
+		 },
 
 	getChatsByUser: async userId => {
 		try {

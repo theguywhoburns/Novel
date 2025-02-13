@@ -1,15 +1,16 @@
 import { IMessageProps } from '@/components/chat/ChatsList/Chat/Chat';
 import { Separator } from '@/components/ui/Separator/Separator';
+import { useUserId } from '@/hooks/useUserId';
 import { IconNotSent } from '@/icons/NotSent';
 import { IconRead } from '@/icons/Read';
 import { IconSending } from '@/icons/Sending';
 import { IconSent } from '@/icons/Sent';
-import { useLoginStore } from '@/store/login/useLoginStore';
 import { useThemeStore } from '@/store/theme/useThemeStore';
 import { useTheme } from '@/theme';
 import { memo, useRef } from 'react';
 import { ButtonsGroup } from '../../ButtonsGroup/ButtonsGroup';
 import styles from './Message.module.css';
+import { getAvatar } from '@/utils/getAvatar';
 
 export const Message = memo(
 	({
@@ -30,7 +31,7 @@ export const Message = memo(
 		const theme = useTheme();
 
 		const currentTheme = useThemeStore(state => state.theme);
-		const userId = useLoginStore(state => state.userId);
+		const userId = useUserId();
 
 		const messageRef = useRef<HTMLDivElement>(null);
 		const messageContentRef = useRef<HTMLDivElement>(null);
@@ -66,6 +67,8 @@ export const Message = memo(
 			interests: [],
 		}; // we will get the user by recipientId instead
 
+		const avatar = getAvatar(recipientUser.imgSrc);
+
 		return (
 			<div
 				className={[
@@ -78,7 +81,7 @@ export const Message = memo(
 					<img
 						className={styles.avatar}
 						style={{ marginBottom: isNextMessageFromSameSender ? 2 : 8 }}
-						src={recipientUser.imgSrc}
+						src={avatar}
 						alt='avatar'
 					/>
 				)}

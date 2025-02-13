@@ -3,6 +3,7 @@ import { ProfileImageUploader } from '@/components/login/ProfileImageUploader/Pr
 import { Separator } from '@/components/ui/Separator/Separator';
 import { SwitchModeButtonGroup } from '@/components/ui/SwitchModeButtonGroup/SwitchModeButtonGroup';
 import { TextInput } from '@/components/ui/TextInput/TextInput';
+import { useUserId } from '@/hooks/useUserId';
 import { useLoginStore } from '@/store/login/useLoginStore';
 import { useProfileStore } from '@/store/profile/useProfileStore';
 import { useThemeStore } from '@/store/theme/useThemeStore';
@@ -18,7 +19,7 @@ export const ProfilePage = () => {
 	const [gender, setGender] = useState('male');
 	const [orientation, setOrientation] = useState('heterosexual');
 
-	const userId = useLoginStore(state => state.userId)?.toString();
+	const userId = useUserId();
 	const visitedUserId = useParams().id;
 
 	const currentTheme = useThemeStore(state => state.theme);
@@ -38,7 +39,7 @@ export const ProfilePage = () => {
 		);
 	};
 
-	const isCurrentUserProfile = userId === visitedUserId;
+	const isCurrentUserProfile = String(userId) === visitedUserId;
 
 	return (
 		<div className={styles.profilePage}>
