@@ -77,7 +77,7 @@ export const SettingsPage = () => {
 				values={ageRange}
 				setValues={values => handleSettingsChange({ ageRange: values })}
 				label='Возраст'
-				min={18}
+				min={16}
 				max={99}
 				unit={value =>
 					getCaseByAmount(

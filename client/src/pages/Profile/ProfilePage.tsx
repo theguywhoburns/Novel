@@ -12,12 +12,16 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { UserCardDetailedPage } from '../Home/UserCardDetailedPage/UserCardDetailedPage';
 import styles from './ProfilePage.module.css';
+import { LabeledRadioButtonsList } from '@/components/ui/LabeledRadioButtonsList/LabeledRadioButtonsList';
+import { IconAlcohol, IconChat, IconCity, IconDollar, IconFamily, IconHead, IconHeartLoop, IconPuzzle, IconSchoolHat, IconSports } from '@/icons';
+import { RadioModalTriggerList } from '@/components/ui/RadioModalTriggerList/RadioModalTriggerList';
 
 export const ProfilePage = () => {
 	const [editMode, setEditMode] = useState(false);
 	const [height, setHeight] = useState(187);
 	const [gender, setGender] = useState('male');
 	const [orientation, setOrientation] = useState('heterosexual');
+	const [selectedOption, setSelectedOption] = useState('Высшее'); // Состояние для выбранного образования
 
 	const userId = useUserId();
 	const visitedUserId = useParams().id;
@@ -39,8 +43,78 @@ export const ProfilePage = () => {
 		);
 	};
 
-	const isCurrentUserProfile = String(userId) === visitedUserId;
+	const [zodiac, setZodiac] = useState('Козерог');
+  const [education, setEducation] = useState('Высшее');
+  const [familyPlans, setFamilyPlans] = useState('');
+  const [personalityType, setPersonalityType] = useState('');
+  const [communicationStyle, setCommunicationStyle] = useState('');
 
+	const [lifestyle1, setLifestyle1] = useState('');
+  const [lifestyle2, setLifestyle2] = useState('');
+  const [lifestyle3, setLifestyle3] = useState('');
+	const isCurrentUserProfile = String(userId) === visitedUserId;
+	const mainTriggers = [
+    {
+      Icon: IconPuzzle,
+      title: 'Знак зодиака',
+      options: ['Козерог', 'Водолей', 'Рыбы', 'Овен', 'Телец', 'Близнецы', 'Рак', 'Лев', 'Дева', 'Весы', 'Скорпион', 'Стрелец'],
+      selectedOption: zodiac,
+      setSelectedOption: setZodiac,
+    },
+    {
+      Icon: IconSchoolHat,
+      title: 'Образование',
+      options: ['Высшее', 'Среднее специальное', 'Среднее общее'],
+      selectedOption: education,
+      setSelectedOption: setEducation,
+    },
+    {
+      Icon: IconFamily,
+      title: 'Планы на семью',
+      options: ['Хочу детей', 'Не хочу детей', 'Есть дети', 'Пока не решил'],
+      selectedOption: familyPlans,
+      setSelectedOption: setFamilyPlans,
+    },
+    {
+      Icon: IconHead,
+      title: 'Тип личности',
+      options: ['Интроверт', 'Экстраверт', 'Амбиверт'],
+      selectedOption: personalityType,
+      setSelectedOption: setPersonalityType,
+    },
+    {
+      Icon: IconChat,
+      title: 'Стиль общения',
+      options: ['Деловой', 'Дружеский', 'Романтический', 'Неформальный'],
+      selectedOption: communicationStyle,
+      setSelectedOption: setCommunicationStyle,
+    },
+  ];
+
+  // Триггеры для стиля жизни
+  const lifestyleTriggers = [
+    {
+      Icon: IconSports,
+      title: 'Хобби',
+      options: ['Спорт', 'Путешествия', 'Книги', 'Искусство'],
+      selectedOption: lifestyle1,
+      setSelectedOption: setLifestyle1,
+    },
+    {
+      Icon: IconAlcohol,
+      title: 'Привычки',
+      options: ['Курение', 'Алкоголь', 'Спорт', 'ЗОЖ'],
+      selectedOption: lifestyle2,
+      setSelectedOption: setLifestyle2,
+    },
+    {
+      Icon: IconCity,
+      title: 'Интересы',
+      options: ['Музыка', 'Кино', 'Наука', 'Технологии'],
+      selectedOption: lifestyle3,
+      setSelectedOption: setLifestyle3,
+    },
+  ];
 	return (
 		<div className={styles.profilePage}>
 			{isCurrentUserProfile && (
@@ -84,27 +158,23 @@ export const ProfilePage = () => {
 							unit='см'
 						/>
 
-						<p>Цели в отношениях</p>
-						<input type='text' />
+						<TextInput
+							value=''
+							onChange={() => {}}
+							placeholder='Цели в отношениях'
+						/>
 
+
+						<TextInput
+							value=''
+							onChange={() => {}}
+							placeholder='Языки'
+						/>
+
+
+						<RadioModalTriggerList triggers={mainTriggers} />
 						<Separator />
-
-						<p>Языки</p>
-						<input type='text' />
-
-						<Separator />
-
-						<p>Основное(TODO: USE BOTTOM MODAL HERE)</p>
-						<Separator />
-						<p>Стиль жизни (TODO: USE BOTTOM MODAL HERE)</p>
-						<Separator />
-
-						{/* <LabeledRadioButtonsList
-						Icon={IconSchoolHat}
-						title='Образование'
-						options={['Высшее', 'Среднее специальное', 'Среднее общее']}
-					/> */}
-
+						<RadioModalTriggerList triggers={lifestyleTriggers} />
 						<Separator />
 
 						<TextInput
@@ -113,12 +183,12 @@ export const ProfilePage = () => {
 							placeholder='Должность'
 						/>
 
-						<Separator />
 
-						<p>Компания</p>
-						<input type='text' />
-
-						<Separator />
+						<TextInput
+							value=''
+							onChange={() => {}}
+							placeholder='Компания'
+						/>
 
 						<label>Пол</label>
 						<SwitchModeButtonGroup

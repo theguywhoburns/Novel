@@ -5,7 +5,7 @@
     "initialize": "cd client && npm run initialize && cd .. && cd server && npm run initialize && cd ..",
     "front": "cd client && npm run dev",
     "back": "cd server && npm run dev",
-    "web": "concurrently \"cd client && npm run start\" \"cd server && npm run dev\"",
+    "web": "concurrently --restart-tries 1000 \"cd client && npm run start\" \"cd server && npm run start\"",
     "build": "cd client && npm run build && cd .. && cd server && npm run build",
     "build-front": "cd client && npm run build",
     "build-back": "cd server && npm run build"
